@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2008-14 Owebia
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ *
+ * @website    http://www.owebia.com/
+ * @project    Magento Owebia Shipping 2 module
+ * @author     Antoine Lemoine
+ * @license    http://www.opensource.org/licenses/MIT  The MIT License (MIT)
+**/
+-->
+<config>
+	<modules>
+		<Owebia_Shipping2>
+			<version>2.5.18</version>
+			<depends>
+				<Mage_Shipping />
+			</depends>
+		</Owebia_Shipping2>
+	</modules>
+
+	<global>
+		<models>
+			<owebia_shipping2>
+				<class>Owebia_Shipping2_Model</class>
+			</owebia_shipping2>
+ 		</models>
+		<blocks>
+			<owebia_shipping2>
+				<class>Owebia_Shipping2_Block</class>
+			</owebia_shipping2>
+ 		</blocks>
+		<helpers>
+			<owebia_shipping2>
+				<class>Owebia_Shipping2_Helper</class>
+			</owebia_shipping2>
+		</helpers>
+		<resources>
+			<owebia_shipping2_setup>
+				<setup>
+					<module>Owebia_Shipping2</module>
+					<class>Owebia_Shipping2_Model_Mysql4_Setup</class>
+				</setup>
+			</owebia_shipping2_setup>
+			<sales>
+				<shipping>
+					<carriers>
+						<owebiashipping1>
+							<class>Owebia_Shipping2_Model_Carrier_OwebiaShipping1</class>
+						</owebiashipping1>
+						<owebiashipping3>
+							<class>Owebia_Shipping2_Model_Carrier_OwebiaShipping3</class>
+						</owebiashipping3>
+						<owebiashipping2>
+							<class>Owebia_Shipping2_Model_Carrier_OwebiaShipping2</class>
+						</owebiashipping2>
+						<owebiashipping4>
+							<class>Owebia_Shipping2_Model_Carrier_OwebiaShipping4</class>
+						</owebiashipping4>
+					</carriers>
+				</shipping>
+			</sales>
+		</resources>
+	</global>
+
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<owebia_shipping2 before="Mage_Adminhtml">Owebia_Shipping2_Adminhtml</owebia_shipping2>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<adminhtml>
+		<!-- Magento lower than 1.4.0 -->
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<owebia>
+											<title>Owebia Section</title>
+											<sort_order>100</sort_order>
+										</owebia>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<translate>
+			<modules>
+				<Mage_Shipping>
+					<files>
+						<owebia_shipping2>Owebia_Shipping2.csv</owebia_shipping2>
+					</files>
+				</Mage_Shipping>
+			</modules>
+		</translate>
+	</adminhtml>
+
+	<frontend>
+		<translate>
+			<modules>
+				<Mage_Shipping>
+					<files>
+						<owebia_shipping2>Owebia_Shipping2.csv</owebia_shipping2>
+					</files>
+				</Mage_Shipping>
+			</modules>
+		</translate>
+		<routers>
+			<checkout>
+				<args>
+					<modules>
+						<owebia_shipping2 before="Mage_Checkout">Owebia_Shipping2_Checkout</owebia_shipping2>
+					</modules>
+				</args>
+			</checkout>
+		</routers>
+	</frontend>
+
+	<default>
+		<owebia_shipping2>
+			<general>
+				<weight_unit>kg</weight_unit>
+			</general>
+			<bundle_product>
+				<process_children>0</process_children>
+				<load_item_options_on_parent>1</load_item_options_on_parent>
+				<load_item_data_on_parent>1</load_item_data_on_parent>
+				<load_product_data_on_parent>1</load_product_data_on_parent>
+			</bundle_product>
+			<configurable_product>
+				<load_item_options_on_parent>1</load_item_options_on_parent>
+				<load_item_data_on_parent>1</load_item_data_on_parent>
+				<load_product_data_on_parent>0</load_product_data_on_parent>
+			</configurable_product>
+		</owebia_shipping2>
+		<carriers>
+			<owebiashipping1>
+				<active>0</active>
+				<title>Owebia Shipping - Mode de livraison 1</title>
+				<model>Owebia_Shipping2_Model_Carrier_OwebiaShipping1</model>
+				<tracking_view_url></tracking_view_url>
+				<config>{
+   "demo": {
+      "label": "Frais de port fixes",
+      "fees": 10
+   }
+}</config>
+				<debug>0</debug>
+				<auto_escaping>0</auto_escaping>
+				<auto_correction>1</auto_correction>
+				<stop_to_first_match>0</stop_to_first_match>
+				<sort_order>1</sort_order>
+			</owebiashipping1>
+			<owebiashipping3>
+				<active>0</active>
+				<title>Owebia Shipping - Mode de livraison 3</title>
+				<model>Owebia_Shipping2_Model_Carrier_OwebiaShipping3</model>
+				<tracking_view_url></tracking_view_url>
+				<config></config>
+				<debug>0</debug>
+				<auto_escaping>0</auto_escaping>
+				<auto_correction>1</auto_correction>
+				<stop_to_first_match>0</stop_to_first_match>
+				<sort_order>3</sort_order>
+			</owebiashipping3>
+			<owebiashipping2>
+				<active>0</active>
+				<title>Owebia Shipping - Mode de livraison 2</title>
+				<model>Owebia_Shipping2_Model_Carrier_OwebiaShipping2</model>
+				<tracking_view_url></tracking_view_url>
+				<config></config>
+				<debug>0</debug>
+				<auto_escaping>0</auto_escaping>
+				<auto_correction>1</auto_correction>
+				<stop_to_first_match>0</stop_to_first_match>
+				<sort_order>2</sort_order>
+			</owebiashipping2>
+			<owebiashipping4>
+				<active>0</active>
+				<title>Owebia Shipping - Mode de livraison 4</title>
+				<model>Owebia_Shipping2_Model_Carrier_OwebiaShipping4</model>
+				<tracking_view_url></tracking_view_url>
+				<config></config>
+				<debug>0</debug>
+				<auto_escaping>0</auto_escaping>
+				<auto_correction>1</auto_correction>
+				<stop_to_first_match>0</stop_to_first_match>
+				<sort_order>4</sort_order>
+			</owebiashipping4>
+		</carriers>
+	</default>
+</config>

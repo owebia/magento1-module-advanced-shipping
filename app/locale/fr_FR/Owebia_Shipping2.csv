@@ -1,0 +1,874 @@
+# fr-FR
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/Os2/Editor.php
+	"New shipping method","Nouvelle méthode de livraison"
+	"Remove","Supprimer"
+	"[meta] %s","[meta] %s"
+	"[data] %s","[data] %s"
+	# Tools
+		"Insert","Insérer"
+		"Tools","Outils"
+		"Shipping country","Pays de livraison"
+		"Cart weight","Poids du panier"
+		"Products quantity","Quantité d'articles"
+		"Price incl. tax","Prix TTC"
+		"Price excl. tax","Prix HT"
+		"Weight","Poids"
+		"Tracking number","Numéro de suivi"
+		"Human readable version","Version lisible"
+	# Fields
+		"ID","ID"
+		"Type","Type"
+			"Shipping Method (default)","Méthode de livraison (par défaut)"
+			"Data","Données"
+			"Meta","Méta"
+		"About","À propos"
+		"Enabled","Activé"
+			"Enabled (default)","Activé (par défaut)"
+			"Disabled","Désactivé"
+		"Label","Libellé"
+		"Description","Description"
+		"Shipping address","Adresse de livraison"
+		"Billing address","Adresse de facturation"
+		"Origin address","Adresse d'envoi"
+		"Conditions","Conditions"
+		"Fees","Coûts"
+		"Customer groups","Groupes utilisateur"
+		"Tracking url","URL de suivi"
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/Os2/Help.php
+	"Refresh","Rafraîchir"
+	"Previous page","Page précédente"
+	"Summary","Sommaire"
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/System/Config/Form/Field/Config.php
+	"Help","Aide"
+	"Apply","Appliquer"
+	"Cancel","Annuler"
+	"Source &amp; Correction","Source &amp; Correction"
+	"Download configuration templates","Télécharger des modèles de configuration"
+	# JS
+		"Dissociate","Dissocier"
+		"Remove","Supprimer"
+		"Edit","Modifier"
+		"Enter the new value:","Veuillez saisir la nouvelle valeur :"
+		"[No label]","[Pas de libellé]"
+		"Loading...","En cours de chargement..."
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/System/Config/Form/Field/Config.php
+	"Version: %s","Version : %s"
+
+# app/code/community/Owebia/Shipping2/Controller/Abstract.php
+	"Owebia Shipping 2 Editor","Éditeur Owebia Shipping 2"
+	"Source &amp; Correction","Source &amp; Correction"
+	"Help","Aide"
+	"Donate","Faire un don"
+	"Close","Fermer"
+
+# app/code/community/Owebia/Shipping2/controllers/Adminhtml/Os2/AjaxController.php
+	"Editor","Éditeur"
+	"Source","Source"
+	"Correction","Correction"
+	"Debug","Debug"
+	"Apply","Appliquer"
+	"Export","Exporter"
+	"Add a shipping method","Ajouter une méthode de livraison"
+	"New shipping method","Nouvelle méthode de livraison"
+	"You appreciate this extension and would like to help?","Vous appréciez cette extension et vous aimeriez apporter votre soutien ?"
+	"{os2editor.donate-page.content}","<p>L'extension Owebia Shipping 2 est développée bénévolement par l'entreprise Owebia (<a href=""http://www.owebia.com/"">http://www.owebia.com/</a>).<br/>Si vous souhaitez soutenir financièrement le développement de l'extension, vous pouvez faire un &laquo;&nbsp;don&nbsp;&raquo;.</p><p>En France, seules certaines associations peuvent recevoir des dons, c'est pourquoi nous ne pouvons recevoir une somme d'argent sans qu'elle soit déclarée.<br/>Pour cela, nous enverrons à chaque &laquo;&nbsp;donateur&nbsp;&raquo; une facture (acquitée) du montant du &laquo;&nbsp;don&nbsp;&raquo;.</p><p>Cela permettra à chacun de garder une trace de ces &laquo;&nbsp;dons&nbsp;&raquo;.</p><p><strong>Pour effectuer un &laquo;&nbsp;don&nbsp;&raquo;, merci d'envoyer un chèque à l'adresse suivante :</strong></p><p class=""owebia-address"">Owebia<br/>4, Rue du Collège<br/>25500 Morteau (France)</p><p><strong>N'oubliez pas de joindre à ce chèque les coordonnées qui doivent figurer sur la facture qui vous sera envoyée.</strong></p><p>Merci à tous les donateurs.</p>"
+
+# app/code/community/Owebia/Shipping2/etc/system.xml
+	"Configuration","Configuration"
+	"Tracking URL","URL de suivi"
+	"Debug","Debug"
+	"{debug_help}","Affichage du debug sur le panier lors d'une estimation de livraison"
+	"Compression","Compression"
+	"{compression_help}","Compression gz + base64 pour que la configuration prenne moins de place (utile avec certaines configurations). C'est l'éditeur qui effectue la compression/décompression."
+	"Auto-escaping","Auto-échappement"
+	"{auto_escaping_help}","Active l'auto-échappement systématique des variables"
+	"Auto-correction","Auto-correction"
+	"{auto_correction_help}","Cette option permet la compatibilité rétroactive mais elle consommme des ressources"
+	"Stop to first match","Arrêt à la première correspondance trouvée"
+	"General Configuration","Configuration générale"
+	"Weight unit","Unité de poids"
+	"Bundle Product Management","Gestion des produits packagés (Bundle Product)"
+	"Configurable Product Management","Gestion des produits configurables (Configurable Product)"
+	"If ""Self"" is selected, options bellow are ignored","Si ""Lui-même"" est sélectionné, les options ci-dessous sont ignorées"
+	"Item processing","Traitement d'un article"
+	"Item options on","Options de l'article sur"
+	"Item data on","Données de l'article sur"
+	"Product data on","Données du produit sur"
+
+# app/code/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php
+	"Configuration disabled","Configuration désactivée"
+	"The cart doesn't match conditions","Le panier ne correspond pas aux conditions"
+	"Infinite loop %s","Boucle infinie %s"
+	"Error in table %s","Erreur dans la table %s"
+	"Usage of deprecated syntax %s","Utilisation d'une syntaxe obsolète %s"
+	"Usage of unknown properties %s","Utilisation de propriétés non reconnues %s"
+	"Usage of deprecated properties %s","Utilisation de propriétés obsolètes %s"
+
+# app/code/community/Owebia/Shipping2/Model/Carrier/Abstract.php
+	"track the package","suivre le colis"
+
+# app/code/community/Owebia/Shipping2/Model/Os2/Data/AddressFilter.php
+	"Africa","Afrique"
+	"Asia","Asie"
+	"Europa","Europe"
+	"North America","Amérique du Nord"
+	"South America","Amérique du Sud"
+	"Oceania","Océanie"
+	"Antartica","Antartique"
+	"European Union","Union Européenne"
+
+# app/code/community/Owebia/Shipping2/Model/System/Config/Source/LoadOnParent.php
+	"Self","Lui-même"
+	"Parent","Parent"
+
+# app/code/community/Owebia/Shipping2/Model/System/Config/Source/ProcessChildren.php
+	"Self","Lui-même"
+	"Children","Enfants"
+
+# Help
+	"{os2editor.help.summary}","
+<h4>Sommaire</h4>
+<div class=""table-of-contents"">
+<table><tr>
+	<td>
+		<ol class=level1>
+			<li class=new><a href=""#introduction"">Introduction : syntaxe JSON, éléments et propriétés</a></li>
+			<li><a href=""#unique_id"">L'identifiant unique</a></li>
+			<li class=new>Les types d'éléments :
+				<ul>
+					<li><a href=""#type_method""><property>method</property> : méthode de livraison</a></li>
+					<li><a href=""#type_data""><property>data</property> : données</a></li>
+					<li><a href=""#type_meta""><property>meta</property> : données méta</a></li>
+				</ul>
+			</li>
+			<li class=new>Les propriétés communes :
+				<ul>
+					<li><a href=""#property_type""><property>type</property> : le type de l'élément</a></li>
+					<li><a href=""#property_about""><property>about</property> : commentaire sur l'élément</a></li>
+				</ul>
+			</li>
+			<li>Les propriétés des éléments <property>method</property> :
+				<ul>
+					<li class=important><a href=""#property_label""><property>label</property> : le libellé</a></li>
+					<li><a href=""#property_description""><property>description</property> : la description</a></li>
+					<li class=important><a href=""#property_conditions""><property>conditions</property> : les conditions</a></li>
+					<li class=new><a href=""#property_shipto""><property>shipto</property> : l'adresse de livraison</a> (<property>destination</property> av. 2.4.8)</li>
+					<li class=new><a href=""#property_shipto""><property>billto</property> : l'adresse de facturation</a> (depuis 2.4.8)</li>
+					<li><a href=""#property_shipto""><property>origin</property> : l'adresse d'envoi</a></li>
+					<li><a href=""#property_customer_groups""><property>customer_groups</property> : les groupes client</a></li>
+					<li class=important><a href=""#property_fees""><property>fees</property> : les frais de port</a></li>
+					<li><a href=""#property_tracking_url""><property>tracking_url</property> : l'URL de suivi</a> (maj doc 2.4.0)</li>
+					<li><a href=""#property_enabled""><property>enabled</property> : l'activation/désactivation</a></li>
+				</ul>
+			</li>
+		</ol>
+	</td>
+	<td>
+		<ol class=level1 start=6>
+			<li><a href=""#more_formulas"">Initiation aux formules</a>
+				<ol>
+					<li class=new><a href=""#more_vars"">Les variables disponibles</a></li>
+					<li class=new><a href=""#more_special-functions"">Fonctions spéciales dans les formules</a> (maj 2.5)<br/>&nbsp; &nbsp; min, max, range, substr, in_array, array_match_any, array_match_all</li>
+					<li><a href=""#more_copy"">Faire une copie d'une propriété d'un autre élément</a></li>
+					<li><a href=""#more_tables"">Utilisation des tables <c>table</c></a></li>
+					<li><a href=""#more_switch"">Utilisation des tables de correspondance <c>switch</c></a> (maj 2.4.5)</li>
+					<li class=new><a href=""#more_attributes-options"">Utilisation des propriétés des produits (sum, count, min, max)</a> (maj 2.4.8)</li>
+					<li><a href=""#more_foreach"">Utilisation des boucles <c>foreach</c></a></li>
+					<li class=new><a href=""#more_categories"">Cas particulier : exemples d'utilisation des catégories de produits</a> (maj 2.5)</li>
+				</ol>
+			</li>
+			<li><a href=""#changelog"">Changelog</a></li>
+		</ol>
+	</td>
+</tr></table>
+</div>
+"
+	"{os2editor.help.introduction}","
+<h4>Introduction : syntaxe JSON, éléments et propriétés</h4>
+<p class=new>
+	Si vous souhaitez poser une question, utilisez le sujet suivant sur le forum Magento : <a href=""http://www.magentocommerce.com/boards/viewthread/38223/"" target=_blank>http://www.magentocommerce.com/boards/viewthread/38223/</a>
+</p>
+
+<p>
+	<strike>La syntaxe de configuration est une syntaxe proche de la syntaxe JSON.</strike><br/>
+	<span class=new>Depuis la version 2.5, la syntaxe de configuration est 100% <a href=""http://fr.wikipedia.org/wiki/JavaScript_Object_Notation"" target=_blank>JSON</a>.</span>
+</p>
+<p>
+	Exemple :
+</p>
+{code=json}{
+""ex0"":{""about"":""National"",""label"":""National"",""shipto"":""AD,FR,MC"",""conditions"":""{cart.price-tax+discount}<1000.00"",""fees"":""1.30 + {table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}""}
+}{/code}
+
+<p>
+	La configuration est un objet JSON contenant plusieurs <strong>propriétés</strong>.<br/>
+	Comme imposé par JSON, chaque propriété a un nom unique, qui servira d'<a href=""#unique_id"">identifiant unique</a>.<br/>
+	Chaque propriété constitue un <strong>élément</strong> de configuration (qui est également un objet JSON).<br/>
+</p>
+<p>
+	Les éléments possèdent tous une propriété <property>type</property>. Celle-ci permet de définir le type de l'élément :
+</p>
+<ul>
+	<li><a href=""#type_method""><property>method</property> : méthode de livraison (par défaut si non spécifié)</a></li>
+	<li><a href=""#type_data""><property>data</property> : données pouvant être utilisées dans une ou plusieurs méthodes de livraison</a></li>
+	<li><a href=""#type_meta""><property>meta</property> : données informatives</a></li>
+</p>
+<!--
+<p>
+	Chaque élément peut avoir une propriété <property>about</property>, celle-ci permet de placer un commentaire sur l'élément.
+</p>
+
+<p>
+	Liste des propriétés d'un élément de type <property>method</property> :
+</p>
+<ul>
+	<li><property>label</property> : nom (libellé)</li>
+	<li><property>description</property> : description (visible seulement si le template l'affiche)</li>
+	<li><property>enabled</property> : méthode de livraison activée ou non (ex: <c>true</c> ou <c>false</c>)</li>
+	<li class=new><property>fees</property> : frais de port (ex: <string>""15.00""</string> ou <string>""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""</string> ou <string>""100 * {cart.weight}""</string>)</li>
+	<li class=new><property>conditions</property> : conditions d'activation (ex: <string>""{cart.weight}&gt;=1.0""</string> ou <string>""{cart.price-tax+discount}&lt;100.00""</string> ou <string>""range({cart.weight},1.0,3.0) and {cart.free_shipping}""</string> ou <string>""{count items where product.attribute.color=='Bleu'}&gt;1 or {count items where item.option.size=='2m'}&gt;2""</string>)</li>
+	<li class=new><property><strike>destination</strike> shipto</property> : pays (régions, codes postaux) autorisés à la livraison (ex: <string>""FR,DE,US""</string> ou <string>""FR(2A,2B,25000)""</string> ou <string>""FR-(2A,2B)""</string> ou <string>""FR(01,02,39600),CH,DE""</string>)</li>
+	<li class=new><property>billto</property> : pays (régions, codes postaux) autorisés à la facturation (ex: idem <property>shipto</property>)</li>
+	<li><property>origin</property> : pays (régions, codes postaux) autorisés en origine (ex: idem <property>shipto</property>)</li>
+	<li><property>customer_groups</property> : groupes de client autorisés (ex: <string>""NOT LOGGED IN,Retailer""</string> ou <string>""0,3""</string>)</li>
+</ul>
+-->
+"
+	"{os2editor.help.unique_id}","
+<h4>L'identifiant unique</h4>
+<p>Chaque élément de configuration possède un identifiant unique. Cet identifiant unique permet ensuite de faire référence à l'élément.</p>
+<p>Exemple :</p>
+{code=json}{
+""europe"":{""label"":""Livraison Europe"",""fees"":10},
+""us"":{""label"":""Livraison US"",""fees"":""{europe.fees}+20""}
+}{/code}
+
+<p class=warning><strong><u>Attention</u> :</strong> pour éviter les conflicts, n'utiliser que les caractères <c>a-z</c>, <c>A-Z</c>, <c>0-9</c>, <c>-</c> et <c>_</c> pour former l'identifiant unique.<br/>Vous devez également éviter les identifiants qui correspondent déjà à des noms de variable (<c>cart</c>, <c>product</c>, <c>item</c>…).</p>
+"
+	"{os2editor.help.type_method}","
+<h4>Élément de type <property>method</property></h4>
+<p>Un élément de type <property>method</property> permet de spécifier une méthode de livraison.</p>
+<p>Exemple minimal avec uniquement les propriétés obligatoires :</p>
+{code=json}{
+""ex0"":{""label"":""Port offert"",""fees"":0}
+}{/code}
+<p>Exemple complet :</p>
+{code=json}{
+""ex0"":{""about"":""Colissimo National"",""type"":""method"",""label"":""Colissimo"",""description"":""Livraison sous 24/48h"",""enabled"":true,""conditions"":""range({cart.weight},0.2,1.0)"",""shipto"":""FR(01,02,39600,/^25[0-9]{3}$/),CH,DE"",""billto"":""FR"",""origin"":""DE"",""customer_groups"":""NOT LOGGED IN,Retailer"",""fees"":""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""}
+}{/code}
+"
+	"{os2editor.help.type_data}","
+<h4>Élément de type <property>data</property></h4>
+<p>Un élément de type <property>data</property> permet de spécifier des données utilisables dans les méthodes de livraison.</p>
+<p>Exemple d'élément de type <property>data</property> :</p>
+{code=json}{
+""mydata"":{""type"":""data"",""reference"":""100""}
+}{/code}
+<p>Exemple d'utilisation des données :</p>
+{code=json}{
+""ex0"":{""type"":""method"",""label"":""Colissimo"",""fees"":""{mydata.reference}*1.5""}
+}{/code}
+"
+	"{os2editor.help.type_meta}","
+<h4>Élément de type <property>meta</property></h4>
+<p>Un élément de type <property>meta</property> permet d'ajouter des données informatives (auteur, date…).</p>
+<p>Exemple :</p>
+{code=json}{
+""about"":{""type"":""meta"",""author"":""Owebia"",""date"":""16/11/2012"",""about"":""Tarifs 2012""}
+}{/code}
+"
+	"{os2editor.help.property_type}","
+<h4><property>type</property> : le type de l'élément</h4>
+<p>Il permet de spécifier le type de l'élément :</p>
+<ul>
+	<li><a href=""#type_method""><property>method</property> : méthode de livraison (par défaut si non spécifié)</a></li>
+	<li><a href=""#type_data""><property>data</property> : données pouvant être utilisées dans une ou plusieurs méthodes de livraison</a></li>
+	<li><a href=""#type_meta""><property>meta</property> : données informatives</a></li>
+</ul>
+{code=json}{
+""about"":{""type"":""meta"",""author"":""Owebia"",""date"":""16/11/2012"",""about"":""Tarifs 2012""},
+""mydata"":{""type"":""data"",""reference"":""100""},
+""ex0"":{""type"":""method"",""label"":""Colissimo"",""fees"":""{mydata.reference}*1.5""}
+}{/code}
+"
+	"{os2editor.help.property_about}","
+<h4><property>about</property> : commentaire sur l'élément</h4>
+<p>Vous pouvez ajouter un commentaire à un élément de configuration.</p>
+{code=json}{""ex0"":{""about"":""Mon commentaire"",""label"":""Exemple avec commentaire"",""fees"":10}}{/code}
+"
+	"{os2editor.help.property_label}","
+<h4><property>label</property> : le libellé</h4>
+<p>Il s'agit du nom qui sera donné à la méthode de livraison.</p>
+<p>On peut insérer certains éléments comme le poids des marchandises dans le libellé.<br/>
+Pour ce faire, utiliser les variables suivantes :</p>
+<ul>
+	<li>L'adresse de livraison :
+		<ul>
+			<li class=new><c><strike>{destination.country.name}</strike> {shipto.country_name}</c> : le nom du pays</li>
+			<li class=new><c><strike>{destination.country.code}</strike> {shipto.country_id}</c> : le code du pays</li>
+			<li class=new><c><strike>{destination.region.code}</strike> {shipto.region_code}</c> : le code de la région</li>
+			<li class=new><c><strike>{destination.postcode}</strike> {shipto.postcode}</c> : le code postal</li>
+		</ul>
+	</li>
+	<li><c>{cart.weight}</c> : poids des marchandises</li>
+	<li class=new><c><strike>{cart.weight.unit}</strike> {cart.weight_unit}</c> : l'unité de poids</li>
+	<li><a href=""#more_vars"">Voir la liste complète des variables</a></li>
+</ul>
+{code=json}{
+""ex0"":{""label"":""Colissimo ({cart.weight} / {shipto.country_name})"",""fees"":10}
+}{/code}
+<p>La ligne ci-dessus affichera par exemple <string>""Colissimo (3.0kg / France)""</string>.</p>
+"
+	"{os2editor.help.property_description}","
+<h4><property>description</property> : la description</h4>
+<p>Il s'agit de la description de la méthode de livraison.</p>
+<p>Le fonctionnement est identique à la propriété <a href=""#property_label""><property>label</property></a>.</p>
+"
+	"{os2editor.help.property_conditions}","
+<h4><property>conditions</property> : les conditions</h4>
+<p>
+	La propriété <property>conditions</property> se spécifie sous la forme d'une <a href=""#more_formulas"">formule (voir l'initiation aux formules)</a>
+	qui doit retourner une valeur booléenne (<c>true</c> ou <c>false</c>).
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Prix de 0 à 70 TTC"",""conditions"":""{cart.price+tax+discount}<=70"",""fees"":10},
+""ex1"":{""label"":""Prix de 0 à 70 HT"",""conditions"":""{cart.price-tax+discount}<=70"",""fees"":10},
+""ex2"":{""label"":""Prix de 20 exclu à 70 inclu"",""conditions"":""range({cart.price-tax+discount},20,70,false,true)"",""fees"":10},
+""ex3"":{""label"":""Prix de 10 inclu à 50 exclu"",""conditions"":""range({cart.price-tax+discount},10,50,true,false)"",""fees"":10},
+""ex4"":{""label"":""Poids de 0.5 exclu à 3 inclu"",""conditions"":""range({cart.weight},0.5,3.0,false,true)"",""fees"":10},
+""ex5"":{""label"":""Poids de 1 inclu à 5 exclu"",""conditions"":""range({cart.weight},1.0,5.0,true,false)"",""fees"":10},
+""ex6"":{""label"":""Seulement si port offert"",""conditions"":""{cart.free_shipping}"",""fees"":10},
+""ex7"":{""label"":""Seulement si port non offert"",""conditions"":""!{cart.free_shipping}"",""fees"":10},
+""ex8"":{""label"":""Si au moins un produit possède l'attribut 'color' égal à 'Bleu'"",""conditions"":""{count items where product.attribute.color=='Bleu'}>1"",""fees"":10},
+""ex9"":{""label"":""Si tous les produits possèdent l'option 'size' supérieure ou égal à '1'"",""conditions"":""{count items where product.option.size>='1'}=={cart.qty}"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.property_shipto}","
+<h4>Les adresses : <property>shipto</property>, <property>billto</property> et <property>origin</property></h4>
+<p>
+	L'extension permet de filtrer plusieurs adresses :
+</p>
+<ul>
+	<li class=new>L'adresse de livraison <strike><property>destination</property></strike> <property>shipto</property>.</li>
+	<li class=new>L'adresse de facturation <property>billto</property></li>
+	<li>L'adresse d'origine <property>origin</property></li>
+</ul>
+<p>
+	Les codes pays utilisés sont ceux de Magento (à priori ils sont les mêmes que les <a href=""http://fr.wikipedia.org/wiki/ISO_3166-1"" target=_blank>codes ISO 3166-1 alpha-2</a>).<br/>
+	Il est possible de spécifier les codes régions (uniquement avec <property>shipto</property>) ou les codes postaux que l'on veut filtrer ou exclure.
+</p>
+<p class=new>
+	Vous pouvez utiliser le caractère jocker <c>*</c> ou les expressions régulières pour les codes postaux.<br/>
+	Une expression régulière doit commencer et se terminer par le caractère <c>/</c>. Si vous souhaitez utiliser les caractères <c>(</c>, <c>)</c> ou <c>,</c>, vous devez les échapper avec le caractère <c>\</c> (ex: <string>""FR(/^25\([0-9]{3}\)$/)""</string>).<br/>
+	Vous pouvez utiliser l'option d'insensibilité à la casse (ex: <string>""GB(/^PO.*$/i)""</string>).
+</p>
+
+{code=json}{
+""ex0"":{""label"":""France, Allemagne, Suisse, Espagne, Italie"",""shipto"":""FR,DE,CH,ES,IT"",""fees"":10},
+""ex1"":{""label"":""France sauf la Corse"",""shipto"":""FR-(2A,2B)"",""fees"":10},
+""ex2"":{""label"":""Corse"",""shipto"":""FR(2A,2B)"",""fees"":10},
+""ex3"":{""label"":""Monde entier sauf l'Allemagne et la Corse"",""shipto"":""* - ( DE, FR(2A,2B) )"",""fees"":10},
+""ex4"":{""label"":""Codes postaux commençant par 25 en utilisant le caractère jocker"",""shipto"":""FR(25*)"",""fees"":10},
+""ex5"":{""label"":""Codes postaux commençant par 25 en utilisant une expression régulière"",""shipto"":""FR(/^25[0-9]{3}$/)"",""fees"":10}
+}{/code}
+
+<div class=""tips"">
+	<p><strong>Astuce</strong><br/>Pour raccourcir la saisie des pays, vous pouvez utiliser les variables suivantes :</p>
+	<ul>
+		<li><c>{address_filter.AF}</c> : pays d'Afrique</li>
+		<li><c>{address_filter.AS}</c> : pays d'Asie</li>
+		<li><c>{address_filter.EU}</c> : pays d'Europe</li>
+		<li><c>{address_filter.NA}</c> : pays d'Amérique du Nord</li>
+		<li><c>{address_filter.SA}</c> : pays d'Amérique du Sud</li>
+		<li><c>{address_filter.OC}</c> : pays d'Océanie</li>
+		<li><c>{address_filter.AN}</c> : pays d'Antartique</li>
+		<li><c>{address_filter.EU-27}</c> : pays de l'Union Européenne</li>
+		<li><c>{address_filter.DOM}</c> : codes pays des département d'Outre-Mer Français</li>
+		<li><c>{address_filter.COM}</c> : codes pays des Collectivités d'Outre-Mer Françaises</li>
+	</ul>
+</div>
+
+{code=json}{
+""ex0"":{""label"":""Europe sauf la France"",""shipto"":""({address_filter.EU-27}) - (FR)"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.property_billto}","
+<h4><property>billto</property> : l'adresse de facturation</h4>
+<p><a href=""#property_shipto"">Filtrage des adresses</a></p>
+"
+	"{os2editor.help.property_origin}","
+<h4><property>origin</property> : l'adresse d'envoi</h4>
+<p><a href=""#property_shipto"">Filtrage des adresses</a></p>
+"
+	"{os2editor.help.property_customer_groups}","
+<h4><property>customer_groups</property> : les groupes client</h4>
+<p>On peut utiliser le nom ou l'ID des groupes client.</p>
+
+{code=json}{
+""ex0"":{""label"":""Groupes NOT LOGGED IN et General"",""customer_groups"":""NOT LOGGED IN,General"",""fees"":10},
+""ex1"":{""label"":""Groupes NOT LOGGED IN et General par leur ID"",""customer_groups"":""0,1"",""fees"":10},
+""ex2"":{""label"":""Groupe Retailer"",""customer_groups"":""Retailer"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.property_fees}","
+<h4><property>fees</property> : les frais de port</h4>
+<p>
+	La propriété <property>fees</property> se spécifie sous la forme d'une <a href=""#more_formulas"">formule (voir l'initiation aux formules)</a>.
+</p>
+{code=json}{
+""ex0"":{""label"":""Frais fixes"",""fees"":10},
+""ex1"":{""label"":""Table de prix"",""fees"":""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""},
+""ex2"":{""label"":""Formule"",""fees"":""0.1 * {cart.price-tax+discount} + 10.00""},
+""ex3"":{""label"":""Combinaison"",""fees"":""0.1 * {cart.price-tax+discount} + {table {cart.weight} in 0.5:5.30, 1.0:6.50} + 10.00""}
+}{/code}
+"
+	"{os2editor.help.property_tracking_url}","
+<h4><property>tracking_url</property> : l'URL de suivi</h4>
+<p class=warning>
+	<strong>L'utilisation de la propriété <property>tracking_url</property> est réservée aux utilisateurs expérimentés. Si vous ne comprenez pas les indications ci-dessous, il est préférable que vous évitiez d'utiliser cette fonctionnalité.</strong>
+</p>
+<p>
+	La propriété <property>tracking_url</property> permet de surcharger le champ ""URL de suivi"" d'un mode de livraison Owebia Shipping et ainsi de spécifier une URL de suivi <strong>par méthode de livraison</strong> plutôt qu'une pour tout le mode de livraison.
+</p>
+<p>
+	Pour insérer automatiquement le numéro de colis dans l'URL de suivi, vous devez utiliser <c>{tracking_number}</c>.
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Exemple avec URL de suivi pour le transporteur Colissimo"",""fees"":10,""tracking_url"":""http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart={tracking_number}""}
+}{/code}
+
+<p>
+	Magento ne gère pas les liens de tracking mais un statut de tracking. L'extension Owebia Shipping 2 fournit un lien HTML à la place du statut, lien qui permet d'aller sur le site du transporteur et de suivre l'avancement de la livraison du colis.
+</p>
+<p>
+	Lorsque l'URL de suivi est construite par l'extension, la seule information disponible est le numéro de colis et on n'a nul part accès à la méthode de livraison sélectionnée. Afin de pouvoir retrouver l'url de suivi dans la configuration, il faut spécifier la méthode de livraison dans le numéro de tracking, par exemple : <c>colissimo:8Lxxxxxxxxxxx</c> où <c>colissimo</c> est le code de la méthode de livraison sélectionnée.<br/>
+	Si aucun code n'est spécifié (si vous saisissez uniquement le numéro de tracking), l'url utilisée sera celle globale au mode de livraison.
+</p>
+<p class=warning>
+	Pour répondre à une question récurrente, Magento affiche le statut de livraison depuis le back office ou le front office. <strong>Si vous souhaitez insérer l'URL de suivi dans les mails d'expédition, vous devrez développer vous même la récupération de l'URL de suivi et son insertion dans le mail, en effet, l'extension Owebia Shipping 2 se contente de fournir des modes de livraison paramétrables sans apporter de grande modification au coeur de Magento afin de réduire les problèmes d'incompatibilité et de mise à jour.</strong>
+</p>
+<p class=warning>
+	Si vous obtenez un popup vide lorsque vous cliquez sur le lien de suivi, votre problème est très certainement lié au fait que vous n'avez pas spécifié le code de la méthode de livraison dans le numéro de suivi (voir indications plus haut) et que votre champ global ""URL de suivi"" est vide.
+</p>
+<p class=warning>Il n'est actuellement pas prévu de modifier les fonctionnalitées de l'extension liées à l'URL de suivi.</p>
+"
+	"{os2editor.help.property_enabled}","
+<h4><property>enabled</property> :  l'activation/désactivation</h4>
+<p>Permet d'activer ou de désactiver la méthode de livraison.</p>
+<p>La valeur doit être booléenne.</p>
+{code=json}{
+""ex0"":{""enabled"":true,""label"":""Exemple avec activation"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.more_formulas}","
+<h4>Initiation aux formules</h4>
+<p>
+	Les propriétés <property>fees</property> et <property>conditions</property> sont spécifiées sous la forme de formules.
+</p>
+<p>
+	Signes mathématiques disponibles :
+</p>
+<ul>
+	<li>opérateurs : <c>*</c>, <c>/</c>, <c>+</c> et <c>-</c></li>
+	<li>modulo : <c>%</c></li>
+	<li>parenthèses : <c>(</c> et <c>)</c></li>
+	<li>les opérateurs booléens <c>&amp;&amp;</c>, <c>and</c>, <c>||</c>, <c>or</c>, <c>==</c>, <c>&lt;</c>, <c>&gt;</c>, <c>&lt;=</c>, <c>&gt;=</c></li>
+	<li>les opérateurs binaires <c>&amp;</c> et <c>|</c></li>
+	<li>le groupe d'opérateur <c>C ? X : Y</c> (ex: <c><span class=string>""{cart.price_exluding_tax}&gt;100 ? 15*{cart.weight} : 20*{cart.weight}""</span></c>)</li>
+</ul>
+<p>
+	Variables disponibles :
+</p>
+<ul>
+	<li><c>{cart.weight}</c> : poids des marchandises</li>
+	<li><c class=new><strike>{cart.quantity}</strike> {cart.qty}</c> : nombre d'articles dans le panier</li>
+	<li><c class=new><strike>{cart.price_excluding_tax}</strike> {cart.price-tax+discount}</c> : prix HT après remise</li>
+	<li><c class=new><strike>{cart.price_including_tax}</strike> {cart.price+tax+discount}</c> : prix TTC après remise</li>
+	<li><c>{cart.price-tax-discount}</c> : prix HT avant remise</li>
+	<li><c>{cart.price+tax-discount}</c> : prix TTC avant remise</li>
+	<li><a href=""#more_vars"">Voir la liste complète des variables</a></li>
+</ul>
+<p>
+	Vous avez la possibilité de mettre des espaces et des retours à la ligne dans les formules (pour aérer).
+</p>
+<p>
+	Fonctions disponibles :
+</p>
+<ul>
+	<li>arrondis : <c>round(x)</c>, <c>floor(x)</c>, <c>ceil(x)</c></li>
+	<li>valeur absolue : <c>abs(x)</c></li>
+	<li>maximum : <c>max(x,y)</c></li>
+	<li>minimum : <c>min(x,y)</c></li>
+	<li>entier aléatoire : <c>rand(min,max)</c></li>
+	<li>puissance : <c>pow(x,puissance)</c></li>
+	<li>nombre PI : <c>pi()</c></li>
+	<li>racine carrée : <c>sqrt(x)</c></li>
+	<li>logarithme : <c>log(x)</c> pour le logarithme népérien ou <c>log(x,base)</c></li>
+	<li>exponentiel : <c>exp(x)</c></li>
+</ul>
+<p>
+	Possibilité d'utiliser les fonctionnalités avancées suivantes : casting  en entier <c>(int)</c> ou en nombre flottant <c>(float)</c>,
+	comparaison avec la valeur <c>null</c> ou les valeurs booléennes <c>true</c> et <c>false</c>.
+</p>
+<p class=new style=""font-weight: bold;"">
+	Vous pouvez également utiliser des fonctionnalités avancées telles que les tables de tarifs, la copie d'une propriété d'une autre méthode,
+	les fonctions spéciales, l'utilisation des attributs et des options des produits ou encore l'utilisation des variables personnalisées.
+</p>
+<p class=new style=""font-weight: bold;"">
+	Lorsque vous utilisez des variables qui ne sont pas numériques ou booléennes, vous devez les échapper avec des guillemets simples ou utiliser la syntaxe d'auto-échappement <c>{{ }}</c>.
+</p>
+{code=json}{
+""ex0"":{""label"":""Échappement avec des guillemets"",""conditions"":""'{cart.coupon_code}'=='test'"",""fees"":10},
+""ex1"":{""about"":""Depuis la version 2.4.5, {{cart.coupon_code}} sera remplacé par 'moncoupon' ou par null en fonction de sa valeur"",""label"":""Auto-échappement"",""conditions"":""{{cart.coupon_code}}!='test'"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.more_vars}","
+<h4>Les variables disponibles</h4>
+<p>
+	Les variables suivantes peuvent être utilisées dans les différents propriétés des méthodes de livraison (en particulier les propriétés <property>conditions</property> et <property>fees</property>).
+</p>
+<ul>
+	<li>Le panier :
+		<ul>
+			<li><c>{cart.weight}</c> : poids des marchandises</li>
+			<li><c class=new><strike>{cart.quantity}</strike> {cart.qty}</c> : la quantité d'articles</li>
+			<li class=new><c><strike>{cart.price_excluding_tax}</strike> {cart.price-tax+discount}</c> : prix HT avec remise</li>
+			<li class=new><c><strike>{cart.price_including_tax}</strike> {cart.price+tax+discount}</c> : prix TTC avec remise</li>
+			<li class=new><c>{cart.price-tax-discount}</c> : prix HT sans remise</li>
+			<li class=new><c>{cart.price+tax-discount}</c> : prix TTC sans remise</li>
+			<li class=new><c><strike>{cart.coupon}</strike> {cart.coupon_code}</c> : coupon de réduction</li>
+			<li><c class=new><strike>{free_shipping}</strike> {cart.free_shipping}</c> : frais de port offert (par une règle dans Magento) [true/false]</li>
+			<li><c class=new><strike>{cart.weight.unit}</strike> {cart.weight_unit}</c> : l'unité de poids</li>
+			<li><c class=new><strike>{cart.weight.for-charge}</strike> {cart.weight_for_charge}</c> : poids des marchandises dont la livraison n'est pas offerte (par les règles de prix panier de Magento)</li>
+		</ul>
+	</li>
+	<li class=new>Le group client :
+		<ul>
+			<li><c><strike>{customer.group.id}</strike> {customer_group.id}</c> : id du groupe client</li>
+			<li><c><strike>{customer.group.code}</strike> {customer_group.code}</c> : nom du groupe client</li>
+			<li><c>{customer_group.*}</c> : propriété du groupe client (ex: <c>{customer_group.tax_class_id}</c>)</li>
+		</ul>
+	</li>
+	<li class=new>Le client :
+		<ul>
+			<li><c>{customer.id}</c> : id du client</li>
+			<li><c>{customer.attribute.*}</c> : attribut du client (ex: lastname, firstname, group_id…)</li>
+			<li class=new><c>{customer.attribute.*.value}</c> : dans le cas des attributs de type liste de sélection, <c>{customer.attribute.*}</c> retourne l'id, pour obtenir la valeur il faut utiliser <c>{customer.attribute.*.value}</c></li>
+			<li><c>{customer.*}</c> : identique à <c>{customer.attribute.*}</c>, sauf si la variable est déjà définie (ex: <c>{customer.id}</c> est déjà définie)</li>
+		</ul>
+	</li>
+	<li class=new>Les variables personnalisées ou `Custom Variables` (depuis la version 1.4.0.1 de Magento) :
+		<ul>
+			<li><c>{customvar.*}</c> : variable personnalisée de Magento (ex: <c>{customvar.my_var}</c>)</li>
+			<li><c><strike>{{customVar code=*}}</strike></c> : utiliser la syntaxe ci-dessus</li>
+		</ul>
+	</li>
+	<li>L'adresse de livraison :
+		<ul>
+			<li><c class=new><strike>{destination.country.name}</strike> {shipto.country_name}</c> : le nom du pays</li>
+			<li><c class=new><strike>{destination.country.code}</strike> {shipto.country_id}</c> : le code du pays</li>
+			<li class=new><c>{shipto.region_id}</c> : l'id de la région</li>
+			<li><c class=new><strike>{destination.region.code}</strike> {shipto.region_code}</c> : le code de la région</li>
+			<li class=new><c>{shipto.street}</c> : la rue</li>
+			<li class=new><c>{shipto.city}</c> : la ville</li>
+			<li><c class=new><strike>{destination.postcode}</strike> {shipto.postcode}</c> : le code postal</li>
+		</ul>
+	</li>
+	<li class=new>L'adresse de facturation :
+		<ul>
+			<li><c>{billto.country_name}</c> : le nom du pays</li>
+			<li><c>{billto.country_id}</c> : le code du pays</li>
+			<li><c>{billto.postcode}</c> : le code postal</li>
+			<li><c>{billto.*}</c> : propriété de l'adresse de facturation (ex: <c>{billto.city}</c>)</li>
+		</ul>
+	</li>
+	<li>L'adresse d'envoi :
+		<ul>
+			<li><c class=new><strike>{origin.country.name}</strike> {origin.country_name}</c> : le nom du pays</li>
+			<li><c class=new><strike>{origin.country.code}</strike> {origin.country_id}</c> : le code du pays</li>
+			<li><c class=new><strike>{origin.region.code}</strike> {origin.region_id}</c> : l'id de la région</li>
+			<li class=new><c>{origin.city}</c> : la ville</li>
+			<li><c>{origin.postcode}</c> : le code postal</li>
+		</ul>
+	</li>
+	<li>Le magasin :
+		<ul>
+			<li><c>{store.id}</c> <c>{store.code}</c> <c>{store.name}</c> <c>{store.address}</c> <c>{store.phone}</c> : id, code, nom, adresse et téléphone du magasin</li>
+		</ul>
+	</li>
+	<li>La date courante :
+		<ul>
+			<li><c>{date.timestamp}</c> : timestamp UNIX de la date actuelle</li>
+			<li><c>{date.year}</c> <c>{date.month}</c> <c>{date.day}</c> <c>{date.hour}</c> <c>{date.minute}</c> <c>{date.second}</c> : année, mois, jour, heure, minute et seconde de la date actuelle</li>
+			<li><c>{date.weekday}</c> : jour de la semaine de la date actuelle de 0 (dimanche) à 6 (samedi)</li>
+		</ul>
+	</li>
+	<li class=new>L'objet <c>request</c> :
+		<ul>
+			<li><c>{request.*}</c> : propriété de l'objet request (Mage_Shipping_Model_Rate_Request) passé en paramètre par Magento (ex: <c>{request.package_qty}</c>). Utiliser l'option ""Déboguage"" pour obtenir plus de détail sur les propriétés disponibles.</li>
+		</ul>
+	</li>
+</ul>
+"
+	"{os2editor.help.more_special-functions}","
+<h4>Fonctions spéciales dans les formules</h4>
+
+<p>
+Vous pouvez utiliser dans les formules des fonctions spéciales.
+</p>
+<p>
+Liste des fonctions spéciales :
+</p>
+<ul>
+	<li><c>min(x, y, …)</c> : calcule le minimum entre plusieurs valeurs (éventuellement plus de deux valeurs). Si l'une des valeurs est nulle, elle est ignorée.</li>
+	<li><c>max(x, y, …)</c> : calcule le maximum entre plusieurs valeurs (éventuellement plus de deux valeurs). Si l'une des valeurs est nulle, elle est ignorée.</li>
+	<li class=new><c>range(value, min, max, include_min, include_max)</c> : retourne <c>true</c> si <c>value</c> est comprise entre <c>min</c> et <c>max</c>. Par défaut, <c>include_min</c> et <c>include_max</c> sont égales à <c>true</c>.</li>
+	<li class=new><c>substr(string, start, length)</c> : retourne un segment de chaîne de caractères.</li>
+	<li class=new><c>in_array(value, array(value1, value2, …))</c> : indique si une valeur appartient à un tableau.</li>
+	<li class=new><c>array_match_any(array(value1, value2, …), array(value1, value2, …))</c> : indique si au moins une valeur est présente dans les deux tableaux.</li>
+	<li class=new><c>array_match_all(array(value1, value2, …), array(value1, value2, …))</c> : indique si le contenu des tableaux est identique.</li>
+</ul>
+
+{code=json}{
+""ex0"":{""label"":""Exemple avec fonction min"",""fees"":""min({cart.weight},{cart.price+tax+discount},{cart.qty})""},
+""ex1"":{""label"":""Exemple avec fonction range"",""conditions"":""range({cart.weight},1.0,3.0)"",""fees"":10},
+""ex2"":{""label"":""Exemple avec fonction substr *"",""conditions"":""substr('{cart.coupon_code}', 0, 5)=='free_'"",""fees"":10},
+""ex3"":{""label"":""Exemple avec fonction in_array avec des chaînes de caractères *"",""conditions"":""in_array({{cart.coupon_code}}, array('free1', 'free2'))"",""fees"":10},
+""ex4"":{""label"":""Exemple avec fonction in_array avec des nombres"",""conditions"":""in_array({cart.qty}, array(10,20,30))"",""fees"":10},
+""ex5"":{""label"":""Exemple avec fonction array_match_any"",""about"":""5 x poids des produits qui se trouvent dans la catégorie 2 ou 3"",""fees"":""{sum product.weight where array_match_any(product.categories.id, array(2, 3))}*5.0""},
+""ex6"":{""label"":""Exemple avec fonction array_match_all"",""about"":""5 x poids des produits qui se trouvent à la fois dans la catégorie 2 et dans la catégorie 3"",""fees"":""{sum product.weight where array_match_all(product.categories.id, array(2, 3))}*5.0""}
+}{/code}
+
+<p class=new>
+	* Concernant l'échappement des chaînes de caractères, se référer à l'<a href=""#more_formulas"">initiation aux formules</a>. 
+</p>
+"
+	"{os2editor.help.more_copy}","
+<h4>Faire une copie d'une propriété d'un autre élément</h4>
+<p>Il est possible de faire une copie d'une propriété dans un autre élément à l'aide de la syntaxe ci-dessous.</p>
+<p>Vous pouvez utiliser cette technique dans toutes les propriétés (<property>conditions</property>, <property>fees</property>, …).</p>
+
+{code=json}{
+""colissimo"":{""label"":""Colissimo"",""shipto"":""AD,FR,MC"",""conditions"":""{cart.price-tax+discount}<1000.00"",""fees"":""1.30 + {table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}""},
+""ex1"":{""label"":""Copie des conditions d'une autre méthode"",""conditions"":""({colissimo.conditions}) and ({cart.weight}>=0)"",""fees"":10},
+""ex2"":{""label"":""Copie des frais de port d'une autre méthode"",""fees"":""({colissimo.fees}) + 15.00""}
+}{/code}
+"
+	"{os2editor.help.more_tables}","
+<h4>Utilisation des tables <c>table</c></h4>
+<p>
+	Dans une <c>table</c>, on peut inclure ou exclure une valeur limite avec les caractères <c>[</c> et <c>]</c> :
+</p>
+{code=json}{
+""f0"":{""label"":""Limite supérieure incluse"",""fees"":""{table {cart.weight} in 1.0]:5.00}""},
+""f1"":{""label"":""Limite supérieure exclue"",""fees"":""{table {cart.weight} in 1.0[:5.00}""}
+}{/code}
+
+<p>
+	Dans une <c>table</c>, on doit spécifier la valeur de référence. Pour cela, on peut utiliser une des <a href=""#more_vars"">variables disponibles</a>.<br/>
+	Vous pouvez aussi utiliser une formule afin de définir une autre variable de référence.
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Table avec poids du panier"",""fees"":""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""},
+""ex1"":{""label"":""Table avec quantité d'articles"",""fees"":""{table {cart.qty} in 10:5.30, 20:6.50}""},
+""ex2"":{""label"":""Table avec prix TTC"",""fees"":""{table {cart.price+tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}""},
+""ex3"":{""label"":""Table avec prix HT"",""fees"":""{table {cart.price-tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}""},
+""ex4"":{""label"":""Table avec valeur personnalisée"",""fees"":""{table ceil({cart.weight}/10) in 1:5.30, 2:6.50}""}
+}{/code}
+"
+	"{os2editor.help.more_switch}","
+<h4>Utilisation des tables de correspondance <c>switch</c></h4>
+
+<p>
+	Dans un <c>switch</c>, on doit spécifier la valeur de référence. Pour cela, on peut utiliser une des <a href=""#more_vars"">variables disponibles</a>.<br/>
+	Vous pouvez aussi utiliser une formule afin de définir une autre variable de référence.
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Table de correspondance avec le coupon"",""fees"":""{switch {{cart.coupon_code}} in 'coupon1':5.30, 'coupon2':6.50, null:10.00, *:7.50}""},
+""ex1"":{""label"":""Table de correspondance avec le pays de livraison"",""fees"":""{switch {{shipto.country_id}} in 'FR':5.30, 'BE':6.50, 'DE':10.00, *:7.50}""}
+}{/code}
+"
+	"{os2editor.help.more_attributes-options}","
+<h4>Utilisation des propriétés des produits</h4>
+
+<p class=new>
+	Afin de mieux correspondre aux Models de Magento, la version 2.4.8 de l'extension introduit la séparation entre les objects <c>item</c> et <c>product</c>.
+	Un <c>item</c> est une déclinaison d'un <c>product</c> auquel on a ajouté d'éventuelles options. Chaque <c>item</c> a une quantité.
+</p>
+<p>
+	Liste des propriétés disponibles :
+</p>
+<ul>
+	<li class=new>L'article (ou <c>item</c>) :
+		<ul>
+			<li><c>item.qty</c> : quantité dans le panier</li>
+			<li><c>item.price-tax+discount</c> : le prix HT avec remise</li>
+			<li><c>item.price-tax-discount</c> : le prix HT sans remise</li>
+			<li><c>item.price+tax+discount</c> : le prix TTC avec remise</li>
+			<li><c>item.price+tax-discount</c> : le prix TTC sans remise</li>
+			<li><c>item.option.*</c> : option (la liste des options disponibles dépendra des produits)</li>
+		</ul>
+	</li>
+	<li>Le produit (ou <c>product</c>) :
+		<ul>
+			<li><c><strike>product.quantity</strike></c> : utiliser <c class=new>item.qty</c></li>
+			<li><c>product.attribute.*</c> : attribut<br/>Liste d'attributs intéressants :
+				<ul>
+					<li><c>sku</c> : la référence</li>
+					<li><c>name</c> : le nom</li>
+					<li><c>weight</c> : le poids</li>
+					<li><c>price</c> : le prix (tel qu'il a été saisi sur la fiche du produit)</li>
+					<li><c>special_price</c> : le prix promotionnel (tel qu'il a été saisi sur la fiche du produit)</li>
+					<li><c><strike>price-tax+discount</strike></c> : utiliser <c class=new>item.price-tax+discount</c></li>
+					<li><c><strike>price-tax-discount</strike></c> : utiliser <c class=new>item.price-tax-discount</c></li>
+					<li><c><strike>price+tax+discount</strike></c> : utiliser <c class=new>item.price+tax+discount</c></li>
+					<li><c><strike>price+tax-discount</strike></c> : utiliser <c class=new>item.price+tax-discount</c></li>
+				</ul>
+			</li>
+			<li class=new><c>product.attribute.*.value</c> : valeur de l'attribut<br/>Dans le cas des attributs de type liste de sélection, <c>product.attribute.*</c> retourne l'id. Pour obtenir la valeur, il faut utiliser <c>product.attribute.*.value</c></li>
+			<li class=new><c>product.*</c> : identique à <c>product.attribute.*</c> sauf si la variable est définie (ex: <c>product.category</c>)</li>
+			<li><c><strike>product.option.*</strike></c> : utiliser les propriétés <c class=new>item.option.*</c></li>
+			<li>Première catégorie du produit :
+				<ul>
+					<li><c>product.category</c> : nom de la catégorie</li>
+					<li><c>product.category.id</c> : id de la catégorie</li>
+					<li class=new><c>product.category.*</c> : attribut de la catégorie (ex: <c>product.category.is_active</c>)<br/>Liste d'attributs intéressants :
+						<ul>
+							<li><c>is_active</c> : catégorie activée ou non</li>
+							<li><c>name</c> : nom</li>
+							<li>…</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>Toutes les catégories du produit (retourne un tableau, <a href=""#more_categories"">rubrique explicative</a>) :
+				<ul>
+					<li><c>product.categories</c> : tableau du nom des catégories</li>
+					<li><c>product.categories.id</c> : tableau de l'id des catégories</li>
+				</ul>
+			</li>
+			<li>Le jeu d'attributs du produit :
+				<ul>
+					<li><c>product.attribute_set</c> : nom du jeu d'attributs</li>
+					<li><c>product.attribute_set.id</c> : id du jeu d'attributs</li>
+					<li class=new><c>product.attribute_set.*</c> : attribut du jeu d'attributs (ex: <c>product.attribute_set.attribute_set_name</c>)</li>
+				</ul>
+			</li>
+			<li class=new><c>product.stock.*</c> : attribut du stock du produit<br/>Liste d'attributs intéressants :
+				<ul>
+					<li><c>is_in_stock</c> : disponibilité du produit</li>
+					<li><c>qty</c> : stock du produit</li>
+					<li>…</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+{code=json}{
+""ex0"":{""label"":""Si au moins un produit possède l'attribut 'color' égal à 'Bleu'"",""conditions"":""{count items where product.color=='Bleu'}>0"",""fees"":10},
+""ex1"":{""label"":""Si tous les produits possèdent l'option 'size' supérieure ou égal à '1'"",""conditions"":""{count items where item.option.size>='1'}=={cart.qty}"",""fees"":10},
+""ex2"":{""label"":""Nombre de SKU différents"",""conditions"":""{count distinct product.sku}"",""fees"":10},
+""ex3"":{""label"":""Somme de toutes les options 'size' est supérieure à 30"",""conditions"":""{sum item.option.size}>30"",""fees"":10},
+""ex4"":{""label"":""Prix HT sans remise minimum des produits dans le panier est supérieur à 10"",""conditions"":""{min item.price-tax-discount}>10"",""fees"":10},
+""ex5"":{""label"":""Valeur maximum de l'option 'size' des produits dans le panier est inférieure à 50"",""conditions"":""{max item.option.size}<50"",""fees"":10},
+""ex6"":{""label"":""Nombre de produits en stock"",""conditions"":""{count items where product.stock.is_in_stock==true}"",""fees"":10}
+}{/code}
+
+<p>
+Liste des préfixes possibles :
+</p>
+<ul>
+	<li><c>count</c> : nombre (toujours suivi de <c>items</c>)</li>
+	<li><c>count distinct</c> : nombre distinct (toujours suivi d'une propriété)</li>
+	<li><c>sum</c> : somme (toujours suivi d'une propriété)</li>
+	<li class=new><c>min</c> : minimum (toujours suivi d'une propriété)</li>
+	<li class=new><c>max</c> : maximum (toujours suivi d'une propriété)</li>
+</ul>
+<p>
+	Il est possible de spécifier des conditions que doivent remplir les produits pour être pris en compte. Pour cela, il suffit d'ajouter <c> where </c> suivi d'une formule.
+</p>
+<p>
+	Si la propriété est de type <strong>Oui/Non</strong>, vous devez utiliser les valeurs <c>true</c>/<c>false</c> ou <c>1</c>/<c>0</c> sans les guillemets.
+</p>
+{code=json}{
+""ex0"":{""label"":""Exemple propriété de type Oui/Non : 0"",""conditions"":""{count items where product.attribute.colissimo_allowed==0}"",""fees"":10},
+""ex1"":{""label"":""Exemple propriété de type Oui/Non : false"",""conditions"":""{count items where product.attribute.colissimo_allowed==false}"",""fees"":10}
+}{/code}
+
+<p>
+	Si la propriété est de type <strong>Liste de sélection</strong> et que vous souhaitez faire une comparaison avec <strike>l'id</strike> la valeur plutôt qu'avec <strike>la valeur</strike> l'id, vous devez utiliser la syntaxe suivante :</strike>
+</p>
+<strike>{code=json}{
+""ex0"":{""label"":""Si l'attribut 'color' est égale à la valeur dont l'id différente de 1"",""conditions"":""{count items where product.color.id!=1}"",""fees"":10}
+}{/code}</strike>
+{code=json}{
+""ex0"":{""label"":""Si la valeur de l'attribut 'color' est différente de 'Bleu'"",""conditions"":""{count items where product.color.value!='Bleu'}"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.more_foreach}","
+<h4>Utilisation des boucles <c>foreach</c></h4>
+
+<p>
+	Les boucles <c>foreach</c> permettent d'effectuer un calcul sur des groupes de produits plutôt que de tenir compte de tous les produits du panier.<br/>
+	Le résultat global d'une boucle <c>foreach</c> est la somme des résultats de chaque passage dans la boucle.
+</p>
+<p>
+	A l'intérieur d'une boucle <c>foreach</c>, il est possible d'utiliser de nouvelles variables :
+</p>
+<ul>
+	<li><c>{selection.weight}</c> : poids de la sélection</li>
+	<li><c class=new><strike>{selection.quantity}</strike> {selection.qty}</c> : nombre d'articles dans la sélection</li>
+</ul>
+<p>
+	Lorsque la sélection se fait sur le sku, chaque sélection est composée d'un seul article. On peut donc utiliser d'autres variables :
+</p>
+<ul>
+	<li><c>{item.*}</c> : propriété de l'article</li>
+	<li><c>{product.*}</c> : propriété du produit</li>
+	<li><a href=""#more_attributes-options"">Voir la liste complète des propriétés produit</a></li>
+</ul>
+
+{code=json}{
+""ex0"":{""label"":""Regroupement des produits par origine puis traitement des groupes séparémment"",""fees"":""{foreach product.attribute.code_origin}{table {selection.weight} in 0.0:0.00, 1.0:11.00, 3.0:12.00, 5.0:13.00}{/foreach}""},
+""ex1"":{""label"":""Calcul des frais de port par produit"",""fees"":""{foreach product.attribute.sku}{product.attribute.shipping}*{item.qty}{/foreach}""}
+}{/code}
+"
+	"{os2editor.help.more_categories}","
+<h4>Cas particulier : exemples d'utilisation des catégories de produits</h4>
+
+<p>
+	Depuis la version 2.4.2, il est possible d'utiliser les catégories des produits dans les formules.
+</p>
+<p class=warning>
+	<strong>Attention, il est à noter que dans Magento, un produit peut être dans plusieurs catégories.</strong> Faites donc particulièrement attention à la façon dont vous utilisez cette propriété.
+</p>
+<p>
+	Pour filtrer les produits qui se trouvent dans plusieurs catégories spécifiques, vous pouvez utiliser la fonction <c>array_match_any()</c>.
+</p>
+<p>
+	Voici quelques exemples d'utilisation :
+</p>
+{code=json}{
+""ex0"":{""label"":""Boucle foreach dont l'itération se fait sur la catégorie"",""fees"":""{foreach product.categories}{selection.weight}{/foreach}""},
+""ex1"":{""label"":""Utilisation de la catégorie à l'intérieur d'une boucle foreach"",""fees"":""{foreach product.sku}({{product.category}}=='Test' ? 2.00 : 1.00)*{item.qty}{/foreach}""},
+""ex2"":{""label"":""Utilisation de l'id de la catégorie à l'intérieur d'une boucle foreach"",""fees"":""{foreach product.sku}({product.category.id}==12 ? 2.00 : 1.00)*{item.qty}{/foreach}""},
+""ex3"":{""about"":""La fonction in_array() est utilisée car product.categories retourne un tableau"",""label"":""Somme des attributs weight des produits de la catégorie 'Test'"",""fees"":""{sum product.weight where in_array('Test', product.categories)}""},
+""ex4"":{""about"":""La fonction in_array() est utilisée car product.categories.id retourne un tableau"",""label"":""Somme des attributs weight des produits de la catégorie dont l'id est 12"",""fees"":""{sum product.weight where in_array(12, product.categories.id)}""},
+""ex5"":{""about"":""La fonction array_match_any() est utilisée car product.categories.id retourne un tableau"",""label"":""Somme des attributs weight des produits des catégories dont les id sont 11 et 12"",""fees"":""{sum product.weight where array_match_any(product.categories.id, array(11, 12))}""},
+""ex6"":{""label"":""Somme des poids des produits dont la première catégorie est 'Test'"",""fees"":""{sum product.weight where product.category=='Test'}""},
+""ex7"":{""label"":""Somme des poids des produits dont l'id de la première catégorie est 12"",""fees"":""{sum product.weight where product.category.id==12}""}
+}{/code}
+"
+	"{os2editor.help.changelog}","
+<h4>Changelog</h4>
+<div class=changelog>{changelog}</div>
+"

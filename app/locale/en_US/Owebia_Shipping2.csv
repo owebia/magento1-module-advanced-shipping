@@ -1,0 +1,850 @@
+# en-US
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/Os2/Editor.php
+	"New shipping method","New shipping method"
+	"Remove","Remove"
+	"[meta] %s","[meta] %s"
+	"[data] %s","[data] %s"
+	# Tools
+		"Insert","Insert"
+		"Tools","Tools"
+		"Shipping country","Shipping country"
+		"Cart weight","Cart weight"
+		"Products quantity","Products quantity"
+		"Price incl. tax","Price incl. tax"
+		"Price excl. tax","Price excl. tax"
+		"Weight","Weight"
+		"Tracking number","Tracking number"
+		"Human readable version","Human readable version"
+	# Fields
+		"ID","ID"
+		"Type","Type"
+			"Shipping Method (default)","Shipping Method (default)"
+			"Data","Data"
+			"Meta","Meta"
+		"About","About"
+		"Enabled","Enabled"
+			"Enabled (default)","Enabled (default)"
+			"Disabled","Disabled"
+		"Label","Label"
+		"Description","Description"
+		"Shipping address","Shipping address"
+		"Billing address","Billing address"
+		"Origin address","Origin address"
+		"Conditions","Conditions"
+		"Fees","Fees"
+		"Customer groups","Customer groups"
+		"Tracking url","Tracking url"
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/Os2/Help.php
+	"Refresh","Refresh"
+	"Previous page","Previous page"
+	"Summary","Summary"
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/System/Config/Form/Field/Config.php
+	"Help","Help"
+	"Apply","Apply"
+	"Cancel","Cancel"
+	"Source &amp; Correction","Source &amp; Correction"
+	"Download configuration templates","Download configuration templates (in French)"
+	# JS
+		"Dissociate","Dissociate"
+		"Remove","Remove"
+		"Edit","Edit"
+		"Enter the new value:","Enter the new value:"
+		"[No label]","[No label]"
+		"Loading...","Loading..."
+
+# app/code/community/Owebia/Shipping2/Block/Adminhtml/System/Config/Form/Field/Config.php
+	"Version: %s","Version: %s"
+
+# app/code/community/Owebia/Shipping2/Controller/Abstract.php
+	"Owebia Shipping 2 Editor","Owebia Shipping 2 Editor"
+	"Source &amp; Correction","Source &amp; Correction"
+	"Help","Help"
+	"Donate","Donate"
+	"Close","Close"
+
+# app/code/community/Owebia/Shipping2/controllers/Adminhtml/Os2/AjaxController.php
+	"Editor","Editor"
+	"Source","Source"
+	"Correction","Correction"
+	"Debug","Debug"
+	"Apply","Apply"
+	"Export","Export"
+	"Add a shipping method","Add a shipping method"
+	"New shipping method","New shipping method"
+	"You appreciate this extension and would like to help?","You appreciate this extension and would like to help?"
+	"{os2editor.donate-page.content}","<p>The extension Owebia Shipping 2 is offered by the company Owebia (<a href=""http://www.owebia.com/"">http://www.owebia.com/</a>).<br/>If you want to support the developement of the extension, you can make a donation.</p><p>You will receive an invoice to keep trace of the donation.</p><p>Thanks to all donators.</p>"
+
+# app/code/community/Owebia/Shipping2/etc/system.xml
+	"Configuration","Configuration"
+	"Tracking URL","Tracking URL"
+	"Debug","Debug"
+	"{debug_help}","Debug displayed on cart while making a shipping estimation"
+	"Compression","Compression"
+	"{compression_help}","Gz + base64 compression. This is the editor that compress/uncompress."
+	"Auto-escaping","Auto-escaping"
+	"{auto_escaping_help}","Enable systematic auto-escaping of variables"
+	"Auto-correction","Auto-correction"
+	"{auto_correction_help}","This option enables backward compatibility but consommme resources"
+	"Stop to first match","Stop to first match"
+	"General Configuration","General Configuration"
+	"Weight unit","Weight unit"
+	"Bundle Product Management","Bundle Product Management"
+	"Configurable Product Management","Configurable Product Management"
+	"If ""Self"" is selected, options bellow are ignored","If ""Self"" is selected, options bellow are ignored"
+	"Item processing","Item processing"
+	"Item options on","Item options on"
+	"Item data on","Item data on"
+	"Product data on","Product data on"
+
+# app/code/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php
+	"Configuration disabled","Configuration disabled"
+	"The cart doesn't match conditions","The cart doesn't match conditions"
+	"Infinite loop %s","Infinite loop %s"
+	"Error in table %s","Error in table %s"
+	"Usage of deprecated syntax %s","Usage of deprecated syntax %s"
+	"Usage of unknown properties %s","Usage of unknown properties %s"
+	"Usage of deprecated properties %s","Usage of deprecated properties %s"
+
+# app/code/community/Owebia/Shipping2/Model/Carrier/Abstract.php
+	"track the package","track the package"
+
+# app/code/community/Owebia/Shipping2/Model/Os2/Data/AddressFilter.php
+	"Africa","Africa"
+	"Asia","Asia"
+	"Europa","Europa"
+	"North America","North America"
+	"South America","South America"
+	"Oceania","Oceania"
+	"Antartica","Antartica"
+	"European Union","European Union"
+
+# app/code/community/Owebia/Shipping2/Model/System/Config/Source/LoadOnParent.php
+	"Self","Self"
+	"Parent","Parent"
+
+# Help
+	"{os2editor.help.summary}","
+<h4>Summary</h4>
+<div class=""table-of-contents"">
+<table><tr>
+	<td>
+		<ol class=level1>
+			<li class=new><a href=""#introduction"">Introduction: JSON syntax, items and properties</a></li>
+			<li><a href=""#unique_id"">The unique identifier</a></li>
+			<li class=new>The item types:
+				<ul>
+					<li><a href=""#type_method""><property>method</property>: shipping method</a></li>
+					<li><a href=""#type_data""><property>data</property>: data</a></li>
+					<li><a href=""#type_meta""><property>meta</property>: meta data</a></li>
+				</ul>
+			</li>
+			<li class=new>Common properties:
+				<ul>
+					<li><a href=""#property_type""><property>type</property>: the type of the item</a></li>
+					<li><a href=""#property_about""><property>about</property>: comment on the item</a></li>
+				</ul>
+			</li>
+			<li>Properties of <property>method</property> items:
+				<ul>
+					<li class=important><a href=""#property_label""><property>label</property></a></li>
+					<li><a href=""#property_description""><property>description</property></a></li>
+					<li class=important><a href=""#property_conditions""><property>conditions</property></a></li>
+					<li class=new><a href=""#property_shipto""><property>shipto</property>: the shipping address</a> (<property>destination</property> bef. 2.4.8)</li>
+					<li class=new><a href=""#property_shipto""><property>billto</property>: the billing address</a> (since 2.4.8)</li>
+					<li><a href=""#property_shipto""><property>origin</property>: the origin address</a></li>
+					<li><a href=""#property_customer_groups""><property>customer_groups</property></a></li>
+					<li class=important><a href=""#property_fees""><property>fees</property>: the shipping fees</a></li>
+					<li><a href=""#property_tracking_url""><property>tracking_url</property></a></li>
+					<li><a href=""#property_enabled""><property>enabled</property></a></li>
+				</ul>
+			</li>
+		</ol>
+	</td>
+	<td>
+		<ol class=level1 start=6>
+			<li><a href=""#more_formulas"">Introduction to Formulas</a>
+				<ol>
+					<li class=new><a href=""#more_vars"">Available variables</a></li>
+					<li class=new><a href=""#more_special-functions"">Special Functions in Formulas</a> (update 2.5)<br/>&nbsp; &nbsp; min, max, range, substr, in_array, array_match_any, array_match_all</li>
+					<li><a href=""#more_copy"">Make a copy of a property from an other item</a></li>
+					<li><a href=""#more_tables"">Using <c>table</c></a></li>
+					<li><a href=""#more_switch"">Using <c>switch</c></a> (update 2.4.5)</li>
+					<li class=new><a href=""#more_attributes-options"">Using product properties (sum, count, min, max)</a> (update 2.4.8)</li>
+					<li><a href=""#more_foreach"">Using <c>foreach</c> loops</a></li>
+					<li class=new><a href=""#more_categories"">Particular case: examples of use of product categories</a> (update 2.5)</li>
+				</ol>
+			</li>
+			<li><a href=""#changelog"">Changelog</a></li>
+		</ol>
+	</td>
+</tr></table>
+</div>
+"
+	"{os2editor.help.introduction}","
+<h4>Introduction: JSON syntax, items and properties</h4>
+<p class=new>
+	If you have a question, use the following topic: <a href=""http://www.magentocommerce.com/boards/viewthread/38223/"" target=_blank>http://www.magentocommerce.com/boards/viewthread/38223/</a>
+</p>
+
+<p>
+	<span class=new>Since version 2.5, the syntax of configuration is full JSON <a href=""http://en.wikipedia.org/wiki/JavaScript_Object_Notation"" target=_blank>JSON</a>.</span>
+</p>
+<p>
+	Example:
+</p>
+{code=json}{
+""ex0"":{""about"":""National"",""label"":""National"",""shipto"":""AD,FR,MC"",""conditions"":""{cart.price-tax+discount}<1000.00"",""fees"":""1.30 + {table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}""}
+}{/code}
+
+<p>
+	The configuration is a JSON object containing <strong>properties</strong>.<br/>
+	Each property has a unique name, wich will serve as <a href=""#unique_id"">unique identifier</a>.<br/>
+	Each property will consiste on a configuration <strong>item</strong> (also a JSON object).<br/>
+</p>
+<p>
+	Items have always a <property>type</property> property. This sets the type of the item:
+</p>
+<ul>
+	<li><a href=""#type_method""><property>method</property>: shipping method (default if not specified)</a></li>
+	<li><a href=""#type_data""><property>data</property>: data that can be used in shipping methods</a></li>
+	<li><a href=""#type_meta""><property>meta</property>: informative data</a></li>
+</p>
+"
+	"{os2editor.help.unique_id}","
+<h4>The unique identifier</h4>
+<p>Each configuration item has a unique identifier. This unique identifier is then used to reference the item.</p>
+<p>Example:</p>
+{code=json}{
+""europe"":{""label"":""Europa"",""fees"":10},
+""us"":{""label"":""US"",""fees"":""{europe.fees}+20""}
+}{/code}
+
+<p class=warning><strong><u>Warning</u>:</strong> to avoid conflicts, use only the following characters <c>a-z</c>, <c>A-Z</c>, <c>0-9</c>, <c>-</c> and <c>_</c> to make the unique identifier.<br/>You have also to avoid identifiers that match to any variable name (<c>cart</c>, <c>product</c>, <c>item</c>…).</p>
+"
+	"{os2editor.help.type_method}","
+<h4><property>method</property> item</h4>
+<p>A <property>method</property> item allow to specify a shipping method.</p>
+<p>Example with only required properties:</p>
+{code=json}{
+""ex0"":{""label"":""Free shipping"",""fees"":0}
+}{/code}
+<p>Full example:</p>
+{code=json}{
+""ex0"":{""about"":""Colissimo National"",""type"":""method"",""label"":""Colissimo"",""description"":""Delivery within 24/48h"",""enabled"":true,""conditions"":""range({cart.weight},0.2,1.0)"",""shipto"":""FR(01,02,39600,/^25[0-9]{3}$/),CH,DE"",""billto"":""FR"",""origin"":""DE"",""customer_groups"":""NOT LOGGED IN,Retailer"",""fees"":""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""}
+}{/code}
+"
+	"{os2editor.help.type_data}","
+<h4><property>data</property> item</h4>
+<p>A <property>data</property> item allow to specify data that can be used in shipping methods.</p>
+<p>Example of <property>data</property> item:</p>
+{code=json}{
+""mydata"":{""type"":""data"",""reference"":""100""}
+}{/code}
+<p>Example of data usage:</p>
+{code=json}{
+""ex0"":{""type"":""method"",""label"":""Colissimo"",""fees"":""{mydata.reference}*1.5""}
+}{/code}
+"
+	"{os2editor.help.type_meta}","
+<h4><property>meta</property> item</h4>
+<p>A <property>meta</property> item allow to add informative data (author, date…).</p>
+<p>Example:</p>
+{code=json}{
+""about"":{""type"":""meta"",""author"":""Owebia"",""date"":""16/11/2012"",""about"":""Prices 2012""}
+}{/code}
+"
+	"{os2editor.help.property_type}","
+<h4><property>type</property>: the type of the item</h4>
+<p>This sets the type of the item:</p>
+<ul>
+	<li><a href=""#type_method""><property>method</property>: shipping method (default if not specified)</a></li>
+	<li><a href=""#type_data""><property>data</property>: data that can be used in shipping methods</a></li>
+	<li><a href=""#type_meta""><property>meta</property>: informative data</a></li>
+</p>
+{code=json}{
+""about"":{""type"":""meta"",""author"":""Owebia"",""date"":""16/11/2012"",""about"":""Prices 2012""},
+""mydata"":{""type"":""data"",""reference"":""100""},
+""ex0"":{""type"":""method"",""label"":""Colissimo"",""fees"":""{mydata.reference}*1.5""}
+}{/code}
+"
+	"{os2editor.help.property_about}","
+<h4><property>about</property>: comment on the item</h4>
+<p>You can add a comment to a configuration item.</p>
+{code=json}{""ex0"":{""about"":""My comment"",""label"":""Example with a comment"",""fees"":10}}{/code}
+"
+	"{os2editor.help.property_label}","
+<h4>The <property>label</property></h4>
+<p>The name given to the shipping method.</p>
+<p>We can insert some data like the package weight in the label.<br/>
+To do that, use the following variables:</p>
+<ul>
+	<li>The shipping address:
+		<ul>
+			<li class=new><c><strike>{destination.country.name}</strike> {shipto.country_name}</c></li>
+			<li class=new><c><strike>{destination.country.code}</strike> {shipto.country_id}</c></li>
+			<li class=new><c><strike>{destination.region.code}</strike> {shipto.region_code}</c></li>
+			<li class=new><c><strike>{destination.postcode}</strike> {shipto.postcode}</c></li>
+		</ul>
+	</li>
+	<li><c>{cart.weight}</c>: the package weight</li>
+	<li class=new><c><strike>{cart.weight.unit}</strike> {cart.weight_unit}</c>: the weight unit</li>
+	<li><a href=""#more_vars"">See the full list of variables</a></li>
+</ul>
+{code=json}{
+""ex0"":{""label"":""Colissimo ({cart.weight} / {shipto.country_name})"",""fees"":10}
+}{/code}
+<p>The above line will display for example <string>""Colissimo (3.0kg / France)""</string>.</p>
+"
+	"{os2editor.help.property_description}","
+<h4>The <property>description</property></h4>
+<p>The description of the shipping method.</p>
+<p>The usage is the same as <a href=""#property_label""><property>label</property></a> property.</p>
+"
+	"{os2editor.help.property_conditions}","
+<h4><property>conditions</property></h4>
+<p>
+	<property>conditions</property> property is specified as a <a href=""#more_formulas"">formula (see introduction to formulas)</a>
+	that must return a boolean value (<c>true</c> or <c>false</c>).
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Price from 0 to 70 incl. tax"",""conditions"":""{cart.price+tax+discount}<=70"",""fees"":10},
+""ex1"":{""label"":""Price from 0 to 70 excl. tax"",""conditions"":""{cart.price-tax+discount}<=70"",""fees"":10},
+""ex2"":{""label"":""Price from 20 excluded to 70 included"",""conditions"":""range({cart.price-tax+discount},20,70,false,true)"",""fees"":10},
+""ex3"":{""label"":""Price from 10 included to 50 excluded"",""conditions"":""range({cart.price-tax+discount},10,50,true,false)"",""fees"":10},
+""ex4"":{""label"":""Weight from 0.5 excluded to 3 included"",""conditions"":""range({cart.weight},0.5,3.0,false,true)"",""fees"":10},
+""ex5"":{""label"":""Weight from 1 included to 5 excluded"",""conditions"":""range({cart.weight},1.0,5.0,true,false)"",""fees"":10},
+""ex6"":{""label"":""Only if free shipping"",""conditions"":""{cart.free_shipping}"",""fees"":10},
+""ex7"":{""label"":""Only if not free shipping"",""conditions"":""!{cart.free_shipping}"",""fees"":10},
+""ex8"":{""label"":""If any product has a 'color' attribute equal to 'Blue'"",""conditions"":""{count items where product.attribute.color=='Blue'}>1"",""fees"":10},
+""ex9"":{""label"":""If all products have 'size' option greater or equal to '1'"",""conditions"":""{count items where product.option.size>='1'}=={cart.qty}"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.property_shipto}","
+<h4>Addresses: <property>shipto</property>, <property>billto</property> and <property>origin</property></h4>
+<p>
+	The extension allow to filter addresses:
+</p>
+<ul>
+	<li class=new>The shipping address <strike><property>destination</property></strike> <property>shipto</property>.</li>
+	<li class=new>The billing address <property>billto</property></li>
+	<li>The origin address <property>origin</property></li>
+</ul>
+<p>
+	Country codes used are those used by Magento.<br/>
+	It's possible to specify region codes (only with <property>shipto</property>) or postcodes.
+</p>
+<p class=new>
+	You can use the wildcard character <c>*</c> or regular expressions to filter postcodes.<br/>
+	A regular expression must start and end width the character <c>/</c>. If you want to use characters <c>(</c>, <c>)</c> or <c>,</c>, you have to escape them with character <c>\</c> (ex: <string>""FR(/^25\([0-9]{3}\)$/)""</string>).<br/>
+	You can use the case insensitive modifier (ex: <string>""GB(/^PO.*$/i)""</string>).
+</p>
+
+{code=json}{
+""ex0"":{""label"":""France, Germany, Switzerland, Spain, Italy"",""shipto"":""FR,DE,CH,ES,IT"",""fees"":10},
+""ex1"":{""label"":""France except Corsica"",""shipto"":""FR-(2A,2B)"",""fees"":10},
+""ex2"":{""label"":""Corsica"",""shipto"":""FR(2A,2B)"",""fees"":10},
+""ex3"":{""label"":""World except Germany and Corsica"",""shipto"":""* - ( DE, FR(2A,2B) )"",""fees"":10},
+""ex4"":{""label"":""Postal codes beginning with 25 using the wildcard character"",""shipto"":""FR(25*)"",""fees"":10},
+""ex5"":{""label"":""Postal codes beginning with 25 using a regular expression"",""shipto"":""FR(/^25[0-9]{3}$/)"",""fees"":10}
+}{/code}
+
+<div class=""tips"">
+	<p><strong>Tip</strong><br/>To shorten the seizure of countries, you can use the following variables:</p>
+	<ul>
+		<li><c>{address_filter.AF}</c>: countries of Africa</li>
+		<li><c>{address_filter.AS}</c>: countries of Asia</li>
+		<li><c>{address_filter.EU}</c>: countries of Europa</li>
+		<li><c>{address_filter.NA}</c>: countries of North America</li>
+		<li><c>{address_filter.SA}</c>: countries of South America</li>
+		<li><c>{address_filter.OC}</c>: countries of Oceania</li>
+		<li><c>{address_filter.AN}</c>: countries of Antartica</li>
+		<li><c>{address_filter.EU-27}</c>: countries of the European Union</li>
+		<li><c>{address_filter.DOM}</c>: country codes of overseas french department</li>
+		<li><c>{address_filter.COM}</c>: country codes of overseas french communities</li>
+	</ul>
+</div>
+
+{code=json}{
+""ex0"":{""label"":""Europa except France"",""shipto"":""({address_filter.EU-27}) - (FR)"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.property_billto}","
+<h4><property>billto</property>: the billing address</h4>
+<p><a href=""#property_shipto"">Filtering addresses</a></p>
+"
+	"{os2editor.help.property_origin}","
+<h4><property>origin</property>: the origin address</h4>
+<p><a href=""#property_shipto"">Filtering addresses</a></p>
+"
+	"{os2editor.help.property_customer_groups}","
+<h4><property>customer_groups</property></h4>
+<p>We can use the name or the ID of customer groups.</p>
+
+{code=json}{
+""ex0"":{""label"":""NOT LOGGED IN and General groups"",""customer_groups"":""NOT LOGGED IN,General"",""fees"":10},
+""ex1"":{""label"":""NOT LOGGED IN and General groups by their ID"",""customer_groups"":""0,1"",""fees"":10},
+""ex2"":{""label"":""Retailer group"",""customer_groups"":""Retailer"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.property_fees}","
+<h4><property>fees</property>: the shipping fees</h4>
+<p>
+	<property>fees</property> property is specified as a <a href=""#more_formulas"">formula (see introduction to formulas)</a>.
+</p>
+{code=json}{
+""ex0"":{""label"":""Fixed fees"",""fees"":10},
+""ex1"":{""label"":""Fees table"",""fees"":""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""},
+""ex2"":{""label"":""Formula"",""fees"":""0.1 * {cart.price-tax+discount} + 10.00""},
+""ex3"":{""label"":""Combination"",""fees"":""0.1 * {cart.price-tax+discount} + {table {cart.weight} in 0.5:5.30, 1.0:6.50} + 10.00""}
+}{/code}
+"
+	"{os2editor.help.property_tracking_url}","
+<h4><property>tracking_url</property></h4>
+<p class=warning>
+	<strong>The use of <property>tracking_url</property> property is reserved for experienced users. If you don't understand the instructions below, it is recommended that you avoid using this feature.</strong>
+</p>
+<p>
+	The <property>tracking_url</property> property overrides the field ""Tracking URL"" of an Owebia Shipping shipping mode. So you can specify a tracking URL <strong>foreach shipping method</strong> rather than one for all shipping mode.
+</p>
+<p>
+	To automatically insert the tracking number in the tracking URL, you must use <c>{tracking_number}</c>.
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Example of tracking URL for the carrier Colissimo"",""fees"":10,""tracking_url"":""http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart={tracking_number}""}
+}{/code}
+
+<p>
+	Magento does not support tracking links but tracking statuses. The extension Owebia Shipping 2 provides an HTML link instead of the status, link allowing you to go on the carrier's website and follow the progress of the parcel.
+</p>
+<p>
+	When the tracking URL is built by the extension, the only information available is the tracking number and there was nowhere an access to the shipping method selected. In order to find the tracking URL in the configuration, you must specify the shipping method inside the tracking number, for example: <c>colissimo:8Lxxxxxxxxxxx</c> where <c>colissimo</c> is the code of the shipping method selected.<br/>
+	If no code is specified (if you enter only the tracking number), the URL used will be the one of the shipping mode.
+</p>
+<p class=warning>
+	To answer a recurrent question, Magento displays the tracking status from the back office or front office. <strong>If you want to insert the tracking URL in shipping mails, you need to develop yourself the retrieval of tracking URL and its incorporation in the mail, in fact, the Owebia Shipping extension simply provides customizable shipping methods without making big changes to Magento core to reduce incompatibility and update problems.</strong>
+</p>
+<p class=warning>
+	If you get a blank popup when you click on the tracking link, your problem is most likely related to the fact that you did not specify the code of the shipping method in the tracking number (see instructions above) and your global field ""Tracking URL"" is empty.
+</p>
+<p class=warning>There are currently no plans to change this feature.</p>
+"
+	"{os2editor.help.property_enabled}","
+<h4><property>enabled</property></h4>
+<p>Allow to activate or desactivate the shipping method.</p>
+<p>The value must be boolean.</p>
+{code=json}{
+""ex0"":{""enabled"":true,""label"":""Example with activation"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.more_formulas}","
+<h4>Introduction to formulas</h4>
+<p>
+	Properties <property>fees</property> and <property>conditions</property> are specified as formulas.
+</p>
+<p>
+	Mathematical signs available:
+</p>
+<ul>
+	<li>operators: <c>*</c>, <c>/, <c>+</c> and <c>-</c></li>
+	<li>modulo: <c>%</c></li>
+	<li>brackets: <c>(</c> et <c>)</c></li>
+	<li>boolean operators <c>&amp;&amp;</c>, <c>and</c>, <c>||</c>, <c>or</c>, <c>==</c>, <c>&lt;</c>, <c>&gt;</c>, <c>&lt;=</c>, <c>&gt;=</c></li>
+	<li>binary operators <c>&amp;</c> and <c>|</c></li>
+	<li>operators group <c>C ? X : Y</c> (ex: <c><span class=string>""{cart.price_exluding_tax}&gt;100 ? 15*{cart.weight} : 20*{cart.weight}""</span></c>)</li>
+</ul>
+<p>
+	Variables available:
+</p>
+<ul>
+
+	<li><c>{cart.weight}</c>: full package weight</li>
+	<li><c>{cart.qty}</c>: items count in cart</li>
+	<li><c>{cart.price-tax+discount}</c>: price excluding tax after discount</li>
+	<li><c>{cart.price+tax+discount}</c>: price including tax after discount</li>
+	<li><c>{cart.price-tax-discount}</c>: price excluding tax before discount</li>
+	<li><c>{cart.price+tax-discount}</c>: price including tax before discount</li>
+	<li><a href=""#more_vars"">See full list of variables</a></li>
+</ul>
+<p>
+	You can put spaces and line returns in formulas (to air).
+</p>
+<p>
+	Functions available:
+</p>
+<ul>
+	<li>rounds: <c>round(x)</c>, <c>floor(x)</c>, <c>ceil(x)</c></li>
+	<li>absolute value: <c>abs(x)</c></li>
+	<li>maximum: <c>max(x,y)</c></li>
+	<li>minimum: <c>min(x,y)</c></li>
+	<li>random integer: <c>rand(min,max)</c></li>
+	<li>power: <c>pow(x,puissance)</c></li>
+	<li>PI number: <c>pi()</c></li>
+	<li>square root: <c>sqrt(x)</c></li>
+	<li>logarithm: <c>log(x)</c> for the natural logarithm or <c>log(x,base)</c></li>
+	<li>exponential: <c>exp(x)</c></li>
+</ul>
+<p>
+	Ability to use advanced features like: casting to integer <c>(int)</c> casting to floating number <c>(float)</c>, comparison with <c>null</c> or boolean values <c>true</c> and <c>false</c>.
+</p>
+<p class=""new"" style=""font-weight: bold;"">
+	You can also use advanced features such as rates tables, copy of a property of another method,
+	special functions, usage of product's attributes and options or usage of custom variables.
+</p>
+<p class=new style=""font-weight: bold;"">
+	When you use alphanumeric variables, you can escape them with quotes or you can use the autoescape syntax <c>{{ }}</c>.
+</p>
+{code=json}{
+""ex0"":{""label"":""Escaping with quotes"",""conditions"":""'{cart.coupon_code}'=='test'"",""fees"":10},
+""ex1"":{""about"":""Since version 2.4.5, {{cart.coupon_code}} will be replaced by 'moncoupon' or by null depending on its value"",""label"":""Auto-escaping"",""conditions"":""{{cart.coupon_code}}!='test'"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.more_vars}","
+<h4>Variables available</h4>
+<p>
+	The following variables can be used in different properties of shipping methods (in particular in properties <property>conditions</property> and <property>fees</property>).
+</p>
+<ul>
+	<li>The cart:
+		<ul>
+			<li><c>{cart.weight}</c>: package weight</li>
+			<li><c class=new><strike>{cart.quantity}</strike> {cart.qty}</c>: items quantity</li>
+			<li class=new><c><strike>{cart.price_excluding_tax}</strike> {cart.price-tax+discount}</c>: price excl. tax after discount</li>
+			<li class=new><c><strike>{cart.price_including_tax}</strike> {cart.price+tax+discount}</c>: price incl. tax after discount</li>
+			<li class=new><c>{cart.price-tax-discount}</c>: price excl. tax before discount</li>
+			<li class=new><c>{cart.price+tax-discount}</c>: price incl. tax before discount</li>
+			<li class=new><c><strike>{cart.coupon}</strike> {cart.coupon_code}</c></li>
+			<li><c class=new><strike>{free_shipping}</strike> {cart.free_shipping}</c>: shipping offered (by a rule in Magento) [true/false]</li>
+			<li><c class=new><strike>{cart.weight.unit}</strike> {cart.weight_unit}</c></li>
+			<li><c class=new><strike>{cart.weight.for-charge}</strike> {cart.weight_for_charge}</c>: weight of goods whose delivery is not offered (by a cart price rule in Magento)</li>
+		</ul>
+	</li>
+	<li class=new>The customer group:
+		<ul>
+			<li><c><strike>{customer.group.id}</strike> {customer_group.id}</c></li>
+			<li><c><strike>{customer.group.code}</strike> {customer_group.code}</c>: name of customer group</li>
+			<li><c>{customer_group.*}</c>: property of customer group (ex: <c>{customer_group.tax_class_id}</c>)</li>
+		</ul>
+	</li>
+	<li class=new>The customer:
+		<ul>
+			<li><c>{customer.id}</c></li>
+			<li><c>{customer.attribute.*}</c>: attribute of the customer (ex: lastname, firstname, group_id…)</li>
+			<li class=new><c>{customer.attribute.*.value}</c>: in case of attributes of type dropdown, <c>{customer.attribute.*}</c> returns the id, to get the value you must use <c>{customer.attribute.*.value}</c></li>
+			<li><c>{customer.*}</c>: same as <c>{customer.attribute.*}</c> if the variable isn't defined (ex: <c>{customer.id}</c> is already defined)</li>
+		</ul>
+	</li>
+	<li class=new>Custom Variables (since version 1.4.0.1 of Magento):
+		<ul>
+			<li><c>{customvar.*}</c>: Magento custom variable (ex: <c>{customvar.my_var}</c>)</li>
+			<li><c><strike>{{customVar code=*}}</strike></c>: use the syntax above</li>
+		</ul>
+	</li>
+	<li>The shipping address:
+		<ul>
+			<li><c class=new><strike>{destination.country.name}</strike> {shipto.country_name}</c></li>
+			<li><c class=new><strike>{destination.country.code}</strike> {shipto.country_id}</c>: the country code</li>
+			<li class=new><c>{shipto.region_id}</c></li>
+			<li><c class=new><strike>{destination.region.code}</strike> {shipto.region_code}</c></li>
+			<li class=new><c>{shipto.street}</c></li>
+			<li class=new><c>{shipto.city}</c></li>
+			<li><c class=new><strike>{destination.postcode}</strike> {shipto.postcode}</c></li>
+		</ul>
+	</li>
+	<li class=new>The billing address:
+		<ul>
+			<li><c>{billto.country_name}</c></li>
+			<li><c>{billto.country_id}</c>: the country code</li>
+			<li><c>{billto.postcode}</c></li>
+			<li><c>{billto.*}</c>: property of the billing address (ex: <c>{billto.city}</c>)</li>
+		</ul>
+	</li>
+	<li>The origin address:
+		<ul>
+			<li><c class=new><strike>{origin.country.name}</strike> {origin.country_name}</c></li>
+			<li><c class=new><strike>{origin.country.code}</strike> {origin.country_id}</c>: the country code</li>
+			<li><c class=new><strike>{origin.region.code}</strike> {origin.region_id}</c></li>
+			<li class=new><c>{origin.city}</c></li>
+			<li><c>{origin.postcode}</c></li>
+		</ul>
+	</li>
+	<li>The store:
+		<ul>
+			<li><c>{store.id}</c> <c>{store.code}</c> <c>{store.name}</c> <c>{store.address}</c> <c>{store.phone}</c>: id, code, name, address and phone number of the store</li>
+		</ul>
+	</li>
+	<li>The current date:
+		<ul>
+			<li><c>{date.timestamp}</c>: UNIX timestamp of current date</li>
+			<li><c>{date.year}</c> <c>{date.month}</c> <c>{date.day}</c> <c>{date.hour}</c> <c>{date.minute}</c></li>
+			<li><c>{date.weekday}</c>: weekday for current date from 0 (Sunday) to 6 (Saturday)</li>
+		</ul>
+	</li>
+	<li class=new>The <c>request</c> object:
+		<ul>
+			<li><c>{request.*}</c>: property of the request object (Mage_Shipping_Model_Rate_Request) parameter given by Magento (ex: <c>{request.package_qty}</c>). Use the ""Debug"" option to have more details on available properties.</li>
+		</ul>
+	</li>
+</ul>
+"
+	"{os2editor.help.more_special-functions}","
+<h4>Special functions in formulas</h4>
+
+<p>
+	You can use special functions in formulas.
+</p>
+<p>
+	List of special functions:
+</p>
+<ul>
+	<li><c>min(x, y, …)</c> : calculate the minimum of several values (possibly more than two values). If one value is null, it is ignored.</li>
+	<li><c>max(x, y, …)</c> : calculate the maximum of several values (possibly more than two values). If one value is null, it is ignored.</li>
+	<li class=new><c>range(value, min, max, include_min, include_max)</c> : returns <c>true</c> if <c>value</c> is between <c>min</c> and <c>max</c>. By default, <c>include_min</c> and <c>include_max</c> are set to <c>true</c>.</li>
+	<li class=new><c>substr(string, start, length)</c> : returns a segment of a string.</li>
+	<li class=new><c>in_array(value, array(value1, value2, …))</c> : returns true if the value is in the array.</li>
+	<li class=new><c>array_match_any(array(value1, value2, …), array(value1, value2, …))</c> : returns true if any value is in both arrays.</li>
+	<li class=new><c>array_match_all(array(value1, value2, …), array(value1, value2, …))</c> : returns true if both arrays have the same values.</li>
+</ul>
+
+{code=json}{
+""ex0"":{""label"":""Example with min function"",""fees"":""min({cart.weight},{cart.price+tax+discount},{cart.qty})""},
+""ex1"":{""label"":""Example with range function"",""conditions"":""range({cart.weight},1.0,3.0)"",""fees"":10},
+""ex2"":{""label"":""Example with substr function *"",""conditions"":""substr('{cart.coupon_code}', 0, 5)=='free_'"",""fees"":10},
+""ex3"":{""label"":""Example with in_array and strings *"",""conditions"":""in_array({{cart.coupon_code}}, array('free1', 'free2'))"",""fees"":10},
+""ex4"":{""label"":""Example with in_array and numbers"",""conditions"":""in_array({cart.qty}, array(10,20,30))"",""fees"":10},
+""ex5"":{""label"":""Example with array_match_any"",""about"":""5 x weight of products contained in categories 2 or 3"",""fees"":""{sum product.weight where array_match_any(product.categories.id, array(2, 3))}*5.0""},
+""ex6"":{""label"":""Example with array_match_all"",""about"":""5 x weight of products contained in category 2 and in category 3"",""fees"":""{sum product.weight where array_match_all(product.categories.id, array(2, 3))}*5.0""}
+}{/code}
+
+<p class=new>
+	* About strings escaping, refer to the <a href=""#more_formulas"">introduction to formulas</a>. 
+</p>
+"
+	"{os2editor.help.more_copy}","
+<h4>Make a copy of a property of another method</h4>
+<p>It is possible to make a copy of a property in another using the syntax below.</p>
+<p>You can use this technique in all properties (<property>conditions</property>, <property>fees</property>, …).</p>
+
+{code=json}{
+""colissimo"":{""label"":""Colissimo"",""shipto"":""AD,FR,MC"",""conditions"":""{cart.price-tax+discount}<1000.00"",""fees"":""1.30 + {table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}""},
+""ex1"":{""label"":""Copy of conditions from another method"",""conditions"":""({colissimo.conditions}) and ({cart.weight}>=0)"",""fees"":10},
+""ex2"":{""label"":""Copy of fees from another method"",""fees"":""({colissimo.fees}) + 15.00""}
+}{/code}
+"
+	"{os2editor.help.more_tables}","
+<h4>Using <c>table</c></h4>
+<p>
+	In a <c>table</c>, you can include or exclude a limit value with characters <c>[</c> et <c>]</c>:
+</p>
+{code=json}{
+""f0"":{""label"":""Upper limit included"",""fees"":""{table {cart.weight} in 1.0]:5.00}""},
+""f1"":{""label"":""Upper limit excluded"",""fees"":""{table {cart.weight} in 1.0[:5.00}""}
+}{/code}
+
+<p>
+	In a <c>table</c>, you must specify the reference value. For this, we can use one of the <a href=""#more_vars"">available variables</a>.<br/>
+	You can also use a formula to define another reference variable.
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Table with cart weight"",""fees"":""{table {cart.weight} in 0.5:5.30, 1.0:6.50}""},
+""ex1"":{""label"":""Table with cart quantity"",""fees"":""{table {cart.qty} in 10:5.30, 20:6.50}""},
+""ex2"":{""label"":""Table with price incl. tax"",""fees"":""{table {cart.price+tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}""},
+""ex3"":{""label"":""Table with price excl. tax"",""fees"":""{table {cart.price-tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}""},
+""ex4"":{""label"":""Table with user defined value"",""fees"":""{table ceil({cart.weight}/10) in 1:5.30, 2:6.50}""}
+}{/code}
+"
+	"{os2editor.help.more_switch}","
+<h4>Using <c>switch</c></h4>
+
+<p>
+	In a <c>switch</c>, you must specify the reference value. For this, we can use one of the <a href=""#more_vars"">available variables</a>.<br/>
+	You can also use a formula to define another reference variable.
+</p>
+
+{code=json}{
+""ex0"":{""label"":""Switch with coupon code"",""fees"":""{switch {{cart.coupon_code}} in 'coupon1':5.30, 'coupon2':6.50, null:10.00, *:7.50}""},
+""ex1"":{""label"":""Switch with shipping country"",""fees"":""{switch {{shipto.country_id}} in 'FR':5.30, 'BE':6.50, 'DE':10.00, *:7.50}""}
+}{/code}
+"
+	"{os2editor.help.more_attributes-options}","
+<h4>Using product properties</h4>
+
+<p class=new>
+	In order to match to Magento Models, the version 2.4.8 of the extension adds a separation between <c>item</c> and <c>product</c>.
+	An <c>item</c> is a <c>product</c> variation with some options. Each <c>item</c> has a quantity.
+</p>
+<p>
+	List of available properties:
+</p>
+<ul>
+	<li class=new>The <c>item</c>:
+		<ul>
+			<li><c>item.qty</c>: the quantity in cart</li>
+			<li><c>item.price-tax+discount</c>: the price excl. tax after discount</li>
+			<li><c>item.price-tax-discount</c>: the price excl. tax before discount</li>
+			<li><c>item.price+tax+discount</c>: the price incl. tax after discount</li>
+			<li><c>item.price+tax-discount</c>: the price incl. tax before discount</li>
+			<li><c>item.option.*</c>: option (depends on product)</li>
+		</ul>
+	</li>
+	<li>The <c>product</c>:
+		<ul>
+			<li><c><strike>product.quantity</strike></c>: use <c class=new>item.qty</c></li>
+			<li><c>product.attribute.*</c>: attribute<br/>List of interesting attributes:
+				<ul>
+					<li><c>sku</c></li>
+					<li><c>name</c></li>
+					<li><c>weight</c></li>
+					<li><c>price</c> (as defined in product)</li>
+					<li><c>special_price</c> (as defined in product)</li>
+					<li><c><strike>price-tax+discount</strike></c>: use <c class=new>item.price-tax+discount</c></li>
+					<li><c><strike>price-tax-discount</strike></c>: use <c class=new>item.price-tax-discount</c></li>
+					<li><c><strike>price+tax+discount</strike></c>: use <c class=new>item.price+tax+discount</c></li>
+					<li><c><strike>price+tax-discount</strike></c>: use <c class=new>item.price+tax-discount</c></li>
+				</ul>
+			</li>
+			<li class=new><c>product.attribute.*.value</c>: value of the attribute<br/>In case of attributes of type dropdown, <c>product.attribute.*</c> returns the id. To get the value, you must use <c>product.attribute.*.value</c></li>
+			<li class=new><c>product.*</c>: same as <c>product.attribute.*</c> if variable is not defined (ex: <c>product.category</c> is defined)</li>
+			<li><c><strike>product.option.*</strike></c>: use <c class=new>item.option.*</c></li>
+			<li>First category of the product:
+				<ul>
+					<li><c>product.category</c>: name of the category</li>
+					<li><c>product.category.id</c></li>
+					<li class=new><c>product.category.*</c>: attribute of the category (ex: <c>product.category.is_active</c>)<br/>List of interesting attributes:
+						<ul>
+							<li><c>is_active</c></li>
+							<li><c>name</c></li>
+							<li>…</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>All categories of the product (returns an array, <a href=""#more_categories"">explanation section</a>) :
+				<ul>
+					<li><c>product.categories</c>: array of categories names</li>
+					<li><c>product.categories.id</c>: array of categories ids</li>
+				</ul>
+			</li>
+			<li>Attribute set of the product:
+				<ul>
+					<li><c>product.attribute_set</c>: name of attribute set</li>
+					<li><c>product.attribute_set.id</c></li>
+					<li class=new><c>product.attribute_set.*</c>: attribute of attribute set (ex: <c>product.attribute_set.attribute_set_name</c>)</li>
+				</ul>
+			</li>
+			<li class=new><c>product.stock.*</c>: attribute of product stock<br/>List of interesting attributes:
+				<ul>
+					<li><c>is_in_stock</c></li>
+					<li><c>qty</c>: product stock</li>
+					<li>…</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+{code=json}{
+""ex0"":{""label"":""If at least one product has an attribute 'color' equals to 'Blue'"",""conditions"":""{count items where product.color=='Blue'}>0"",""fees"":10},
+""ex1"":{""label"":""If all products have the option 'size' greater or equal to '1'"",""conditions"":""{count items where item.option.size>='1'}=={cart.qty}"",""fees"":10},
+""ex2"":{""label"":""Different SKU count"",""conditions"":""{count distinct product.sku}"",""fees"":10},
+""ex3"":{""label"":""Sum of all options 'size' is greater than 30"",""conditions"":""{sum item.option.size}>30"",""fees"":10},
+""ex4"":{""label"":""Minimum price excl. tax without discount of products in cart is greater than 10"",""conditions"":""{min item.price-tax-discount}>10"",""fees"":10},
+""ex5"":{""label"":""Maximum value of option 'size' is lower than 50"",""conditions"":""{max item.option.size}<50"",""fees"":10},
+""ex6"":{""label"":""Count products in stock"",""conditions"":""{count items where product.stock.is_in_stock==true}"",""fees"":10}
+}{/code}
+</div>
+
+<p>
+Available prefixes list:
+</p>
+<ul>
+	<li><c>count</c>: count (always followed by <c>items</c>)</li>
+	<li><c>count distinct</c> : distinct count (always followed by a property)</li>
+	<li><c>sum</c> : sum (always followed by a property)</li>
+	<li class=new><c>min</c> : minimum (always followed by a property)</li>
+	<li class=new><c>max</c> : maximum (always followed by a property)</li>
+</ul>
+<p>
+	It's possible to specify conditions that must be met by products to be taken into account. To do this, simply add <c> where </c> followed by a formula.
+</p>
+<p>
+	If the property type is <strong>Yes/No</strong>, you should use <c>true</c>/<c>false</c> or <c>1</c>/<c>0</c> without quotes. 
+</p>
+{code=json}{
+""ex0"":{""label"":""Example property of type Yes/No: 0"",""conditions"":""{count items where product.attribute.colissimo_allowed==0}"",""fees"":10},
+""ex1"":{""label"":""Example property of type Yes/No: false"",""conditions"":""{count items where product.attribute.colissimo_allowed==false}"",""fees"":10}
+}{/code}
+
+<p>
+	If the property type is <strong>Drop-down</strong> and you want to make a comparison with the value rather than with the id, you must use the following syntax:
+</p>
+<strike>{code=json}{
+""ex0"":{""label"":""If the color attribute's id is different to 1"",""conditions"":""{count items where product.color.id!=1}"",""fees"":10}
+}{/code}</strike>
+{code=json}{
+""ex0"":{""label"":""If the value of color attribute is different to 'Bleu'"",""conditions"":""{count items where product.color.value!='Bleu'}"",""fees"":10}
+}{/code}
+"
+	"{os2editor.help.more_foreach}","
+<h4>Using <c>foreach</c> loops</h4>
+
+<p>
+	<c>foreach</c> loops can perform calculations on groups of products rather than consider all the products in the basket.<br/>
+	The overall result of a <c>foreach</c> loop is the sum of the results of each pass through the loop.
+</p>
+<p>
+	Inside a <c>foreach</c> loop, it is possible to use new variables:
+</p>
+<ul>
+	<li><c>{selection.weight}</c></li>
+	<li><c class=new><strike>{selection.quantity}</strike> {selection.qty}</c>: items count in the selection</li>
+</ul>
+<p>
+	When the selection is done on the sku, each selection is composed of a single article. We can use other variables:
+</p>
+<ul>
+	<li><c>{item.*}</c></li>
+	<li><c>{product.*}</c></li>
+	<li><a href=""#more_attributes-options"">See the full list of products properties</a></li>
+</ul>
+
+{code=json}{
+""ex0"":{""label"":""Grouping products by origin and treat groups seperatly"",""fees"":""{foreach product.attribute.code_origin}{table {selection.weight} in 0.0:0.00, 1.0:11.00, 3.0:12.00, 5.0:13.00}{/foreach}""},
+""ex1"":{""label"":""Individual calculation of shipping fees"",""fees"":""{foreach product.attribute.sku}{product.attribute.shipping}*{item.qty}{/foreach}""}
+}{/code}
+"
+	"{os2editor.help.more_categories}","
+<h4>Particular case: examples of use of the product categories</h4>
+
+<p>
+	Since version 2.4.2, it is possible to use product categories in formulas.
+</p>
+<p class=warning>
+	<strong>Warning, you must notice that in Magento, a product can be in more than one category.</strong> So be particularly careful how you use this property.
+</p>
+<p>
+	To filter products found in several specific categories, you can use <c>array_match_any()</c> function.
+</p>
+<p>
+	Examples of use:
+</p>
+{code=json}{
+""ex0"":{""label"":""foreach loop with an iteration on categories"",""fees"":""{foreach product.categories}{selection.weight}{/foreach}""},
+""ex1"":{""label"":""Using category inside a foreach loop"",""fees"":""{foreach product.sku}({{product.category}}=='Test' ? 2.00 : 1.00)*{item.qty}{/foreach}""},
+""ex2"":{""label"":""Using the category id inside a foreach loop"",""fees"":""{foreach product.sku}({product.category.id}==12 ? 2.00 : 1.00)*{item.qty}{/foreach}""},
+""ex3"":{""about"":""The function in_array() is used because product.categories returns an array"",""label"":""Sum of weights of products in category 'Test'"",""fees"":""{sum product.weight where in_array('Test', product.categories)}""},
+""ex4"":{""about"":""The function in_array() is used because product.categories.id returns an array"",""label"":""Sum of weights of products in category having the id 12"",""fees"":""{sum product.weight where in_array(12, product.categories.id)}""},
+""ex5"":{""about"":""The function array_match_any() is used because product.categories.id returns an array"",""label"":""Sum of weights of products in categories having the id 11 and 12"",""fees"":""{sum product.weight where array_match_any(product.categories.id, array(11, 12))}""},
+""ex6"":{""label"":""Sum of weights of products having the first category equal to 'Test'"",""fees"":""{sum product.weight where product.category=='Test'}""},
+""ex7"":{""label"":""Sum of weights of products having the id of the first category equal to 12"",""fees"":""{sum product.weight where product.category.id==12}""}
+}{/code}
+"
+	"{os2editor.help.changelog}","
+<h4>Changelog</h4>
+<div class=changelog>{changelog}</div>
+"

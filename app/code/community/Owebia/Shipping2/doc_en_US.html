@@ -1,0 +1,1509 @@
+<!doctype html>
+<html>
+<head lang="fr">
+<meta charset="utf-8"/>
+<title>Documentation of Owebia-Shipping 2.5.13 extension for Magento</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{padding-top:60px}
+.navbar-inverse{background:navy}
+.navbar-inverse .navbar-nav >.active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus{background-color:#040819}
+
+.highlight{color:navy}
+#index ul{padding-left:1.5em}
+span.code{padding:0 3px;color:#006f91;font-weight:bold}
+span.strike{text-decoration:line-through}
+pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;white-space:pre-wrap;word-wrap:break-word;word-break:normal}
+
+/* json */
+.json-property { color: #444; }
+.json-id       { color: #09f; }
+.json-numeric  { color: #f50; }
+.json-reserved { color: blue; }
+.json-string   { color: purple; }
+.json-meta .json-string   { color: #666; }
+.json-about .json-string  { color: #666; }
+
+/* sidebar */
+.sidebar.affix {position: static;}
+.sidenav {margin-top:30px;margin-bottom:30px;padding-top:10px;padding-bottom:10px;text-shadow:0 1px 0 #fff;background-color:#f6f6f6;border-radius:5px;}
+.sidebar .nav > li > a {display:block;color:#716b7a;padding:5px 20px;}
+.sidebar .nav > li > a:hover,
+.sidebar .nav > li > a:focus {text-decoration:none;background-color:#e5e3e9;border-right:4px solid #dbd8e0;}
+.sidebar .nav > .active > a,
+.sidebar .nav > .active:hover > a,
+.sidebar .nav > .active:focus > a {font-weight:bold;color:navy;background-color:transparent;border-right:4px solid navy;}
+.sidebar .nav .nav {display: none; /* Hide by default, but at >768px, show it */margin-bottom: 8px;}
+.sidebar .nav .nav > li > a {padding-top:3px;padding-bottom:3px;padding-left:30px;font-size:90%;}
+@media screen and (min-width: 768px) {
+	.sidebar{display:block}
+	.sidebar .nav > .active > ul {display:block}
+	.bs-navbar-top-example .navbar-fixed-top,
+	.bs-navbar-bottom-example .navbar-fixed-bottom {position:absolute}
+}
+@media screen and (min-width: 992px) {
+	.sidebar.affix,
+	.sidebar.affix-bottom {width:213px}
+	.sidebar.affix {position:fixed;top:80px}
+	.sidebar.affix-bottom {position:absolute}
+	.sidebar.affix-bottom .sidenav,
+	.sidebar.affix .sidenav {margin-top:0;margin-bottom:0}
+}
+@media screen and (min-width: 1200px) {
+	.sidebar.affix-bottom,
+	.sidebar.affix {width:270px}
+}
+</style>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<a href="http://www.owebia.com" class="navbar-brand">Owebia</a>
+		<ul class="nav navbar-nav">
+		</ul>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="affix sidebar">
+				<!-- doc sidebar start -->
+				<ul class="nav sidenav">
+					<li><a href="#introduction">Introduction</a></li>
+					<li><a href="#examples">Examples</a>
+						<ul class="nav">
+							<li><a href="#examples_simple">Simple example: free shipping</a></li>
+							<li><a href="#examples_using_address_filters">Fees related to the destination</a></li>
+							<li><a href="#examples_using_customer_groups">Fees related to customer group</a></li>
+							<li><a href="#examples_using_formulas">Using formulas</a></li>
+							<li><a href="#examples_using_special_functions">Using special functions</a></li>
+							<li><a href="#examples_using_foreach">Using <code>{foreach …}</code> loops</a></li>
+							<li><a href="#examples_using_array_functions">Manipulate arrays</a></li>
+							<li><a href="#examples_more">Other examples</a></li>
+						</ul>
+					</li>
+					<li><a href="#definitions">Definitions</a>
+						<ul class="nav">
+							<li><a href="#definitions_element">Elements</a></li>
+							<li><a href="#definitions_property">Properties</a></li>
+							<li><a href="#definitions_unique_id">The unique identifier</a></li>
+						</ul>
+					</li>
+					<li><a href="#formulas">Formulas</a>
+						<ul class="nav">
+							<li><a href="#formulas_variables">Variables</a></li>
+							<li><a href="#formulas_functions">Functions</a></li>
+							<li><a href="#formulas_special_functions">Special functions</a></li>
+							<li><a href="#formulas_foreach"><code>foreach</code> loops</a></li>
+							<li><a href="#formulas_deprecated_variables">Deprecated variables</a></li>
+						</ul>
+					</li>
+					<li><a href="#more">Miscellaneous</a>
+						<ul class="nav">
+							<li><a href="#more_tracking_url">The tracking URL</a></li>
+						</ul>
+					</li>
+					<li><a href="#changelog">Changelog</a></li>
+					<li><a href="#index">Index</a></li>
+				</ul>
+				<!-- doc sidebar end -->
+			</div>
+		</div>
+		<div class="col-lg-9">
+			<!-- doc content start -->
+			<h1>Documentation of Owebia-Shipping 2.5.13 extension for Magento</h1>
+			<div id="introduction">
+				<h2>Introduction</h2>
+
+				<p>Owebia Shipping is an extension for the e-commerce solution <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
+				<p>Thanks to its syntax using <a href="http://fr.wikipedia.org/wiki/JavaScript_Object_Notation" target=_blank>JSON</a>, this extension allows great flexibility in setting delivery charges.</p>
+				
+				<p>This documentation explains how to create a configuration for one of the proposed shipping modes.</p>
+				
+				<p class="alert alert-info">New documentation, simpler and clearer.<br/>
+				<strong>Use the <a href="#index">index</a></strong> to find more easily something in the documentation.</p>
+			</div>
+
+			<div id="examples">
+				<h2>Examples</h2>
+
+				<div id="examples_simple">
+					<h3>Simple example: free shipping</h3>
+					<div class="json">{
+					"__auto__":{"label":"Free shipping","fees": 0}
+					}</div>
+				</div>
+
+				<div id="examples_using_address_filters">
+					<h3>Fees related to the destination</h3>
+					<div class="json">{
+					"__auto__":{"label":"France, Germany, Switzerland, Spain, Italy","shipto":"FR,DE,CH,ES,IT","fees":10},
+					"__auto__":{"label":"France except Corsica","shipto":"FR-(2A,2B)","fees":10},
+					"__auto__":{"label":"Corsica","shipto":"FR(2A,2B)","fees":10},
+					"__auto__":{"label":"Worldwide except Germany and Corsica","shipto":"* - ( DE, FR(2A,2B) )","fees":10}
+					}</div>
+
+					<h4>Use the wildcard character <code>*</code> or regular expressions</h4>
+					<div class="json">{
+					"__auto__":{"label":"Wildcard character allowing postal codes beginning with 25","shipto":"FR(25*)","fees":10},
+					"__auto__":{"label":"Regular expressions allowing postal codes beginning with 'PO', 'po', 'Po' or 'pO'","shipto":"GB(/^PO.*$/i)","fees":10}
+					}</div>
+
+					<div id="examples_excluding_domtom_postcode">
+						<h4>Block delivery to France but with a postal code for DOM/TOM</h4>
+						<p>With the following regular expression, you block the postal codes that starts with 97 or 98 (with or without interspersed zeros and spaces).</p>
+						<div class="json">{
+						"__auto__":{"label":"Regular Expression refusing postal codes beginning with 97 and 98","shipto":"FR-(/^[0\\s]*9\\s*[78].*/)","fees":10}
+						}</div>
+					</div>
+
+					<div id="examples_using_address_filters_shortcuts">
+						<h4>Using shortcuts <code>address_filter</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"Europe except France","shipto":"({address_filter.EU-27}) - (FR)","fees":10}
+						}</div>
+					</div>
+				</div>
+
+				<div id="examples_using_customer_groups">
+					<h3>Fees related to customer group</h3>
+					<p>You can use the name or ID of the customer groups.</p>
+					<div class="json">{
+					"__auto__":{"label":"NOT LOGGED IN and General groups","customer_groups":"NOT LOGGED IN,General","fees":10},
+					"__auto__":{"label":"NOT LOGGED IN and General groups by their ID","customer_groups":"0,1","fees":10},
+					"__auto__":{"label":"Retailer group","customer_groups":"Retailer","fees":10}
+					}</div>
+				</div>
+
+				<div id="examples_using_formulas">
+					<h3>Using formulas</h3>
+					<p>Formulas can be used in properties <code>conditions</code> and <code>fees</code>.</p>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","fees":"0.1 * {cart.price-tax+discount} + 10.00"}
+					}</div>
+
+					<h4>Copying the property of another element</h4>
+					<div class="json">{
+					"standard":{"label":"Standard Shipping","conditions":"{cart.price-tax+discount} < 1000.00","fees":10},
+					"express":{"label":"Express Shipping","conditions":"( {standard.conditions} ) && ( {cart.weight} < 10 )","fees":12}
+					}</div>
+
+					<h4>Using the function <code>min()</code></h4>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","fees":"min({cart.weight}, {cart.price+tax+discount}, {cart.qty})"}
+					}</div>
+
+					<h4>Using the function <code>range()</code></h4>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","conditions":"range({cart.weight}, 1.0, 3.0)","fees":10}
+					}</div>
+
+					<h4>Using the function <code>substr()</code></h4>
+					<p>A variable of type string must be surrounded by single quotes unless the auto-quoting is used with the characters <code>{{</code> and <code>}}</code>.</p>
+					<div class="json">{
+					"__auto__":{"label":"Without auto-quoting","conditions":"substr('{cart.coupon_code}', 0, 5)=='free_'","fees":10},
+					"__auto__":{"label":"With auto-quoting","conditions":"substr({{cart.coupon_code}}, 0, 5)=='free_'","fees":10}
+					}</div>
+
+				</div>
+
+				<div id="examples_using_special_functions">
+					<h3>Using special functions</h3>
+
+					<div id="examples_special_table">
+						<h4>Using the special function <code>{table … in …}</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"Shipping","fees":"{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}"}
+						}</div>
+						<p>
+							In a <code>table</code>, you can include or exclude a limit value with the characters <code>[</code> and <code>]</code>:
+						</p>
+						<div class="json">{
+						"__auto__":{"label":"Upper limit included","fees":"{table {cart.weight} in 1.0]:5.00}"},
+						"__auto__":{"label":"Upper limit excluded","fees":"{table {cart.weight} in 1.0[:5.00}"}
+						}</div>
+
+						<p>
+							In a <code>table</code>, you must specify the reference value. To do this, you can use one of the <a href="#formulas_variables">variables</a> available.<br/>
+							You can also use a formula to define another reference value.
+						</p>
+
+						<div class="json">{
+						"__auto__":{"label":"Table with cart weight","fees":"{table {cart.weight} in 0.5:5.30, 1.0:6.50}"},
+						"__auto__":{"label":"Table with items quantity","fees":"{table {cart.qty} in 10:5.30, 20:6.50}"},
+						"__auto__":{"label":"Table with price including tax","fees":"{table {cart.price+tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}"},
+						"__auto__":{"label":"Table with price excluding tax","fees":"{table {cart.price-tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}"},
+						"__auto__":{"label":"Table with custom value","fees":"{table ceil({cart.weight}/10) in 1:5.30, 2:6.50}"}
+						}</div>
+					</div>
+
+					<div id="examples_special_switch">
+						<h4>Using the special function <code>{switch … in …}</code> (associative table)</h4>
+						<p>
+							In a <code>switch</code>, you must specify the reference value. To do this, you can use one of the <a href="#formulas_variables">variables</a> available.<br/>
+							You can also use a formula to define another reference value.
+						</p>
+						<div class="json">{
+						"__auto__":{"label":"Switch with coupon code","fees":"{switch {{cart.coupon_code}} in 'coupon1':5.30, 'coupon2':6.50, null:10.00, *:7.50}"},
+						"__auto__":{"label":"Switch with delivery country","fees":"{switch {{shipto.country_id}} in 'FR':5.30, 'BE':6.50, 'DE':10.00, *:7.50}"}
+						}</div>
+					</div>
+
+					<div id="examples_special_count">
+						<h4>Using the special function <code>{count …}</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"If at least one product has the attribute 'color' equal to 'Bleu'","conditions":"{count items where product.attribute.color=='Bleu'} > 0","fees":10},
+						"__auto__":{"label":"If all items have the option 'size' greater or equal to '1'","conditions":"{count items where item.option.size>='1'} == {cart.qty}","fees":10}
+						}</div>
+
+						<p>
+							If the property is of type <strong>Yes/No</strong>, you must use the values <code>true</code>/<code>false</code> or <code>1</code>/<code>0</code> without quotes.
+						</p>
+						<div class="json">{
+						"__auto__":{"label":"Example of property of type Yes/No: 1","conditions":"{count items where product.attribute.colissimo_allowed==1}","fees":10},
+						"__auto__":{"label":"Example of property of type Yes/No: true","conditions":"{count items where product.attribute.colissimo_allowed==true}","fees":10}
+						}</div>
+					</div>
+
+					<div id="examples_special_count_distinct">
+						<h4>Using the special function <code>{count distinct …}</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"Count of different SKU","conditions":"{count distinct product.attribute.sku}","fees":10}
+						}</div>
+					</div>
+
+					<div id="examples_special_sum">
+						<h4>Using the special function <code>{sum …}</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"Sum of all options 'size' is greater than 30","conditions":"{sum item.option.size} > 30","fees":10}
+						}</div>
+					</div>
+
+					<div id="examples_special_min">
+						<h4>Using the special function <code>{min …}</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"Minimum price excluding tax without discount is greater to 10","conditions":"{min item.price-tax-discount} > 10","fees":10}
+						}</div>
+					</div>
+
+					<div id="examples_special_max">
+						<h4>Using the special function <code>{max …}</code></h4>
+						<div class="json">{
+						"__auto__":{"label":"Maximum value of the option 'size' is lower than 50","conditions":"{max item.option.size} < 50","fees":10}
+						}</div>
+					</div>
+				</div>
+
+				<div id="examples_using_foreach">
+					<h3>Using <code>{foreach …}</code> loops</h3>
+					<div class="json">{
+					"__auto__":{"label":"Grouping products by origin and process groups seperately","fees":"{foreach product.attribute.code_origin}{table {selection.weight} in 0.0:0.00, 1.0:11.00, 3.0:12.00, 5.0:13.00}{/foreach}"},
+					"__auto__":{"label":" Calculate shipping fees by product","fees":"{foreach product.attribute.sku}{product.attribute.shipping}*{item.qty}{/foreach}"}
+					}</div>
+				</div>
+
+				<div id="examples_using_array_functions">
+					<h3>Manipulate arrays</h3>
+
+					<h4>Using the function <code>in_array()</code></h4>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","conditions":"in_array({cart.qty}, array(10, 20, 30))","fees":10}
+					}</div>
+
+					<h4>Using the function <code>in_array()</code> avec des chaînes de caractères *</h4>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","conditions":"in_array({{cart.coupon_code}}, array('free1', 'free2'))","fees":10}
+					}</div>
+
+					<h4>Using the function <code>array_match_any()</code></h4>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","about":"5 x weight of products that are in category 2 or category 3","fees":"{sum product.weight where array_match_any(product.categories.id, array(2, 3))} * 5.0"}
+					}</div>
+
+					<h4>Using the function <code>array_match_all()</code></h4>
+					<div class="json">{
+					"__auto__":{"label":"Shipping","about":"5 x weight of products that are in both category 2 and category 3","fees":"{sum product.weight where array_match_all(product.categories.id, array(2, 3))} * 5.0"}
+					}</div>
+				</div>
+
+				<div id="examples_more">
+					<h3>Other examples</h3>
+
+					<div id="examples_product_categories">
+						<h4>Using product category</h4>
+						<p class="alert alert-danger">Warning: you must notice that in Magento, <strong>a product can be in multiple categories</strong>. So be particularly careful how you use this property.</p>
+						<div class="json">{
+						"__auto__":{"label":"Foreach loop with an iteration on the category","fees":"{foreach product.categories}{selection.weight}{/foreach}"},
+						"__auto__":{"label":"Using the category inside a foreach loop","fees":"{foreach product.sku}({{product.category}}=='Test' ? 2.00 : 1.00)*{item.qty}{/foreach}"},
+						"__auto__":{"label":"Using the id of the category inside a foreach loop","fees":"{foreach product.sku}({product.category.id}==12 ? 2.00 : 1.00)*{item.qty}{/foreach}"},
+						"__auto__":{"about":"The function in_array() is used because product.categories returns an array","label":"Sum of weight attributes of products in category 'Test' ","fees":"{sum product.weight where in_array('Test', product.categories)}"},
+						"__auto__":{"about":"The function in_array() is used because product.categories.id returns an array","label":"Sum of weight attributes of products in category 12 ","fees":"{sum product.weight where in_array(12, product.categories.id)}"},
+						"__auto__":{"about":"The function array_match_any() is used because product.categories.id returns an array","label":"Sum of weight attributes of products in categories whose id is 11 and 12","fees":"{sum product.weight where array_match_any(product.categories.id, array(11, 12))}"},
+						"__auto__":{"label":"Sum of weights of products having for first category 'Test'","fees":"{sum product.weight where product.category=='Test'}"},
+						"__auto__":{"label":"Sum of weights of products having for first category id 12","fees":"{sum product.weight where product.category.id==12}"}
+						}</div>
+					</div>
+
+					<div id="examples_data">
+						<h4>Adding and using a <code>data</code> element</h4>
+						<p>An element of type <code>data</code> allow to define data that can be used in shipping methods.</p>
+						<div class="json">{
+						"mydata":{"type":"data","var1":"12"},
+						"__auto__":{"label":"Shipping","shipto":"FR","fees": "{mydata.var1}"},
+						"__auto__":{"label":"Shipping","shipto":"DE","fees": "{mydata.var1}*1.5"}
+						}</div>
+					</div>
+
+					<div id="examples_meta">
+						<h4>Adding a <code>meta</code> element</h4>
+						<p>An element of type <code>meta</code> allow to specify informative data (author, date…).</p>
+						<div class="json">{
+						"about":{"type":"meta","author":"Owebia","date":"15/07/2013","about":"2013 rates"}
+						}</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="definitions">
+				<h2>Definitions</h2>
+				<p>
+					The configuration of a shipping mode is a JSON object containing <strong><a href="#definitions_property">properties</a></strong>.<br/>
+					Each property has a unique name, wich will serve as <a href="#definitions_unique_id">unique identifier</a>.<br/>
+					Each property will consiste on a configuration <strong><a href="#definitions_element">element</a></strong> (also a JSON object).<br/>
+				</p>
+				<div id="definitions_element">
+					<h3>Elements</h3>
+
+					<p>
+						There are three different types of configuration <strong>element</strong>:
+					</p>
+					<ul>
+						<li><code>method</code>: shipping method (default if not specified)</li>
+						<li><code>data</code>: data that can be used in one or more shipping methods (<a href="#examples_data">examples</a>)</li>
+						<li><code>meta</code>: informative data (<a href="#examples_meta">examples</a>)</li>
+					</ul>
+				</div>
+
+				<div id="definitions_property">
+					<h3>Properties</h3>
+
+					<p>
+						Each element has several <strong>properties</strong>:
+					</p>
+					<ul>
+						<li id="property_about"><code>about</code>: comment about the element</li>
+						<li id="property_type"><code>type</code>: element type (<code>method</code>, <code>meta</code> or <code>data</code>)</li>
+					</ul>
+
+					<p>
+						Properties specific to the element type <code>method</code>:
+					</p>
+					<ul>
+						<li id="property_label"><code>label</code>: name of shipping method</li>
+						<li id="property_description"><code>description</code> (visible only if the template displays it)</li>
+						<li id="property_enabled"><code>enabled</code>: shipping method enabled or not</li>
+						<li id="property_fees"><code>fees</code>: shipping fees</li>
+						<li id="property_conditions"><code>conditions</code>: activation conditions</li>
+						<li id="property_shipto"><code>shipto</code>: countries (regions, postal codes) allowed for delivery</li>
+						<li id="property_billto"><code>billto</code>: countries (regions, postal codes) allowed for billing</li>
+						<li id="property_origin"><code>origin</code>: countries (regions, postal codes) allowed for origin</li>
+						<li id="property_customer_groups"><code>customer_groups</code>: customer groups allowed</li>
+						<li id="property_tracking_url"><code>tracking_url</code> (<a href="#more_tracking_url">more informations</a>)</li>
+					</ul>
+
+					<p><a href="#examples">See examples</a></p>
+
+					<h4>Using properties of type address (<code>shipto</code>, <code>billto</code> and <code>origin</code>)</h4>
+					<p>
+						The country codes used are those of Magento (apparently they are the same as the <a href="http://fr.wikipedia.org/wiki/ISO_3166-1" target=_blank>ISO 3166-1 alpha-2 codes</a>).<br/>
+						It is possible to specify region codes (only with <code>shipto</code>) or zip codes that you want to filter or exclude.
+					</p>
+					<p class=new>
+						You can use the <strong>wildcard</strong> character <code>*</code> or <strong>regular expressions</strong> for postal codes.<br/>
+						A regular expression must start and end with the character <code>/</code>. If you want to use the characters <code>(</code>, <code>)</code> or <code>.</code>, you must escape them with the character <code>\</code> (ex: <code><span class=string>"FR(/^25\([0-9]{3}\)$/)"</span></code>).<br/>
+						You can use the insensitivity modifier (ex: <code><span class=string>"GB(/^PO.*$/i)"</span></code>).
+					</p>
+
+					<p><a href="#examples_using_address_filters">See examples</a></p>
+
+					<div id="address_filter" class="alert alert-info">
+						<p><strong>Tip</strong><br/>To shorten the seizure of countries, you can use the following variables:</p>
+						<ul>
+							<li><code>{address_filter.AF}</code>: African countries</li>
+							<li><code>{address_filter.AS}</code>: Asian countries</li>
+							<li><code>{address_filter.EU}</code>: European countries</li>
+							<li><code>{address_filter.NA}</code>: North American countries</li>
+							<li><code>{address_filter.SA}</code>: South American countries</li>
+							<li><code>{address_filter.OC}</code>: Oceanian countries</li>
+							<li><code>{address_filter.AN}</code>: countries of Antarctica</li>
+							<li><code>{address_filter.EU-27}</code>: countries of the European Union</li>
+							<li><code>{address_filter.DOM}</code>: country codes of French Overseas "Départements"</li>
+							<li><code>{address_filter.COM}</code>: country codes of French Overseas "Collectivités"</li>
+						</ul>
+						<p><a href="#examples_using_address_filters_shortcuts">See examples</a></p>
+					</div>
+				</div>
+
+				<div id="definitions_unique_id">
+					<h3>The unique identifier</h3>
+
+					<p>Each configuration element has a <strong>unique identifier</strong>. This identifier can be used to refer to the element.</p>
+					<p>Example:</p>
+					<div class="json">{
+					"europa":{"label":"Shipping to Europa","fees":10},
+					"us":{"label":"Shipping to US","fees":"{europa.fees}+20"}
+					}</div>
+
+					<p class="alert alert-danger"><strong><u>Warning</u>:</strong> to avoid conflicts, use only the characters <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>-</code> and <code>_</code> for the unique identifier.<br/>You should also avoid identifiers that already correspond to variable names (<code>cart</code>, <code>product</code>, <code>item</code>…).</p>
+				</div>
+			</div>
+
+			<div id="formulas">
+				<h2>Formulas</h2>
+				<p>
+					The properties <code>fees</code> and <code>conditions</code> are defined using formulas.<br/>
+				</p>
+				<p>
+					A formula uses <a href="#formulas_variables">variables</a>, <a href="#formulas_functions">functions</a>, <a href="#formulas_special_functions">special functions</a> and mathematical operators.
+				</p>
+				<p>
+					Available mathematical operators:
+				</p>
+				<ul>
+					<li>operators: <code>*</code>, <code>/</code>, <code>+</code> and <code>-</code></li>
+					<li>modulo: <code>%</code></li>
+					<li>parentheses: <code>(</code> and <code>)</code></li>
+					<li>boolean operators <code>&amp;&amp;</code>, <code>and</code>, <code>||</code>, <code>or</code>, <code>==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+					<li>binary operators <code>&amp;</code> and <code>|</code></li>
+					<li>the operator group <code>C ? X : Y</code> (ex: <code><span class=string>"{cart.price_exluding_tax}&gt;100 ? 15*{cart.weight} : 20*{cart.weight}"</span></code>)</li>
+				</ul>
+				<p>
+					You can put spaces and line breaks in formulas (for lightening).
+				</p>
+				<p>
+					You can use the following advanced features: casting to interger <code>(int)</code> or floatting numbers <code>(float)</code>,
+					comparison with the <code>null</code> value or with boolean values <code>true</code> and <code>false</code>.
+				</p>
+
+				<div id="formulas_variables">
+					<h3>Variables</h3>
+
+					<p class="alert alert-info">
+						When you use variables of type string, you must escape them with single quotes or use the auto-quoting syntax <code>{{ }}</code>.
+					</p>
+
+					<p>
+						The following variables can be used in <a href="#formulas">formulas</a>.
+					</p>
+					<ul>
+						<li id="formulas_variables_cart">The cart:
+							<ul>
+								<li><code>{cart.weight}</code>: weight of goods</li>
+								<li><code>{cart.qty}</code>: the quantity of items</li>
+								<li><code>{cart.price-tax+discount}</code>: price excluding tax with discount</li>
+								<li><code>{cart.price+tax+discount}</code>: price including tax with discount</li>
+								<li><code>{cart.price-tax-discount}</code>: price excluding tax without discount</li>
+								<li><code>{cart.price+tax-discount}</code>: price including tax without discount</li>
+								<li><code>{cart.coupon_code}</code>: coupon code</li>
+								<li><code>{cart.free_shipping}</code>: delivery offered (by rules in Magento) [true/false]</li>
+								<li><code>{cart.weight_unit}</code></li>
+								<li><code>{cart.weight_for_charge}</code>: weight of goods whose delivery is not offered (by cart pricing rules in Magento)</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_quote">The quote:
+							<ul>
+								<li><code>{quote.subtotal}</code>: subtotal (excluding tax)</li>
+								<li><code>{quote.subtotal_with_discount}</code>: subtotal (excluding tax) with discount</li>
+								<li><code>{quote.grand_total}</code>: total (including tax) with discount</li>
+								<li><code>{quote.base_subtotal}</code>: subtotal (excluding tax) in base currency</li>
+								<li><code>{quote.base_subtotal_with_discount}</code>: subtotal (excluding tax) with discount in base currency</li>
+								<li><code>{quote.base_grand_total}</code>: total (including tax) with discount in base currency</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_customer_group">The customer group:
+							<ul>
+								<li><code>{customer_group.id}</code>: id of customer group</li>
+								<li><code>{customer_group.code}</code>: name of customer group</li>
+								<li><code>{customer_group.*}</code>: property of the customer group (ex: <code>{customer_group.tax_class_id}</code>)</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_customer">The customer:
+							<ul>
+								<li><code>{customer.id}</code>: id of customer</li>
+								<li><code>{customer.attribute.*}</code>: attribute of the customer (ex: lastname, firstname, group_id…)</li>
+								<li><code>{customer.attribute.*.value}</code>: in case of an attribute of type selection list, <code>{customer.attribute.*}</code> returns the id, to get the value, you have to use <code>{customer.attribute.*.value}</code></li>
+								<li><code>{customer.*}</code>: same as <code>{customer.attribute.*}</code>, unless the variable is already defined (ex: <code>{customer.id}</code> is already defined)</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_customvar">Custom Variables (since Magento 1.4.0.1):
+							<ul>
+								<li><code>{customvar.*}</code>: custome variable defined in Magento (ex: <code>{customvar.my_var}</code>)</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_shipto">The delivery address:
+							<ul>
+								<li><code>{shipto.country_name}</code></li>
+								<li><code>{shipto.country_id}</code>: the country code</li>
+								<li><code>{shipto.region_id}</code></li>
+								<li><code>{shipto.region_code}</code></li>
+								<li><code>{shipto.street}</code></li>
+								<li><code>{shipto.city}</code></li>
+								<li><code>{shipto.postcode}</code></li>
+							</ul>
+						</li>
+						<li id="formulas_variables_billto">The billing address:
+							<ul>
+								<li><code>{billto.country_name}</code></li>
+								<li><code>{billto.country_id}</code>: the country code</li>
+								<li><code>{billto.postcode}</code></li>
+								<li><code>{billto.*}</code>: property of the billing address (ex: <code>{billto.city}</code>)</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_origin">The origin address:
+							<ul>
+								<li><code>{origin.country_name}</code></li>
+								<li><code>{origin.country_id}</code>: the country code</li>
+								<li><code>{origin.region_id}</code></li>
+								<li><code>{origin.city}</code></li>
+								<li><code>{origin.postcode}</code></li>
+							</ul>
+						</li>
+						<li id="formulas_variables_store">The store:
+							<ul>
+								<li><code>{store.id}</code> <code>{store.code}</code> <code>{store.name}</code> <code>{store.address}</code> <code>{store.phone}</code></li>
+							</ul>
+						</li>
+						<li id="formulas_variables_date">The current date:
+							<ul>
+								<li><code>{date.timestamp}</code>: UNIX timestamp of the current date</li>
+								<li><code>{date.year}</code> <code>{date.month}</code> <code>{date.day}</code> <code>{date.hour}</code> <code>{date.minute}</code> <code>{date.second}</code></li>
+								<li><code>{date.weekday}</code>: day of the week for the current date from 0 (Sunday) to 6 (Saturday)</li>
+							</ul>
+						</li>
+						<li id="formulas_variables_request">The <code>request</code> object:
+							<ul>
+								<li><code>{request.*}</code>: property of the request object (Mage_Shipping_Model_Rate_Request) given by Magento (ex: <code>{request.package_qty}</code>). Use "Debug" option to get more details on available properties.</li>
+							</ul>
+						</li>
+					</ul>
+					
+					<div id="formulas_variables_for_special_functions">
+						<h4>Variables that can be used in special functions</h4>
+
+						<p>The following variables can be used in <a href="#formulas_special_functions">special functions</a>.</p>
+
+						<p class="alert alert-danger">Unlike elsewhere, the following variables should not be surrounded by the characters <code>{</code> and <code>}</code>.</p>
+
+						<p>
+							An <code>item</code> is a variation of a <code>product</code> to which some options have been added. Each <code>item</code> has a quantity.
+						</p>
+						<ul>
+							<li id="formulas_variables_item">The <code>item</code>:
+								<ul>
+									<li><code>item.qty</code>: quantity in the cart</li>
+									<li><code>item.price-tax+discount</code>: price excluding tax with discount</li>
+									<li><code>item.price-tax-discount</code>: price excluding tax without discount</li>
+									<li><code>item.price+tax+discount</code>: price including tax with discount</li>
+									<li><code>item.price+tax-discount</code>: price including tax without discount</li>
+									<li><code>item.option.*</code>: option (the available options depend on the product)</li>
+								</ul>
+							</li>
+							<li id="formulas_variables_product">The <code>product</code>:
+								<ul>
+									<li><code>product.attribute.*</code><br/>
+										Interesting attributes:
+										<ul>
+											<li><code>sku</code></li>
+											<li><code>name</code></li>
+											<li><code>weight</code></li>
+											<li><code>price</code> (as defined in Magento backoffice)</li>
+											<li><code>special_price</code>: (as defined in Magento backoffice)</li>
+											<li>…</li>
+										</ul>
+									</li>
+									<li><code>product.attribute.*.value</code>: value of the attribute<br/>
+										In case of an attribute of type selection list, <code>product.attribute.*</code> returns the id. To get the value, you have to use <code>product.attribute.*.value</code></li>
+									<li><code>product.*</code>: same as <code>product.attribute.*</code> unless the variable is already defined (ex: <code>product.category</code>)</li>
+									<li>First category of the product:
+										<ul>
+											<li><code>product.category</code>: name of the category</li>
+											<li><code>product.category.id</code></li>
+											<li><code>product.category.*</code>: attribute of the category (ex: <code>product.category.is_active</code>)<br/>
+												Interesting attributes:
+												<ul>
+													<li><code>is_active</code></li>
+													<li><code>name</code></li>
+													<li>…</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li>All product categories (returns an array, <a href="#examples_product_categories">examples</a>):
+										<ul>
+											<li><code>product.categories</code>: array of name of the categories</li>
+											<li><code>product.categories.id</code>: array of id of the categories</li>
+										</ul>
+									</li>
+									<li>The attribute set:
+										<ul>
+											<li><code>product.attribute_set</code>: name of the attribute set</li>
+											<li><code>product.attribute_set.id</code></li>
+											<li><code>product.attribute_set.*</code>: attribute of the attribute set (ex: <code>product.attribute_set.attribute_set_name</code>)</li>
+										</ul>
+									</li>
+									<li><code>product.stock.*</code>: attribute of the product stock<br/>
+										Interesting attributes:
+										<ul>
+											<li><code>is_in_stock</code></li>
+											<li><code>qty</code>: quantity in stock</li>
+											<li>…</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="formulas_variables_for_foreach">
+						<h4>Variables that can be used in <code>foreach</code> loops</h4>
+
+						<p>The following variables can be used in <a href="#formulas_foreach"><code>foreach</code> loops</a>.</p>
+
+						<ul>
+							<li><code>{selection.weight}</code></li>
+							<li><code>{selection.qty}</code>: items count in the selection</li>
+						</ul>
+						<p>
+							When the selection is made on the sku, each selection consists of a single article.
+							We can therefore use the <a href="#formulas_variables_for_special_functions">item and product variables</a>.
+						</p>
+						<ul>
+							<li><code>{item.*}</code>: item property</li>
+							<li><code>{product.*}</code>: product property</li>
+						</ul>
+						<p class="alert alert-info">
+							Item and product variables are identical to <a href="#formulas_variables_for_special_functions">variables that can be used in special functions</a> with the only difference that they must be surrounded by the characters <code>{</code> and <code>}</code>.
+						</p>
+					</div>
+				</div>
+
+				<div id="formulas_functions">
+					<h3>Functions</h3>
+
+					<h4>Numerical functions</h4>
+					<ul>
+						<li><code>abs(x)</code>: absolute value</li>
+						<li><code>ceil(x)</code>: round up</li>
+						<li><code>exp(x)</code>: exponent</li>
+						<li><code>floor(x)</code>: round down</li>
+						<li><code>log(x)</code>: logarithm</li>
+						<li><code>log(x, base)</code>: natural logarithm</li>
+						<li><code>max(x, y, …)</code>: maximum, null values ignored</li>
+						<li><code>min(x, y, …)</code>: minimum, null values ignored</li>
+						<li><code>pi()</code>: PI number</li>
+						<li><code>pow(x, puissance)</code>: pow</li>
+						<li><code>rand(min, max)</code>: random integer</li>
+						<li><code>round(x)</code></li>
+						<li><code>sqrt(x)</code>: square root</li>
+					</ul>
+
+					<h4>Functions to manipulate strings</h4>
+					<ul>
+						<li><code>substr(string, start, length)</code>: returns a string segment.</li>
+					</ul>
+
+					<h4>Functions to manipulate arrays</h4>
+					<ul>
+						<li><code>in_array(value, array(value1, value2, …))</code>: returns true if the value is found in the array.</li>
+						<li><code>array_match_any(array(value1, value2, …), array(value1, value2, …))</code>: returns true if at least one value is found in both arrays.</li>
+						<li><code>array_match_all(array(value1, value2, …), array(value1, value2, …))</code>: returns true if both arrays are identical.</li>
+					</ul>
+
+					<h4>More functions</h4>
+					<ul>
+						<li><code>range(value, min, max, include_min, include_max)</code>: returns true if <code>value</code> is greater than <code>min</code> and lower than <code>max</code>. By default, <code>include_min</code> and <code>include_max</code> are equal to <code>true</code>.</li>
+					</ul>
+				</div>
+
+				<div id="formulas_special_functions">
+					<h3>Special functions</h3>
+
+					<ul>
+						<li><code>{table … in …}</code>: defining values based on thresholds (<a href="#examples_special_table">examples</a>)</li>
+						<li><code>{switch … in …}</code>: defining an associative table (<a href="#examples_special_switch">examples</a>)</li>
+					</ul>
+					<p>
+						The first parameter <code>…</code> of <code>table</code> and <code>switch</code> functions is the reference value, it can be either a variable or a formula.
+					</p>
+					<ul>
+						<li><code>{count items[ where …]}</code>: counts eligible items (<a href="#examples_special_count">examples</a>)</li>
+						<li><code>{count distinct …[ where …]}</code>: counts all different values of a property for eligible items (<a href="#examples_special_count_distinct">examples</a>)</li>
+						<li><code>{sum …[ where …]}</code>: calculates the sum of the values of a property for eligible items (<a href="#examples_special_sum">examples</a>)</li>
+						<li><code>{min …[ where …]}</code>: returns the minimum value of a property for eligible items (<a href="#examples_special_min">examples</a>)</li>
+						<li><code>{max …[ where …]}</code>: returns the maximum value of a property for eligible items (<a href="#examples_special_max">examples</a>)</li>
+					</ul>
+					<p>
+						The first parameter <code>…</code> of <code>count distinct</code>, <code>sum</code>, <code>min</code> and <code>max</code> functions must be a property (ex: <code>product.attribute.weight</code>).
+					</p>
+					<p>The condition <code>where</code> is optional. If specified, it will be in the form of a formula.</p>
+				</div>
+
+				<div id="formulas_foreach">
+					<h3>Using <code>foreach</code> loops</h3>
+
+					<p>
+						<code>foreach</code> loops can perform a calculation on groups of products rather than consider all the products in the cart. <br/>
+						The overall result of a <code>foreach</code> loop is the sum of the results of each pass through the loop.
+					</p>
+					<p>
+						Inside a <code>foreach</code> loop, you can use <a href="#formulas_variables_for_foreach">new variables</a>.
+					</p>
+					<p>
+						<a href="#examples_using_foreach">Examples</a>
+					</p>
+				</div>
+
+				<div id="formulas_deprecated_variables">
+					<h3>Deprecated variables</h3>
+					
+					<p>The following variables must be replaced by their equivalent.</p>
+					
+					<ul>
+						<li><a href="#formulas_variables"><code><span class=strike>{cart.coupon}</span> {cart.coupon_code}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{cart.quantity}</span> {cart.qty}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{cart.price_excluding_tax}</span> {cart.price-tax+discount}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{cart.price_including_tax}</span> {cart.price+tax+discount}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{cart.weight.for-charge}</span> {cart.weight_for_charge}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{cart.weight.unit}</span> {cart.weight_unit}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{customer.group.code}</span> {customer_group.code}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{customer.group.id}</span> {customer_group.id}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{{customVar code=*}}</span> {customvar.*}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{destination.country.code}</span> {shipto.country_id}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{destination.country.name}</span> {shipto.country_name}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{destination.postcode}</span> {shipto.postcode}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{destination.region.code}</span> {shipto.region_code}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{free_shipping}</span> {cart.free_shipping}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{origin.country.code}</span> {origin.country_id}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{origin.country.name}</span> {origin.country_name}</code></a></li>
+						<li><a href="#formulas_variables"><code><span class=strike>{origin.region.code}</span> {origin.region_id}</code></a></li>
+						<li><a href="#formulas_variables_for_foreach"><code><span class=strike>{selection.quantity}</span> {selection.qty}</code></a></li>
+					</ul>
+					<ul>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.quantity</span> item.qty</code></a></li>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price-tax+discount</span> item.price-tax+discount</code></a></li>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price-tax-discount</span> item.price-tax-discount</code></a></li>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price+tax+discount</span> item.price+tax+discount</code></a></li>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price+tax-discount</span> item.price+tax-discount</code></a></li>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.option.*</span> item.option.*</code></a></li>
+						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.option.*</span> item.option.*</code></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="more">
+				<h2>Miscellaneous</h2>
+				
+				<div id="more_tracking_url">
+					<h3>The tracking URL</h3>
+
+					<p class="alert alert-danger">
+						The use of <code>tracking_url</code> property is reserved for experienced users. If you don't understand the instructions below, it is recommended that you avoid using this feature.
+					</p>
+					<p>
+						The <code>tracking_url</code> property overrides the field "Tracking URL" of an Owebia Shipping shipping mode. So you can specify a tracking URL <strong>foreach shipping method</strong> rather than one for all shipping mode.
+					</p>
+					<p>
+						To automatically insert the tracking number in the tracking URL, you must use <code>{tracking_number}</code>.
+					</p>
+
+					<div class="json">{
+					"__auto__":{"label":"Example of tracking URL for the carrier Colissimo","fees":10,"tracking_url":"http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart={tracking_number}"}
+					}</div>
+
+					<p>
+						Magento does not support tracking links but tracking statuses. The extension Owebia Shipping 2 provides an HTML link instead of the status, link allowing you to go on the carrier's website and follow the progress of the parcel.
+					</p>
+					<p>
+						When the tracking URL is built by the extension, the only information available is the tracking number and there was nowhere an access to the shipping method selected. In order to find the tracking URL in the configuration, you must specify the shipping method inside the tracking number, for example: <code>colissimo:8Lxxxxxxxxxxx</code> where <code>colissimo</code> is the code of the shipping method selected.<br/>
+						If no code is specified (if you enter only the tracking number), the URL used will be the one of the shipping mode.
+					</p>
+					<p class="alert alert-danger">
+						To answer a recurrent question, Magento displays the tracking status from the back office or front office. If you want to insert the tracking URL in shipping mails, <strong>you need to develop yourself</strong> the retrieval of tracking URL and its incorporation in the mail, in fact, the Owebia Shipping extension simply provides customizable shipping methods without making big changes to Magento core to reduce incompatibility and update problems.
+					</p>
+					<p class="alert alert-danger">
+						If you get a blank popup when you click on the tracking link, your problem is most likely related to the fact that you did not specify the code of the shipping method in the tracking number (see instructions above) and your global field "Tracking URL" is empty.
+					</p>
+					<p class="alert alert-danger">There are currently no plans to change this feature.</p>
+				</div>
+			</div>
+
+			<div id="changelog">
+				<h2>Changelog</h2>
+
+				<pre class=changelog>
+[2.5.18 - 24 juillet 2014]
+Pas de modification, nouvelle version pour Magento Connect
+
+[2.5.17 - 24 juillet 2014]
+Correction d'un bug d'affichage des totaux dans le panier suite au correctif 2.5.16 : annulation de la modification faite dans la version 2.5.14 (récupération de la session avec Mage::getModel('checkout/session') et non avec Mage::getSingleton('checkout/session'), avec getSingleton, $session->getQuote() ne contient pas les totaux calculés et si on appelle $quote->collectTotals(), les totaux sont doublés)
+
+[2.5.16 - 24 juillet 2014]
+Correction d'un bug dans le montant du panier suite à la modification de la récupération de la session dans la version 2.5.14 : appel de $quote->collectTotals();
+
+[2.5.15 - 07 juin 2014]
+Remplacement de static:: par self:: pour une rétro-compatibilité avec PHP < 5.3
+
+[2.5.14 - 26 mai 2014]
+Correction des retours lignes dans 3 fichiers : CR => CRLF (merci à Christophe S.)
+Correction d'un bug avec l'utilisation des expressions régulières et des caractères joker dans le filtrage des adresses (merci à Alexis A., Morgan R., Maxime L.)
+Correction d'un bug dans le calcul de la valeur {cart.price+tax+discount}
+Correction d'un bug dans la récupération de la session (merci à Gabriel F.)
+Support des nombres au format 2.04e2 avec le e en minuscule (merci à Morgan R.)
+Ajout de la possibilité d'avoir des espaces, des virgules et des tirets dans le nom des codes région en entourant les valeurs par des guillemets (ne pas oublier de les échapper si nécessaire)
+
+[2.5.13 - November 5, 2013]
+Fixed a bug occuring when auto-escaping strings in tables (thanks to Sylvain P.)
+Fixed a bug in the calculation of variables {car.price+tax+discount} and {cart.price+tax-discount} when the cart contains bundle products (thanks to Nematis)
+Deletion of characters &amp;gt; and &amp;lt; remained in the sample JSON configuration in the documentation
+Fixed a bug with {cart.free_shipping}
+Fixed a bug in Owebia_Shipping2_Model_Os2_Data_Cart occuring when classes Mage_Sales_Model_Quote_Address_Item and Mage_Sales_Model_Quote_Item were redefined (thanks to Frank T.)
+Deletion of the Colissimo configuration in the first delivery method: the configuration can be downloaded from the website owebia.com
+Changing the origine of cart's amounts (thanks to carouze and Mathieu, see http://www.magentocommerce.com/boards/viewthread/274340/P15/#t382192)
+New variables {quote.*}
+Added an option to auto-escape systematicaly variables
+
+[2.5.12 - 21 février 2013]
+Suppression des tarifs Chronopost et Export 3J périmés (modification 2.5.10 beta non effective)
+Passage en mode Stable
+Rappel : depuis la version 2.5.01 beta, la syntaxe de la configuration a changée pour devenir compatible à 100% JSON. Cela permet de meilleures performances (à condition que le JSON soit correct) car le travail de parsing de la configuration est réalisé par les fonctions natives ou celles du framework Zend. Cela permet également à d'autres scripts de venir créer des configurations car le format JSON est un format d'échange standard.
+
+[2.5.11 beta - 10 janvier 2013]
+Compatibilité avec PHP &lt; 5.3.0 (json_last_error)
+
+[2.5.10 beta - 09 janvier 2013]
+Suppression des tarifs Chronopost et Export 3J périmés
+Ajout d'un lien &quot;Télécharger des modèles de configuration&quot; sous les champs &quot;Configuration&quot;
+Correction d'un problème avec les customvar : récupération de la valeur store plutôt que la valeur par défaut
+Ajout de l'option case insensitive dans les expressions régulières des adresses
+Correction d'une variable indéfinie $get_by_id dans Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes
+Modification du traitement des produits bundle (correction de la valeur de {cart.qty}, possibilité de traiter soit le produit bundle, soit les produits enfants)
+
+[2.5.09 beta - 07 janvier 2013]
+Interception des erreurs résultant de l'utilisation de json_decode()
+Utilisation de la propriété &quot;code&quot; pour définir l'ID du nouvel object lors de la correction automatique de la configuration (sinon deux passes étaient nécessaires)
+Attribution d'un ID prévisible (incrémental) pour les blocks meta d'autocorrection afin de pouvoir les éditer
+Échappement des backslashes dans la fonction jsonEncode
+Correction d'un bug avec l'utilisation des sum, min, max et count
+Correction d'un bug d'affichage du champ d'édition lorsque plusieurs pages étaient ouvertes dans l'éditeur
+Correction d'un problème rencontré lorsque la compression des javascript et css était activée
+Mise à jour des tarifs Colissimo (1/03/2012)
+
+[2.5.08 beta - 20 décembre 2012]
+Correction d'un problème lié à un bug d'IE : la propriété CSS white-space: nowrap ne fonctionne pas sous IE (utilisée sur le textarea source de l'éditeur)
+Correction d'un bug lorsque foreach est utilisé, les items du cart étaient écrasés, ce qui pouvait poser problème pour la suite des calculs (merci à David G.)
+
+[2.5.07 beta - 14 décembre 2012]
+Correction d'un problème d'incompatibilité avec la compilation de Magento
+
+[2.5.06 beta - 10 décembre 2012]
+Correction d'un bug dans OwebiaShippingHelper-&gt;_processProduct lorsqu'il n'y a pas de produit dans le panier
+Petites corrections de la documentation
+Traduction de la documentation en anglais
+
+[2.5.05 beta - 27 novembre 2012]
+Ajout de la variable {date.weekday}
+Correction d'un bug dans OwebiaShippingHelper-&gt;processRow (merci à Rod)
+
+[2.5.04 beta - 27 novembre 2012]
+Correction du code PHP pour supprimer des erreurs E_STRICT (merci à Cyril R.)
+Suppression du répertoire &quot;development-bundle&quot; de jQuery UI (-1.43 Mo)
+
+[2.5.03 beta - 22 novembre 2012]
+Rétrocompatibilité du code avec la version 5.2 de PHP
+
+[2.5.02 beta - 22 novembre 2012]
+Correction d'un problème de packaging
+Réorganisation de la documentation
+Ajout du numéro de version dans l'onglet &quot;Modes de livraison&quot;
+Mise à jour de la syntaxe de la configuration par défaut
+
+[2.5.01 beta - 21 novembre 2012]
+Modification de la syntaxe de la configuration pour la rendre 100% compatible JSON
+Refonte complète de l'éditeur
+Suppression de la compatibilité avec les propriétés dépréciées suivantes :
+	'fees_table', 'fees_formula', 'fixed_fees', 'reference_value', 'prices_range', 'weights_range', 'product_properties',
+	'free_shipping__fees_table', 'free_shipping__fees_formula', 'free_shipping__fixed_fees', 'free_shipping__label',
+Suppression de la compatibilité avec la désactivation d'une méthode de livraison à l'aide du caractère #
+Suppression de la compatibilité avec les mots réservés en majuscule : TABLE, SUM, COUNT, DISTINCT et IN
+Ajout des fonctions array_match_any et array_match_all
+Correction de product.categories et product.categories.id qui ne marchait plus depuis la version 2.4.8
+Mise à jour de la documentation en Français
+
+[2.4.8 beta - 28 août 2012]
+Modification du controller utilisé pour l'éditeur afin que cela fonctionne toujours lorsque l'url du backoffice de celle du frontoffice ne sont pas sur le même sous-domaine (ex: admin.example.org et www.example.org) (merci à Brice C.)
+Restructuration complète des variables afin d'optimiser le chargement des données (uniquement si elles sont utilisées)
+Ajout de nouvelles variables {customer_group.*}, {customer.*}, {request.*}, {item.*}, {billto.*}
+Renommage de certaines variables ({destination.*} =&gt; {shipto.*}, {free_shipping} =&gt; {cart.free_shipping}, {cart.quantity} =&gt; {cart.qty}, ...)
+Ajout de l'option &quot;auto correction&quot; qui permet de désactiver les corrections automatiques de compatibilité de la configuration afin d'avoir de meilleures performances
+Ajout de la fonction spéciale range()
+Renommage de l'onglet &quot;Owebia&quot; en &quot;Owebia Shipping 2&quot;
+Gestion des Bundle Product et des Configurable Product (possibilité de choisir où récupérer les données depuis l'onglet &quot;Owebia Shipping 2&quot;)
+Mise à jour de la documentation
+
+[2.4.7 - 20 mars 2012]
+Correction du code PHP pour supprimer des erreurs E_STRICT
+
+[2.4.6 - 19 janvier 2012]
+Correction d'un bug dans l'utilisation de la fonction {table ... in ...} : lorsque la variable de référence est indéfinie, le résultat était invalide (valeur précédente de la variable $replacement)
+Correction d'un problème avec les produits packagés (bundle product) : les produits 'bundle' et les produits 'simple' étaient tous deux récupérés ce qui faussait les résultats
+Support des sets d'attributs
+	product.attribute_set dans les conditions de boucle foreach
+	{product.attribute_set} et {product.attribute_set.id} comme variables dans les boucles foreach
+	product.attribute_set, product.attribute_set.id dans les conditions des opérations sum, count, min et max
+Optimisation du chargement de certaines valeurs (catégories, attribute set, ...)
+Correction d'un problème avec les castings successifs (string), (float) qui posent problème lorsque la locale utilise la virgule comme séparateur de décimales
+
+[2.4.5 - 12 janvier 2012]
+Ajout de la fonction switch
+Ajout d'une syntaxe pour auto-échapper les chaînes de caractères (ex: {{cart.coupon}} donnera null ou 'test' en fonction de la valeur de la variable)
+Dans le cas d'un produit configurable avec option personnalisable, on récupère les options du produit parent et pas celles du produit enfant
+Mise à jour de la documentation
+
+[2.4.4 - 30 novembre 2011]
+Correction d'un bug avec l'utilisation de product.category.id
+Ajout des valeurs memory_limit et memory_usage dans le debug
+
+[2.4.3 - 11 octobre 2011]
+Support de la variable {cart.coupon} depuis le backoffice de Magento (merci à mfoillard, CF: http://www.magentocommerce.com/boards/viewthread/262907/)
+Correction d'un bug dans les opérations sum, count, min et max ($properties = array(); écrasait plusieurs fois les valeurs précédentes)
+
+[2.4.2 - 07 octobre 2011]
+Support des nombres décimaux représentés sous la forme 5.3290705182E-15
+Modification de la licence du code source (MIT au lieu de OSL 3.0)
+Mise à jour des mentions de copyright et de licence
+Nettoyage du code source (suppression de lignes de code en commentaire)
+Initialisation des formules sum et count à 0 au lieu de null (pour éviter les erreurs de formule si aucun produit ne correpond)
+Ajout des alias &quot;a&quot; et &quot;attr&quot; pour &quot;attribute&quot;, &quot;o&quot; et &quot;opt&quot; pour &quot;option&quot;, &quot;p&quot; pour &quot;product&quot;, &quot;c&quot; pour &quot;cart&quot;, &quot;s&quot; pour &quot;selection&quot;
+Correction de la récupération des variables personnalisées : getValue('text') au lieu de getValue('plain')
+Support des catégories
+	product.categories dans les conditions de boucle foreach
+	{product.category} et {product.category.id} comme variables dans les boucles foreach
+	product.category, product.category.id, product.categories, product.categories.id dans les conditions des opérations sum, count, min et max
+Amélioration du debug
+
+[2.4.1 - 24 août 2011]
+Modification légère du code php pour éviter un plantage avec certaines versions d'eAccelerator (cache php)
+		$row = null;
+		$this-&gt;addMessage('info',$row,null,'Ignored lines %s','&lt;div class=&quot;code&quot;&gt;'.trim($config_string).'&lt;/div&gt;');
+	au lieu de ;
+		$this-&gt;addMessage('info',$row=null,null,'Ignored lines %s','&lt;div class=&quot;code&quot;&gt;'.trim($config_string).'&lt;/div&gt;');
+	(cf http://www.magentocommerce.com/boards/viewthread/233202/)
+Ajout des variables de debug &quot;info.server.os&quot; et &quot;info.server.software&quot;
+Ajout de la possibilité de récupérer la valeur minimum ou maximum de la quantité (ex: &quot;{max product.quantity}&quot;)
+
+[2.4.0 - 27 juin 2011]
+Correction d'un bug lorsque plusieurs produits identiques avec des options différentes sont présents dans le panier (la valeur de l'option était toujours égale à celle du premier produit)
+Ajout de la possibilité d'utiliser les expressions régulières dans les champs &quot;destination&quot; et &quot;origin&quot;
+Ajout de la variable {car.weight.for-charge}
+Mise à jour de la documentation en français
+Mise à jour de l'éditeur
+Correction d'un bug de l'éditeur lorsqu'on éditait une destination puis qu'on cliquait sur Annuler
+
+[2.3.11 - 28 avril 2011]
+Correction d'un problème d'encodage/décodage entre le javascript et le php via ajax (les signes &quot;+&quot; disparaissaient)
+Surcharge du fichier Mage/Checkout/controllers/CartController.php pour corriger un problème avec Magento : les champs Mage_Sales_Quote_Item-&gt;_data['tax_amount'] n'étaient pas mis à jour correctement, ce qui créait un décalage et faussait la variable {cart.price+tax+discount}
+
+[2.3.10 - 12 avril 2011]
+Correction d'un problème dans AjaxController.php : passage direct d'un tableau par référence, il faut d'abord créer le tableau dans une variable puis passer la variable par référence
+Ajout de la variable {cart.coupon}
+Ajout des variables {cart.price-tax+discount}, {cart.price-tax-discount}, {cart.price+tax+discount}, {cart.price+tax-discount} qui permettent d'avoir le montant que l'on désire, avec ou sans prise en compte des taxes et des remises
+Gestion semblable pour les attributs des produits : product.attribute.price-tax+discount utilisable dans une structure {sum} par exemple
+Ajout de la possibilité de récupérer la valeur minimum ou maximum d'un attribut ou d'une option (utilisation identique à sum)
+
+[2.3.9 - 20 janvier 2011]
+Correction d'un problème avec le fichier adminhtml.xml (il y avait un commentaire avant l'en-tête XML)
+
+[2.3.8 - 14 janvier 2011]
+Correction d'un bug avec la propriété &quot;customer_groups&quot; lorsqu'on utilisait les id's (is_int remplacé par ctype_digit)
+Modifications des champs de configuration :
+- Le champ &quot;debug&quot; devient de type Oui/Non
+- Le champ &quot;auto-compression&quot; devient &quot;compression&quot; de type Oui/Non
+Implémentation d'une compression efficace :
+- La configuration est compressée à l'aide de la fonction gzcompress() puis encodée en base 64 afin d'être facilement placée dans un champ textarea
+- La longueur de configuration peut être divisée par 4 grâce à la compression
+- La compression peut être utile sur certaines configurations où la longueur des champs est limitée
+Amélioration de l'éditeur :
+- Récupération des groupes utilisateurs de Magento et création d'un bouton pour chacun d'eux
+- Ajout d'un bouton &quot;Aide&quot; (qui ouvre l'aide de l'éditeur) à droite du bouton &quot;Ouvrir l'éditeur&quot;
+- Centralisation du changelog dans un fichier app/code/community/Owebia/Shipping2/changelog plutôt que dans les fichiers de langue
+- L'éditeur compresse/décompresse la configuration (si la compression est activée)
+Amélioration du debug
+- Ajout des versions de PHP et de Magento
+- Correction du chemin du fichier OwebiaShippingHelper.php
+- Affichage du debug par la commande Mage::getSingleton('core/session')-&gt;addNotice() afin d'avoir un affichage plus propre (à l'intérieur des balises html)
+- Affichage du debug seulement sur la page checkout/cart/index
+Création d'un fichier app/code/community/Owebia/Shipping2/etc/adminhtml.xml (pour résoudre les problèmes d'accès à la section de configuration Owebia)
+Mise à jour des tarifs par défaut avec les tarifs Colissimo Particuliers 2010 et Chronopost web 2010
+
+[2.3.7 - 11 janvier 2011]
+Modification de la récupération du timestamp courant en tenant compte du fuseau horaire sélectionné
+Modification du CSS de l'éditeur pour palier à une modification du CSS du backoffice (sur les balises legend)
+Ajout de contrôles isset dans le fichier app/code/community/Owebia/Shipping2/controllersAjaxController.php (merci à Damien C.)
+Échappement des guillemets doubles dans la méthode _getConfig() dans le fichier js/owebia/shipping2/os2editor.js (merci à Damien C.)
+Ajout de la méthode getRates() dans la classe Owebia_Shipping2_Model_Carrier_AbstractOwebiaShipping qui permet de récupérer les frais de port en injectant les données que l'on souhaite en paramètre
+Réécriture de la méthode collectRates()
+
+[2.3.6 - 23 novembre 2010]
+Ajout d'un fichier app/etc/modules/Owebia_Shipping_2.xml vide pour écraser celui des versions précédentes à la 2.3.0 afin d'éviter une cohabitation de deux versions
+Amélioration du traitement des commentaires avec l'éditeur (gestion des caractères #)
+
+[2.3.5 - 08 novembre 2010]
+Correction d'un problème chez les utilisateurs ayant une version de PHP antérieure à 5.3.0
+
+[2.3.4 - 06 novembre 2010]
+Correction d'un bug introduit dans la version 2.3.2 lors de l'utilisation des attributs et options avec les fonctions sum, count et count distinct
+
+[2.3.3 - 05 novembre 2010]
+Possibilité de faire des copie de propriétés de façon récursive avec contrôle de boucle infinie
+
+[2.3.2 - 05 novembre 2010]
+Amélioration de l'éditeur :
+- Ajout de l'aide en langue anglais
+- Ajout d'informations dans l'aide
+- Ajout des messages d'erreur de la configuration, avec possibilité de correction rapide
+- Ajout de champs pour les lignes ignorées : on peut ainsi les modifier et appliquer les modifications
+Ajout de la possibilité d'accéder aux informations sur le stock d'un produit grâce aux variables {product.stock.is_in_stock} et {product.stock.quantity}
+Suppression de l'affichage du message d'erreur &quot;&quot;Correspondance non trouvée&quot;&quot;
+Correction d'un bug avec les groupes utilisateur ($id==null retournait true lorsque $id était égal à 0)
+Correction d'une erreur de récupération de l'unité de poids
+Améliorations diverses
+
+[2.3.1 - 29 octobre 2010]
+Correction d'un bug dans le fichier AjaxController : une variable n'était pas définie, ce qui générait une erreur avec certaines configurations PHP
+
+[2.3.0 - 28 octobre 2010]
+Correction d'un bug avec le caractère * dans les champs &quot;&quot;destination&quot;&quot; et &quot;&quot;origin&quot;&quot; comme jocker
+Ajout d'un éditeur pour faciliter la modification des configurations Owebia Shipping
+L'éditeur contient également une aide
+Déplacement de certains fichiers pour mieux correspondre à la structure de Magento
+
+[2.2.8 - 20 octobre 2010]
+Correction d'une erreur dans l'include d'OwebiaShippingHelper lorsqu'on utilise le Compiler
+Correction d'un bug de calcul du prix TTC dans certains cas ('row_total_with_discount' est égal à 0)
+Ajout de la possibilité d'utiliser le caractère * dans les champs &quot;&quot;destination&quot;&quot; et &quot;&quot;origin&quot;&quot; comme jocker (par exemple &quot;&quot;FR(25*)&quot;&quot; retournera vrai pour tous les codes postaux du département du Doubs)
+Ajout d'un bouton pour fermer la console de debug
+Ajout d'informations dans le debug (tests sur la destination et l'origine, liste des variables passées en paramètre)
+Affichage du debug uniquement sur la page panier (pas sur les pages en ajax)
+Récupération du bon customer group lors d'une commande créée depuis le backoffice de Magento
+
+[2.2.7 - 27 août 2010]
+Possibilité d'utiliser les variables personnalisées (custom variables) de Magento grâce à la syntaxe {customvar.my_var} ou à la syntaxe standard {{customVar code=my_var}}
+
+[2.2.6 - 25 août 2010]
+Correction d'un bug avec la fonction getRowProperty() : utilisation de preg_match_all() à la place de while(preg_match()) et utilisation de continue à la place de break
+
+[2.2.5 - 22 août 2010]
+Correction d'un bug avec les propriétés de type booléenne spécifiées sans les guillemets (comme la propriété enabled)
+Correction d'un bug avec la propriété customer_groups
+
+[2.2.4 - 10 août 2010]
+Utilisation de Mage::getModel('directory/country')-&gt;load($country_code)-&gt;getName() à la place de Mage::getModel('core/locale')-&gt;getLocale()-&gt;getTranslationList('territory',null,2) pour récupérer le nom d'un pays dans la langue courante (la première solution semble retourner le nom du pays dans la langue principale de la boutique), merci à coolshop pour la solution proposée
+Remplacement de la valeur de configuration &quot;&quot;Afficher quand indisponible&quot;&quot; par la valeur &quot;&quot;Debug&quot;&quot; car la solution précédente posait des problèmes avec Magento 1.4.0
+Amélioration de la clarté du debug (utilisation de couleurs et d'indentations)
+Correction de bugs légers
+Mise à jour de la syntaxe de la configuration proposée par défaut
+
+[2.2.3 - 29 juillet 2010]
+Correction d'un bug avec le traitement de formules dont le résultat est false
+
+[2.2.2 - 29 juillet 2010]
+Amélioration du système de cache des formules
+
+[2.2.1 - 27 juillet 2010]
+Correction de petits bugs
+
+[2.2.0 - 22 juillet 2010]
+Possibilité de compression/décompression de la configuration
+Modification de certaines propriétés ({weight} =&gt; {cart.weight}, {price_excluding_tax} =&gt; {cart.price_excluding_tax}, {price_including_tax} =&gt; {cart.price_including_tax}, {products_quantity} =&gt; {cart.quantity},{contry} =&gt; {destination.country.name})
+Syntaxe légèrement modifié pour {product.attribute.xxx} et {product.option.xxx} (pas de s)
+Ajout de nouvelles propriétés utilisables dans le foreach : {selection.weight}, {selection.quantity}, {product.weight}, {product.quantity}
+Possibilité d'utiliser {product.attribute.xxx} et {product.option.xxx} dans le foreach
+
+[2.1.9 - 20 juillet 2010]
+Évaluation des formules contenues dans les propriétés &quot;&quot;label&quot;&quot; et &quot;&quot;description&quot;&quot;
+
+[2.1.8 - 20 juillet 2010]
+Correction d'une erreur dans le foreach (l'attribut était toujours &quot;&quot;name&quot;&quot;)
+
+[2.1.7 - 19 juillet 2010]
+Ajout de la syntaxe foreach product.attribute.xxx
+
+[2.1.6 - 28 décembre 2009]
+Correction d'une erreur dans le nom d'une variable qui entrainait un plantage dans certaines situations
+
+[2.1.5 - 28 décembre 2009]
+Modification de la syntaxe des tables (pour offrir plus de souplesse)
+
+[2.1.4 - 24 décembre 2009]
+Modification de la syntaxe d'utilisation des propriétés des produits (pour offrir beaucoup plus de souplesse)
+Possibilité de filtrer les produits dont on veut utiliser les propriétés.
+Ajout de 'COUNT DISTINCT'
+
+[2.1.3 - 17 décembre 2009]
+Correction du calcul du nombre de produits dont les propriétés correspondent &quot;&quot;{count ...&quot;&quot; : prise en compte de la quantité
+Simplification de la syntaxe de copie de propriété
+
+[2.1.2 - 27 novembre 2009]
+Correction d'un problème de priorité entre l'opérateur &quot;&quot;=&quot;&quot; et l'opérateur &quot;&quot;and&quot;&quot; dans l'évaluation des formules : ajout de parenthèses autour de la formule
+
+[2.1.1 - 26 novembre 2009]
+Suppression de la propriété 'product_properties' qui doit être utilisée dans la propriété 'conditions'
+Améliorations diverses
+
+[2.1.0 - 24 novembre 2009]
+Regroupement des propriétés 'fees_table', 'fees_formula' et 'fixed_fees' dans une unique propriété 'fees'
+Regroupement des propriétés 'prices_range' et 'weights_range' dans une unique propriété 'conditions'
+Suppression de la propriété 'reference_value'
+Suppression des propriétés 'free_shipping__fees_table', 'free_shipping__fees_formula' et 'free_shipping__fixed_fees' (utiliser '{free_shipping}' dans la propriété 'conditions' à la place)
+Ajout d'un analyseur de syntaxe de la configuration pour indiquer l'utilisation de propriétés non reconnues ou de propriétés obsolètes, les valeurs non reconnues, les virgules manquantes en fin de ligne, les doublons des propriétés 'code'
+Utilisation des valeurs des propriétés obsolètes dans leur nouvel équivalent
+Possibilité de copier une propriété avec la syntaxe &quot;&quot;{copy 'colissimo'.'fees'}&quot;&quot;
+Nouvelle syntaxe pour les tables (ancienne propriété 'fees_table') : &quot;&quot;{table 'weight' 1.0:2.50, 2.0:3.00}&quot;&quot; qui peuvent désormais être intégrées dans des formules
+Séparation des méthodes publique, privées génériques (préfixe '_'), privées spécifiques à Magento (préfixe '__') pour faciliter le portage du module vers un autre système de boutique en ligne que Magento
+
+[2.0.12 - 19 novembre 2009]
+Amélioration de la transmission des variables entre les méthodes de la classe
+
+[2.0.11 - 19 novembre 2009]
+Correction du filtrage en fonction des options et des attributs des produits en présence de produits configurables
+
+[2.0.10 - 13 novembre 2009]
+Amélioration du filtrage en fonction des options et des attributs des produits
+Correction du filtrage en fonction des options des produits
+
+[2.0.9 - 12 novembre 2009]
+Correction du filtrage en fonction des options des produits
+
+[2.0.8 - 12 novembre 2009]
+Possibilité de filtrer en fonction des options des produits
+
+[2.0.7 - 04 novembre 2009]
+Possibilité de filtrer en fonction de l'origine de livraison
+Possibilité de filtrer en fonction des attributs de produits
+Possibilité de spécifier un code postal dans le filtrage de la destination
+Compatibilité avec Magento 1.4.* : utilisation de la fonction getTranslationList au lieu de getCountryTranslationList qui est dépréciée
+
+[2.0.6 - 02 octobre 2009]
+Possibilité de spécifier des groupes de clients
+
+[2.0.5 - 18 août 2009]
+Ajout de la possibilité de spécifier dans la destination le monde entier sauf certains pays
+Correction d'un problème de parsing de la destination lorsqu'il n'y avait qu'un seul code région entre parenthèses
+Possibilité d'avoir des codes région comprenant des espaces
+
+[2.0.4 - 28 juillet 2009]
+Suppression des options &quot;&quot;Unité de poids&quot;&quot; et &quot;&quot;Utiliser le montant TTC&quot;&quot; de chaque mode de livraison
+Possibilité d'inclure ou d'exclure les valeurs limites dans les champs 'prices_range', 'weights_range' et 'fees_table' grâce aux caractères '[' et ']'
+Possibilité de spécifier dans les champs 'prices_range' et 'fees_table' si on utilise le montant HT ou TTC
+Ajout du champ 'enabled' et suppression de la possibilité de désactiver un bloc de configuration avec le caractère '#'
+Modification du message d'erreur par défaut
+Ajout d'un message d'erreur en cas d'erreur d'interprétation d'une formule de calcul de frais
+
+[2.0.3 - 27 juillet 2009]
+Correction d'une erreur dans l'interprétation des formules avec des fonctions à arguments multiples (min, max, rand)
+
+[2.0.2 - 27 juin 2009]
+Correction d'une erreur d'expression régulière
+
+[2.0.1 - 25 juin 2009]
+Uniformisation du nom des variables dans les valeurs de référence : 'price_excluding_tax' et 'price_including_tax' à la place de la valeur 'price'
+Correction d'un problème de Magento qui ne semble pas retourner la bonne valeur lors de l'appel à la méthode $request-&gt;getFreeShipping()
+Ajout du champ 'description' qui permet d'ajouter une description à une méthode de livraison qui peut être récupérée grâce à la méthode $_rate-&gt;getMethodDescription()
+Corrections de bugs
+
+[2.0 - 3 avril 2009]
+Création de la version 2.0 du module Owebia Shipping qui n'est plus compatible avec les anciennes versions
+
+				</pre>
+			</div>
+
+			<div id="index">
+				<h2>Index</h2>
+				<div class="panel">
+					<div class="row">
+						<div class="col-lg-6">
+							<h3>A</h3>
+							<ul>
+								<li><code>about</code>: <a href="#property_about">property</a></li>
+								<li>activation: see <code>enabled</code></li>
+								<li>address of origin: see <code>origin</code></li>
+								<li>address of billing: see <code>billto</code></li>
+								<li>address of delivery: see <code>shipto</code></li>
+								<li><code>address_filter</code>: <a href="#address_filter">shortcuts</a>, <a href="#examples_using_address_filters_shortcuts">examples</a></li>
+								<li>associative table: see <code>switch</code></li>
+								<li>attribute of product: see <code>product.attribute.*</code></li>
+							</ul>
+
+							<h3>B</h3>
+							<ul>
+								<li><code>billto</code>:
+									<ul>
+										<li><a href="#property_billto">property</a></li>
+										<li><a href="#formulas_variables_billto">variables</a></li>
+									</ul>
+								</li>
+							</ul>
+
+							<h3>C</h3>
+							<ul>
+								<li><code>cart</code>: <a href="#formulas_variables_cart">variables</a></li>
+								<li>comment: see <code>about</code></li>
+								<li><code>conditions</code>: <a href="#property_conditions">property</a></li>
+								<li><code>count</code>: <a href="#formulas_special_functions">special functions</a></li>
+								<li><code>count distinct</code>: <a href="#formulas_special_functions">special functions</a></li>
+								<li><code>customer</code>: <a href="#formulas_variables_customer">variables</a></li>
+								<li><code>customer_group</code>: <a href="#formulas_variables_customer_group">variables</a></li>
+								<li><code>customer_groups</code>: <a href="#property_customer_groups">property</a></li>
+								<li><code>customvar</code>: <a href="#formulas_variables_customvar">variables</a></li>
+							</ul>
+
+							<h3>D</h3>
+							<ul>
+								<li><code>data</code>: <a href="#definitions_element">element type</a>, <a href="#examples_data">examples</a></li>
+								<li><code>date</code>: <a href="#formulas_variables_date">variables</a></li>
+								<li>deactivation: see <code>enabled</code></li>
+								<li><code>description</code>: <a href="#property_description">property</a></li>
+								<li>destination: see <code>shipto</code></li>
+								<li>DOM/TOM: <a href="#examples_excluding_domtom_postcode">excluding postal codes</a></li>
+							</ul>
+
+							<h3>E</h3>
+							<ul>
+								<li>element: <a href="#definitions_element">definition</a></li>
+								<li><code>enabled</code>: <a href="#property_enabled">property</a></li>
+							</ul>
+
+							<h3>F</h3>
+							<ul>
+								<li><code>fees</code>: <a href="#property_fees">property</a></li>
+								<li><code>foreach</code>: <a href="#formulas_foreach">loop</a>, <a href="#examples_using_foreach">examples</a></li>
+								<li><a href="#formulas">Formulas</a></li>
+								<li>free shipping: <a href="#examples_simple">examples</a></li>
+								<li><a href="#formulas_functions">Functions</a></li>
+							</ul>
+
+							<h3>I</h3>
+							<ul>
+								<li>identifier (unique): <a href="#definitions_unique_id">definition</a></li>
+								<li><code>item</code>: <a href="#formulas_variables_item">variables</a></li>
+								<li><code>item.option.*</code>: <a href="#formulas_variables_item">variables</a></li>
+							</ul>
+						</div>
+						<div class="col-lg-6">
+							<h3>L</h3>
+							<ul>
+								<li><code>label</code>: <a href="#property_label">property</a></li>
+							</ul>
+
+							<h3>M</h3>
+							<ul>
+								<li><code>max</code>:
+									<ul>
+										<li><a href="#formulas_functions">function</a></li>
+										<li><a href="#formulas_special_functions">special functions</a>, <a href="#examples_special_max">examples</a></li>
+									</ul>
+								</li>
+								<li><code>meta</code>: <a href="#definitions_element">element type</a>, <a href="#examples_meta">examples</a></li>
+								<li><code>method</code>: <a href="#definitions_element">element type</a></li>
+								<li><code>min</code>:
+									<ul>
+										<li><a href="#formulas_functions">function</a></li>
+										<li><a href="#formulas_special_functions">special functions</a>, <a href="#examples_special_min">examples</a></li>
+									</ul>
+								</li>
+							</ul>
+
+							<h3>O</h3>
+							<ul>
+								<li>option of item: see <code>item.option.*</code></li>
+								<li><code>origin</code>:
+									<ul>
+										<li><a href="#property_origin">property</a></li>
+										<li><a href="#formulas_variables_origin">variables</a></li>
+									</ul>
+								</li>
+							</ul>
+
+							<h3>P</h3>
+							<ul>
+								<li><code>product</code>: <a href="#formulas_variables_product">variables</a></li>
+								<li><code>product.attribute.*</code>: <a href="#formulas_variables_product">variables</a></li>
+								<li><code>product.categories</code>: <a href="#formulas_variables_product">variables</a>, <a href="#examples_product_categories">examples</a></li>
+								<li>property: <a href="#definitions_property">definition</a></li>
+							</ul>
+
+							<h3>Q</h3>
+							<ul>
+								<li><code>quote</code> : <a href="#formulas_variables_quote">variables</a></li>
+							</ul>
+
+							<h3>R</h3>
+							<ul>
+								<li>regular expression: see property <code>shipto</code></li>
+								<li><code>request</code>: <a href="#formulas_variables_request">variables</a></li>
+							</ul>
+
+							<h3>S</h3>
+							<ul>
+								<li><code>shipto</code>:
+									<ul>
+										<li><a href="#property_shipto">property</a>, <a href="#examples_using_address_filters">examples</a></li>
+										<li><a href="#formulas_variables_shipto">variables</a></li>
+									</ul>
+								</li>
+								<li><code>store</code>: <a href="#formulas_variables_store">variables</a></li>
+								<li><code>sum</code>: <a href="#formulas_special_functions">special functions</a></li>
+								<li><code>switch</code>: <a href="#formulas_special_functions">special functions</a>, <a href="#examples_special_switch">examples</a></li>
+							</ul>
+
+							<h3>T</h3>
+							<ul>
+								<li><code>table</code>: <a href="#formulas_special_functions">special functions</a>, <a href="#examples_special_table">examples</a></li>
+								<li>title: see <code>label</code></li>
+								<li><code>tracking_url</code>: <a href="#property_tracking_url">property</a>, <a href="#more_tracking_url">more informations</a></li>
+								<li><code>type</code>: <a href="#property_type">property</a></li>
+							</ul>
+
+							<h3>V</h3>
+							<ul>
+								<li>Variables: <a href="#formulas_variables">available</a>, <a href="#formulas_deprecated_variables">deprecated</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- doc content end -->
+		</div>
+	</div>
+</div>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+<script>
+<!-- doc scripts start -->
+function jsonEncode(data, beautify, html, level, current_indent) {
+	if (typeof beautify == 'undefined') beautify = false;
+	if (typeof html == 'undefined') html = false;
+	if (typeof level == 'undefined') level = 0;
+	if (typeof current_indent == 'undefined') current_indent = '';
+
+	var indent = html ? '&nbsp;&nbsp;&nbsp;' : "\t";
+	var line_break = html ? '<br/>' : "\n";
+	var new_indent = current_indent + indent;
+	switch (typeof(data)) {
+		case 'undefined':
+			return (html ? '<span class=json-reserved>' : '') + 'null' + (html ? '</span>' : '');
+		case 'boolean':
+			return (html ? '<span class=json-reserved>' : '') + (data ? 'true' : 'false') + (html ? '</span>' : '');
+		case 'number':
+			return (html ? '<span class=json-numeric>' : '') + data + (html ? '</span>' : '');
+		case 'string':
+			var output = JSON.stringify(data);
+			return html ? '<span class=json-string>' + output + '</span>' : output;
+		case 'object':
+			var output_index_count = 0;
+			var output = [];
+			for (var key in data) {
+				var value = data[key];
+				if (output_index_count!==null && output_index_count++!==key) {
+					output_index_count = null;
+				}
+			}
+			var is_associative = output_index_count===null;
+			for (var key in data) {
+				var value = data[key];
+				if (is_associative) {
+					var classes = [];
+					if (key=='about') classes.push('json-about');
+					if (key=='conditions' || key=='fees') classes.push('json-formula');
+					var property_classes = ['json-property'];
+					if (level==0) property_classes.push('json-id');
+					output.push(
+						(html && classes.length ? '<span class="' + classes.join(' ') + '">' : '')
+						+ (html ? '<span' + (property_classes.length ? ' class="' + property_classes.join(' ') + '"' : '') + '>' : '')
+						+ jsonEncode('' + key)
+						+ (html ? '</span>' : '') + ':'
+						+ (beautify ? ' ' : '')
+						+ jsonEncode(value, beautify, html, level+1, new_indent)
+						+ (html && classes.length ? '</span>' : '')
+					);
+				} else {
+					output.push(jsonEncode(value, beautify, html, level+1, current_indent));
+				}
+			}
+			if (is_associative) {
+				var classes = [];
+				if (data.type == 'meta') classes.push('json-meta');
+				output = (html && classes.length ? '<span class="' + classes.join(' ') + '">' : '')
+					+ '{'
+					+ (beautify ? line_break + new_indent : '')
+					+ output.join(',' + (beautify ? line_break + new_indent : ''))
+					+ (beautify ? line_break + current_indent : '')
+					+ '}'
+					+ (html && classes.length ? '</span>' : '');
+				return output;
+			} else {
+				return '[' + output.join(',' + (beautify ? ' ' : '')) + ']';
+			}
+		default:
+			return ''; // Not supported
+	}
+}
+
+$(function(){
+	var navHeight = $('.navbar').outerHeight(true) + 10;
+
+	$('a[href^="#"]').click(function (e) {
+		$('.highlight').removeClass('highlight');
+		var anchor = $(this).attr('href').replace('#', '');
+		window.location.hash = '#' + anchor;
+		var jelem = $('#' + anchor);
+		jelem.addClass('highlight');
+		$('body,html').scrollTop(Math.round(jelem.offset().top - navHeight + 10));
+		e.preventDefault()
+	});
+
+	$('a[href^="#"]').each(function (e) {
+		var anchor = $(this).attr('href').replace('#', '');
+		if (anchor == '') return;
+		var jelem = $('#' + anchor);
+		if (!jelem.length) {
+			$(this).css('border', 'solid 1px red').css('padding', 3);
+		}
+	});
+
+	var index = 0;
+	$('div.json').each(function(){
+		var text = $(this).text();
+		while (text.match(/"__auto__"/)) {
+			text = text.replace(/"__auto__"/, '"id_' + ('000' + index).slice(-3) + '"');
+			index++;
+		}
+		var obj = $.parseJSON(text);
+		var beautified = jsonEncode(obj, true, true);
+		$(this).html('<pre>' + beautified + '</pre>');
+		$(this).addClass('code');
+	});
+	$('body').scrollspy({
+		target: '.sidebar',
+		offset: navHeight
+	});
+
+});
+<!-- doc scripts end -->
+
+</script>
+</body>
+</html>
