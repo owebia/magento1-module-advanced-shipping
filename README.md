@@ -1,10 +1,10 @@
 # Description
 
-Shipping Module for Magento 1
+Shipping Module for Magento 1.x
 
 Owebia-Shipping extension for Magento is the solution that helps you to configurate shipping rates in a very flexible way. Indeed, with Owebia-Shipping, you can set shipping rates using almost any variable available : destination, weight, price (including tax or excluding tax, before or after discount), quantity, categories, product attribute, item option, customer group, customer attribute, coupon code, Magento's custom variable, store id, date, etc…
 
-Extension features
+## Extension features
 - Can manage three different shipping modes (unlimited in Owebia-Shipping Pro) and unlimited shipping methods
 - Multiple conditionnal delivery methods depending on what you want
 - Shipping rates based on destination, weight, price (including tax or excluding tax, before or after discount), quantity
@@ -22,6 +22,8 @@ Extension features
 http://htmlpreview.github.io/?https://github.com/owebia/module-shipping-free-for-magento-1/blob/master/app/code/community/Owebia/Shipping2/doc_en_US.html
 
 ## License
+
+MIT License
 
 Copyright (c) 2008-15 Owebia
 
