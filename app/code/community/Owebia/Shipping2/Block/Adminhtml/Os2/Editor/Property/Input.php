@@ -21,7 +21,8 @@
 
 class Owebia_Shipping2_Block_Adminhtml_Os2_Editor_Property_Input extends Mage_Adminhtml_Block_Abstract
 {
-	protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element) {
-		
-	}
+    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    {
+        
+    }
 }

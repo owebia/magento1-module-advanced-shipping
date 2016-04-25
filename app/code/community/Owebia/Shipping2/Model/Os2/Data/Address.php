@@ -21,15 +21,14 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Address extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-	protected $additional_attributes = array('country_id', 'country_name', 'postcode');
+    protected $additional_attributes = array('country_id', 'country_name', 'postcode');
 
-	protected function _load($name) {
-		switch ($name) {
-			case 'country_name':
-				return Mage::getModel('directory/country')->load($this->country_id)->getName();
-		}
-		return parent::_load($name);
-	}
+    protected function _load($name)
+    {
+        switch ($name) {
+            case 'country_name':
+                return Mage::getModel('directory/country')->load($this->country_id)->getName();
+        }
+        return parent::_load($name);
+    }
 }
-
-?>

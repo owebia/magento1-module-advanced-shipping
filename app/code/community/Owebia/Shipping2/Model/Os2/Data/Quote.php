@@ -21,10 +21,10 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Quote extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-	protected $additional_attributes = array('subtotal', 'subtotal_with_discount', 'grand_total', 'base_subtotal', 'base_subtotal_with_discount', 'base_grand_total', '*');
+    protected $additional_attributes = array('subtotal', 'subtotal_with_discount', 'grand_total', 'base_subtotal', 'base_subtotal_with_discount', 'base_grand_total', '*');
 
-	protected function _loadObject()
-	{
+    protected function _loadObject()
+    {
         // Backend
         if (Mage::app()->getStore()->isAdmin()) {
             $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
@@ -38,6 +38,6 @@ class Owebia_Shipping2_Model_Os2_Data_Quote extends Owebia_Shipping2_Model_Os2_D
             $quote = $session->getQuote();
         }
 
-		return $quote;
-	}
+        return $quote;
+    }
 }

@@ -1,3 +1,8 @@
+[2.5.20 - 25 avril 2016]
+Fix code indentation
+Fix version number
+Add readme file in package
+
 [2.5.19 - 09 novembre 2015]
 Note: the extension is not affected by the patch SUPEE-6788 since it uses the new admin url routing syntax for 3 years (version 2.4.8.0)
 Fix bug: deactivation of auto-escaping by default since it can cause some bugs (ex: impossible to use {address_filter.EU-27} in shipto)
@@ -99,8 +104,8 @@ Mise à jour de la syntaxe de la configuration par défaut
 Modification de la syntaxe de la configuration pour la rendre 100% compatible JSON
 Refonte complète de l'éditeur
 Suppression de la compatibilité avec les propriétés dépréciées suivantes :
-	'fees_table', 'fees_formula', 'fixed_fees', 'reference_value', 'prices_range', 'weights_range', 'product_properties',
-	'free_shipping__fees_table', 'free_shipping__fees_formula', 'free_shipping__fixed_fees', 'free_shipping__label',
+    'fees_table', 'fees_formula', 'fixed_fees', 'reference_value', 'prices_range', 'weights_range', 'product_properties',
+    'free_shipping__fees_table', 'free_shipping__fees_formula', 'free_shipping__fixed_fees', 'free_shipping__label',
 Suppression de la compatibilité avec la désactivation d'une méthode de livraison à l'aide du caractère #
 Suppression de la compatibilité avec les mots réservés en majuscule : TABLE, SUM, COUNT, DISTINCT et IN
 Ajout des fonctions array_match_any et array_match_all
@@ -125,9 +130,9 @@ Correction du code PHP pour supprimer des erreurs E_STRICT
 Correction d'un bug dans l'utilisation de la fonction {table ... in ...} : lorsque la variable de référence est indéfinie, le résultat était invalide (valeur précédente de la variable $replacement)
 Correction d'un problème avec les produits packagés (bundle product) : les produits 'bundle' et les produits 'simple' étaient tous deux récupérés ce qui faussait les résultats
 Support des sets d'attributs
-	product.attribute_set dans les conditions de boucle foreach
-	{product.attribute_set} et {product.attribute_set.id} comme variables dans les boucles foreach
-	product.attribute_set, product.attribute_set.id dans les conditions des opérations sum, count, min et max
+    product.attribute_set dans les conditions de boucle foreach
+    {product.attribute_set} et {product.attribute_set.id} comme variables dans les boucles foreach
+    product.attribute_set, product.attribute_set.id dans les conditions des opérations sum, count, min et max
 Optimisation du chargement de certaines valeurs (catégories, attribute set, ...)
 Correction d'un problème avec les castings successifs (string), (float) qui posent problème lorsque la locale utilise la virgule comme séparateur de décimales
 
@@ -154,18 +159,18 @@ Initialisation des formules sum et count à 0 au lieu de null (pour éviter les er
 Ajout des alias "a" et "attr" pour "attribute", "o" et "opt" pour "option", "p" pour "product", "c" pour "cart", "s" pour "selection"
 Correction de la récupération des variables personnalisées : getValue('text') au lieu de getValue('plain')
 Support des catégories
-	product.categories dans les conditions de boucle foreach
-	{product.category} et {product.category.id} comme variables dans les boucles foreach
-	product.category, product.category.id, product.categories, product.categories.id dans les conditions des opérations sum, count, min et max
+    product.categories dans les conditions de boucle foreach
+    {product.category} et {product.category.id} comme variables dans les boucles foreach
+    product.category, product.category.id, product.categories, product.categories.id dans les conditions des opérations sum, count, min et max
 Amélioration du debug
 
 [2.4.1 - 24 août 2011]
 Modification légère du code php pour éviter un plantage avec certaines versions d'eAccelerator (cache php)
-		$row = null;
-		$this->addMessage('info',$row,null,'Ignored lines %s','<div class="code">'.trim($config_string).'</div>');
-	au lieu de ;
-		$this->addMessage('info',$row=null,null,'Ignored lines %s','<div class="code">'.trim($config_string).'</div>');
-	(cf http://www.magentocommerce.com/boards/viewthread/233202/)
+        $row = null;
+        $this->addMessage('info',$row,null,'Ignored lines %s','<div class="code">'.trim($config_string).'</div>');
+    au lieu de ;
+        $this->addMessage('info',$row=null,null,'Ignored lines %s','<div class="code">'.trim($config_string).'</div>');
+    (cf http://www.magentocommerce.com/boards/viewthread/233202/)
 Ajout des variables de debug "info.server.os" et "info.server.software"
 Ajout de la possibilité de récupérer la valeur minimum ou maximum de la quantité (ex: "{max product.quantity}")
 

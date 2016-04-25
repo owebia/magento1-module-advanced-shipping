@@ -21,33 +21,33 @@
 -->
 <!-- Magento 1.4.0 and upper -->
 <config>
-	<acl>
-		<resources>
-			<admin>
-				<children>
-					<system>
-						<children>
-							<config>
-								<children>
-									<owebia_shipping2>
-										<title>Owebia Shipping 2 Section</title>
-										<sort_order>100</sort_order>
-									</owebia_shipping2>
-								</children>
-							</config>
-						</children>
-					</system>
-				</children>
-			</admin>
-		</resources>
-	</acl>
-	<translate>
-		<modules>
-			<Mage_Shipping>
-				<files>
-					<owebia_shipping2>Owebia_Shipping2.csv</owebia_shipping2>
-				</files>
-			</Mage_Shipping>
-		</modules>
-	</translate>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <owebia_shipping2>
+                                        <title>Owebia Shipping 2 Section</title>
+                                        <sort_order>100</sort_order>
+                                    </owebia_shipping2>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <translate>
+        <modules>
+            <Mage_Shipping>
+                <files>
+                    <owebia_shipping2>Owebia_Shipping2.csv</owebia_shipping2>
+                </files>
+            </Mage_Shipping>
+        </modules>
+    </translate>
 </config>

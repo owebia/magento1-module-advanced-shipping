@@ -21,22 +21,22 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Customer extends Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes
 {
-	protected $additional_attributes = array('*');
+    protected $additional_attributes = array('*');
 
-	public function __construct($arguments=null)
-	{
-		parent::__construct(array(
-			'id' => Mage::getModel('owebia_shipping2/Os2_Data_Quote')->customer_id,
-		));
-	}
+    public function __construct($arguments=null)
+    {
+        parent::__construct(array(
+            'id' => Mage::getModel('owebia_shipping2/Os2_Data_Quote')->customer_id,
+        ));
+    }
 
-	protected function _loadObject()
-	{
-		return Mage::getModel('customer/customer')->load($this->id);
-	}
+    protected function _loadObject()
+    {
+        return Mage::getModel('customer/customer')->load($this->id);
+    }
 
-	public function __toString()
-	{
-		return $this->firstname.' '.$this->lastname.' (id:'.$this->id.')';
-	}
+    public function __toString()
+    {
+        return $this->firstname.' '.$this->lastname.' (id:'.$this->id.')';
+    }
 }

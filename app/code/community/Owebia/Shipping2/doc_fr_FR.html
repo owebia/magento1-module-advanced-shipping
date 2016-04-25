@@ -2,7 +2,7 @@
 <html>
 <head lang="fr">
 <meta charset="utf-8"/>
-<title>Documentation de l'extension Owebia-Shipping 2.5.13</title>
+<title>Documentation de l'extension Owebia-Shipping 2.5.20</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -39,807 +39,823 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
 .sidebar .nav .nav {display: none; /* Hide by default, but at >768px, show it */margin-bottom: 8px;}
 .sidebar .nav .nav > li > a {padding-top:3px;padding-bottom:3px;padding-left:30px;font-size:90%;}
 @media screen and (min-width: 768px) {
-	.sidebar{display:block}
-	.sidebar .nav > .active > ul {display:block}
-	.bs-navbar-top-example .navbar-fixed-top,
-	.bs-navbar-bottom-example .navbar-fixed-bottom {position:absolute}
+    .sidebar{display:block}
+    .sidebar .nav > .active > ul {display:block}
+    .bs-navbar-top-example .navbar-fixed-top,
+    .bs-navbar-bottom-example .navbar-fixed-bottom {position:absolute}
 }
 @media screen and (min-width: 992px) {
-	.sidebar.affix,
-	.sidebar.affix-bottom {width:213px}
-	.sidebar.affix {position:fixed;top:80px}
-	.sidebar.affix-bottom {position:absolute}
-	.sidebar.affix-bottom .sidenav,
-	.sidebar.affix .sidenav {margin-top:0;margin-bottom:0}
+    .sidebar.affix,
+    .sidebar.affix-bottom {width:213px}
+    .sidebar.affix {position:fixed;top:80px}
+    .sidebar.affix-bottom {position:absolute}
+    .sidebar.affix-bottom .sidenav,
+    .sidebar.affix .sidenav {margin-top:0;margin-bottom:0}
 }
 @media screen and (min-width: 1200px) {
-	.sidebar.affix-bottom,
-	.sidebar.affix {width:270px}
+    .sidebar.affix-bottom,
+    .sidebar.affix {width:270px}
 }
 </style>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<a href="http://www.owebia.com" class="navbar-brand">Owebia</a>
-		<ul class="nav navbar-nav">
-		</ul>
-	</div>
+    <div class="container">
+        <a href="http://www.owebia.com" class="navbar-brand">Owebia</a>
+        <ul class="nav navbar-nav">
+        </ul>
+    </div>
 </div>
 <div class="container">
-	<div class="row">
-		<div class="col-lg-3">
-			<div class="affix sidebar">
-				<!-- doc sidebar start -->
-				<ul class="nav sidenav">
-					<li><a href="#introduction">Introduction</a></li>
-					<li><a href="#examples">Exemples</a>
-						<ul class="nav">
-							<li><a href="#examples_simple">Exemple simple : port offert</a></li>
-							<li><a href="#examples_using_address_filters">Frais relatifs à la destination</a></li>
-							<li><a href="#examples_using_customer_groups">Frais relatifs au groupe client</a></li>
-							<li><a href="#examples_using_formulas">Utiliser les formules</a></li>
-							<li><a href="#examples_using_special_functions">Utiliser les fonctions spéciales</a></li>
-							<li><a href="#examples_using_foreach">Utiliser les boucles <code>{foreach …}</code></a></li>
-							<li><a href="#examples_using_array_functions">Manipuler les tableaux</a></li>
-							<li><a href="#examples_more">Autres exemples</a></li>
-						</ul>
-					</li>
-					<li><a href="#definitions">Définitions</a>
-						<ul class="nav">
-							<li><a href="#definitions_element">Les éléments</a></li>
-							<li><a href="#definitions_property">Les propriétés</a></li>
-							<li><a href="#definitions_unique_id">L'identifiant unique</a></li>
-						</ul>
-					</li>
-					<li><a href="#formulas">Les formules</a>
-						<ul class="nav">
-							<li><a href="#formulas_variables">Les variables</a></li>
-							<li><a href="#formulas_functions">Les fonctions</a></li>
-							<li><a href="#formulas_special_functions">Les fonctions spéciales</a></li>
-							<li><a href="#formulas_foreach">Les boucles <code>foreach</code></a></li>
-							<li><a href="#formulas_deprecated_variables">Les variables dépréciées</a></li>
-						</ul>
-					</li>
-					<li><a href="#more">Divers</a>
-						<ul class="nav">
-							<li><a href="#more_tracking_url">L'URL de suivi</a></li>
-						</ul>
-					</li>
-					<li><a href="#changelog">Changelog</a></li>
-					<li><a href="#index">Index</a></li>
-				</ul>
-				<!-- doc sidebar end -->
-			</div>
-		</div>
-		<div class="col-lg-9">
-			<!-- doc content start -->
-			<h1>Documentation de l'extension Owebia-Shipping 2.5.13 pour Magento</h1>
-			<div id="introduction">
-				<h2>Introduction</h2>
-
-				<p>Owebia-Shipping est une extension pour la solution de e-commerce <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
-				<p>Grace à sa syntaxe au format <a href="http://fr.wikipedia.org/wiki/JavaScript_Object_Notation" target=_blank>JSON</a>, cette extension permet une grande souplesse dans le paramétrage des frais de livraison.</p>
-				
-				<p>Cette documentation explique comment créer une configuration pour l'un des modes de livraison proposé par l'extension.</p>
-				
-				<p class="alert alert-info">Nouvelle documentation, plus simple et plus claire.<br/>
-				<strong>Utilisez l'<a href="#index">index</a></strong> pour vous retrouver plus facilement dans la documentation.</p>
-			</div>
-
-			<div id="examples">
-				<h2>Exemples</h2>
-
-				<div id="examples_simple">
-					<h3>Exemple simple : port offert</h3>
-					<div class="json">{
-					"__auto__":{"label":"Livraison gratuite","fees": 0}
-					}</div>
-				</div>
-
-				<div id="examples_using_address_filters">
-					<h3>Frais relatifs à la destination</h3>
-					<div class="json">{
-					"__auto__":{"label":"France, Allemagne, Suisse, Espagne, Italie","shipto":"FR,DE,CH,ES,IT","fees":10},
-					"__auto__":{"label":"France sauf la Corse","shipto":"FR-(2A,2B)","fees":10},
-					"__auto__":{"label":"Corse","shipto":"FR(2A,2B)","fees":10},
-					"__auto__":{"label":"Monde entier sauf l'Allemagne et la Corse","shipto":"* - ( DE, FR(2A,2B) )","fees":10}
-					}</div>
-
-					<h4>Utiliser le caractère jocker <code>*</code> ou les expressions régulières</h4>
-					<div class="json">{
-					"__auto__":{"label":"Caractère jocker autorisant les codes postaux commençant par 25","shipto":"FR(25*)","fees":10},
-					"__auto__":{"label":"Expression régulière acceptant les codes postaux commençant par 'PO', 'po', 'Po' ou 'pO'","shipto":"GB(/^PO.*$/i)","fees":10}
-					}</div>
-
-					<div id="examples_excluding_domtom_postcode">
-						<h4>Bloquer la livraison vers la France mais avec un code postal DOM/TOM</h4>
-						<p>Avec l'expression régulière suivante, vous bloquez les codes postaux commançant par 97 ou 98 (avec ou sans zéros et espaces intercalés).</p>
-						<div class="json">{
-						"__auto__":{"label":"Expression régulière refusant les codes postaux commençant par 97 et 98","shipto":"FR-(/^[0\\s]*9\\s*[78].*/)","fees":10}
-						}</div>
-					</div>
-
-					<div id="examples_using_address_filters_shortcuts">
-						<h4>Utilisation des raccourcis <code>address_filter</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Europe sauf la France","shipto":"({address_filter.EU-27}) - (FR)","fees":10}
-						}</div>
-					</div>
-				</div>
-
-				<div id="examples_using_customer_groups">
-					<h3>Frais relatifs au groupe client</h3>
-					<p>On peut utiliser le nom ou l'ID des groupes client.</p>
-					<div class="json">{
-					"__auto__":{"label":"Groupes NOT LOGGED IN et General","customer_groups":"NOT LOGGED IN,General","fees":10},
-					"__auto__":{"label":"Groupes NOT LOGGED IN et General par leur ID","customer_groups":"0,1","fees":10},
-					"__auto__":{"label":"Groupe Retailer","customer_groups":"Retailer","fees":10}
-					}</div>
-				</div>
-
-				<div id="examples_using_formulas">
-					<h3>Utiliser les formules</h3>
-					<p>Les formules peuvent être utilisées dans les propriétés <code>conditions</code> et <code>fees</code>.</p>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","fees":"0.1 * {cart.price-tax+discount} + 10.00"}
-					}</div>
-
-					<h4>Copier la propriété d'un autre élément</h4>
-					<div class="json">{
-					"standard":{"label":"Livraison standard","conditions":"{cart.price-tax+discount} < 1000.00","fees":10},
-					"express":{"label":"Livraison express","conditions":"( {standard.conditions} ) && ( {cart.weight} < 10 )","fees":12}
-					}</div>
-
-					<h4>Utiliser la fonction <code>min()</code></h4>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","fees":"min({cart.weight}, {cart.price+tax+discount}, {cart.qty})"}
-					}</div>
-
-					<h4>Utiliser la fonction <code>range()</code></h4>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","conditions":"range({cart.weight}, 1.0, 3.0)","fees":10}
-					}</div>
-
-					<h4>Utiliser la fonction <code>substr()</code></h4>
-					<p>Une variable de type chaîne de caractères doit être entourée par des guillemets simples sauf si on utilise l'auto-échappement avec les caractères <code>{{</code> et <code>}}</code>.</p>
-					<div class="json">{
-					"__auto__":{"label":"Sans utiliser l'auto-échappement","conditions":"substr('{cart.coupon_code}', 0, 5)=='free_'","fees":10},
-					"__auto__":{"label":"En utilisant l'auto-échappement","conditions":"substr({{cart.coupon_code}}, 0, 5)=='free_'","fees":10}
-					}</div>
-
-				</div>
-
-				<div id="examples_using_special_functions">
-					<h3>Utiliser les fonctions spéciales</h3>
-
-					<div id="examples_special_table">
-						<h4>Utilisation de la fonction spéciale <code>{table … in …}</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Livraison","fees":"{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}"}
-						}</div>
-						<p>
-							Dans une <code>table</code>, on peut inclure ou exclure une valeur limite avec les caractères <code>[</code> et <code>]</code> :
-						</p>
-						<div class="json">{
-						"__auto__":{"label":"Limite supérieure incluse","fees":"{table {cart.weight} in 1.0]:5.00}"},
-						"__auto__":{"label":"Limite supérieure exclue","fees":"{table {cart.weight} in 1.0[:5.00}"}
-						}</div>
-
-						<p>
-							Dans une <code>table</code>, on doit spécifier la valeur de référence. Pour cela, on peut utiliser une des <a href="#formulas_variables">variables</a> disponibles.<br/>
-							On peut aussi utiliser une formule afin de définir une autre variable de référence.
-						</p>
-
-						<div class="json">{
-						"__auto__":{"label":"Table avec poids du panier","fees":"{table {cart.weight} in 0.5:5.30, 1.0:6.50}"},
-						"__auto__":{"label":"Table avec quantité d'articles","fees":"{table {cart.qty} in 10:5.30, 20:6.50}"},
-						"__auto__":{"label":"Table avec prix TTC","fees":"{table {cart.price+tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}"},
-						"__auto__":{"label":"Table avec prix HT","fees":"{table {cart.price-tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}"},
-						"__auto__":{"label":"Table avec valeur personnalisée","fees":"{table ceil({cart.weight}/10) in 1:5.30, 2:6.50}"}
-						}</div>
-					</div>
-
-					<div id="examples_special_switch">
-						<h4>Utilisation de la fonction spéciale <code>{switch … in …}</code> (table de correspondance)</h4>
-						<p>
-							Dans un <code>switch</code>, on doit spécifier la valeur de référence. Pour cela, on peut utiliser une des <a href="#formulas_variables">variables</a> disponibles.<br/>
-							On peut aussi utiliser une formule afin de définir une autre variable de référence.
-						</p>
-						<div class="json">{
-						"__auto__":{"label":"Switch avec code promo","fees":"{switch {{cart.coupon_code}} in 'coupon1':5.30, 'coupon2':6.50, null:10.00, *:7.50}"},
-						"__auto__":{"label":"Switch avec pays de livraison","fees":"{switch {{shipto.country_id}} in 'FR':5.30, 'BE':6.50, 'DE':10.00, *:7.50}"}
-						}</div>
-					</div>
-
-					<div id="examples_special_count">
-						<h4>Utiliser la fonction spéciale <code>{count …}</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Si au moins un produit possède l'attribut 'color' égal à 'Bleu'","conditions":"{count items where product.attribute.color=='Bleu'} > 0","fees":10},
-						"__auto__":{"label":"Si tous les produits possèdent l'option 'size' supérieure ou égal à '1'","conditions":"{count items where item.option.size>='1'} == {cart.qty}","fees":10}
-						}</div>
-
-						<p>
-							Si la propriété est de type <strong>Oui/Non</strong>, vous devez utiliser les valeurs <code>true</code>/<code>false</code> ou <code>1</code>/<code>0</code> sans les guillemets.
-						</p>
-						<div class="json">{
-						"__auto__":{"label":"Exemple propriété de type Oui/Non : 1","conditions":"{count items where product.attribute.colissimo_allowed==1}","fees":10},
-						"__auto__":{"label":"Exemple propriété de type Oui/Non : true","conditions":"{count items where product.attribute.colissimo_allowed==true}","fees":10}
-						}</div>
-					</div>
-
-					<div id="examples_special_count_distinct">
-						<h4>Utiliser la fonction spéciale <code>{count distinct …}</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Nombre de SKU différents","conditions":"{count distinct product.attribute.sku}","fees":10}
-						}</div>
-					</div>
-
-					<div id="examples_special_sum">
-						<h4>Utiliser la fonction spéciale <code>{sum …}</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Somme de toutes les options 'size' est supérieure à 30","conditions":"{sum item.option.size} > 30","fees":10}
-						}</div>
-					</div>
-
-					<div id="examples_special_min">
-						<h4>Utiliser la fonction spéciale <code>{min …}</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Prix HT sans remise minimum des articles dans le panier est supérieur à 10","conditions":"{min item.price-tax-discount} > 10","fees":10}
-						}</div>
-					</div>
-
-					<div id="examples_special_max">
-						<h4>Utiliser la fonction spéciale <code>{max …}</code></h4>
-						<div class="json">{
-						"__auto__":{"label":"Valeur maximum de l'option 'size' des articles dans le panier est inférieure à 50","conditions":"{max item.option.size} < 50","fees":10}
-						}</div>
-					</div>
-				</div>
-
-				<div id="examples_using_foreach">
-					<h3>Utiliser les boucles <code>{foreach …}</code></h3>
-					<div class="json">{
-					"__auto__":{"label":"Regroupement des produits par origine puis traitement des groupes séparémment","fees":"{foreach product.attribute.code_origin}{table {selection.weight} in 0.0:0.00, 1.0:11.00, 3.0:12.00, 5.0:13.00}{/foreach}"},
-					"__auto__":{"label":"Calcul des frais de port par produit","fees":"{foreach product.attribute.sku}{product.attribute.shipping}*{item.qty}{/foreach}"}
-					}</div>
-				</div>
-
-				<div id="examples_using_array_functions">
-					<h3>Manipuler les tableaux</h3>
-
-					<h4>Utilisation de la fonction <code>in_array()</code></h4>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","conditions":"in_array({cart.qty}, array(10, 20, 30))","fees":10}
-					}</div>
-
-					<h4>Utilisation de la fonction <code>in_array()</code> avec des chaînes de caractères *</h4>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","conditions":"in_array({{cart.coupon_code}}, array('free1', 'free2'))","fees":10}
-					}</div>
-
-					<h4>Utilisation de la fonction <code>array_match_any()</code></h4>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","about":"5 x poids des produits qui se trouvent dans la catégorie 2 ou 3","fees":"{sum product.weight where array_match_any(product.categories.id, array(2, 3))} * 5.0"}
-					}</div>
-
-					<h4>Utilisation de la fonction <code>array_match_all()</code></h4>
-					<div class="json">{
-					"__auto__":{"label":"Livraison","about":"5 x poids des produits qui se trouvent à la fois dans la catégorie 2 et dans la catégorie 3","fees":"{sum product.weight where array_match_all(product.categories.id, array(2, 3))} * 5.0"}
-					}</div>
-				</div>
-
-				<div id="examples_more">
-					<h3>Autres exemples</h3>
-
-					<div id="examples_product_categories">
-						<h4>Utiliser la catégorie des produits</h4>
-						<p class="alert alert-danger">Attention, il est à noter que dans Magento, <strong>un produit peut être dans plusieurs catégories</strong>. Faites donc particulièrement attention à la façon dont vous utilisez cette propriété.</p>
-						<div class="json">{
-						"__auto__":{"label":"Boucle foreach dont l'itération se fait sur la catégorie","fees":"{foreach product.categories}{selection.weight}{/foreach}"},
-						"__auto__":{"label":"Utilisation de la catégorie à l'intérieur d'une boucle foreach","fees":"{foreach product.sku}({{product.category}}=='Test' ? 2.00 : 1.00)*{item.qty}{/foreach}"},
-						"__auto__":{"label":"Utilisation de l'id de la catégorie à l'intérieur d'une boucle foreach","fees":"{foreach product.sku}({product.category.id}==12 ? 2.00 : 1.00)*{item.qty}{/foreach}"},
-						"__auto__":{"about":"La fonction in_array() est utilisée car product.categories retourne un tableau","label":"Somme des attributs weight des produits de la catégorie 'Test'","fees":"{sum product.weight where in_array('Test', product.categories)}"},
-						"__auto__":{"about":"La fonction in_array() est utilisée car product.categories.id retourne un tableau","label":"Somme des attributs weight des produits de la catégorie dont l'id est 12","fees":"{sum product.weight where in_array(12, product.categories.id)}"},
-						"__auto__":{"about":"La fonction array_match_any() est utilisée car product.categories.id retourne un tableau","label":"Somme des attributs weight des produits des catégories dont les id sont 11 et 12","fees":"{sum product.weight where array_match_any(product.categories.id, array(11, 12))}"},
-						"__auto__":{"label":"Somme des poids des produits dont la première catégorie est 'Test'","fees":"{sum product.weight where product.category=='Test'}"},
-						"__auto__":{"label":"Somme des poids des produits dont l'id de la première catégorie est 12","fees":"{sum product.weight where product.category.id==12}"}
-						}</div>
-					</div>
-
-					<div id="examples_data">
-						<h4>Ajout et utilisation d'un élément <code>data</code></h4>
-						<p>Un élément de type <code>data</code> permet de spécifier des données utilisables dans les méthodes de livraison.</p>
-						<div class="json">{
-						"mydata":{"type":"data","var1":"12"},
-						"__auto__":{"label":"Livraison","shipto":"FR","fees": "{mydata.var1}"},
-						"__auto__":{"label":"Livraison","shipto":"DE","fees": "{mydata.var1}*1.5"}
-						}</div>
-					</div>
-
-					<div id="examples_meta">
-						<h4>Ajout d'un élément <code>meta</code></h4>
-						<p>Un élément de type <code>meta</code> permet d'ajouter des données informatives (auteur, date…).</p>
-						<div class="json">{
-						"about":{"type":"meta","author":"Owebia","date":"15/07/2013","about":"Tarifs 2013"}
-						}</div>
-					</div>
-				</div>
-			</div>
-
-			<div id="definitions">
-				<h2>Définitions</h2>
-				<p>
-					La configuration d'un mode de livraison est un objet JSON contenant plusieurs <strong><a href="#definitions_property">propriétés</a></strong>.<br/>
-					Comme imposé par JSON, chaque propriété a un nom unique, qui servira d'<a href="#definitions_unique_id">identifiant unique</a>.<br/>
-					Chaque propriété constitue un <strong><a href="#definitions_element">élément</a></strong> de configuration (qui est également un objet JSON).<br/>
-				</p>
-				<div id="definitions_element">
-					<h3>Les éléments</h3>
-
-					<p>
-						Il existe trois différents types d'<strong>élément</strong> de configuration :
-					</p>
-					<ul>
-						<li><code>method</code> : méthode de livraison (par défaut si non spécifié)</li>
-						<li><code>data</code> : données pouvant être utilisées dans une ou plusieurs méthodes de livraison (<a href="#examples_data">exemples</a>)</li>
-						<li><code>meta</code> : données informatives (<a href="#examples_meta">exemples</a>)</li>
-					</ul>
-				</div>
-
-				<div id="definitions_property">
-					<h3>Les propriétés</h3>
-
-					<p>
-						Chaque élément possède plusieurs <strong>propriétés</strong> :
-					</p>
-					<ul>
-						<li id="property_about"><code>about</code> : commentaire sur l'élément</li>
-						<li id="property_type"><code>type</code> : type de l'élément (<code>method</code>, <code>meta</code> ou <code>data</code>)</li>
-					</ul>
-
-					<p>
-						Propriétés spécifiques à un élément de type <code>method</code> :
-					</p>
-					<ul>
-						<li id="property_label"><code>label</code> : nom de la méthode de livraison</li>
-						<li id="property_description"><code>description</code> : description (visible seulement si le template l'affiche)</li>
-						<li id="property_enabled"><code>enabled</code> : méthode de livraison activée ou non</li>
-						<li id="property_fees"><code>fees</code> : frais de port</li>
-						<li id="property_conditions"><code>conditions</code> : conditions d'activation</li>
-						<li id="property_shipto"><code>shipto</code> : pays (régions, codes postaux) autorisés à la livraison</li>
-						<li id="property_billto"><code>billto</code> : pays (régions, codes postaux) autorisés à la facturation</li>
-						<li id="property_origin"><code>origin</code> : pays (régions, codes postaux) autorisés en origine</li>
-						<li id="property_customer_groups"><code>customer_groups</code> : groupes de client autorisés</li>
-						<li id="property_tracking_url"><code>tracking_url</code> : URL de suivi (<a href="#more_tracking_url">plus d'informations</a>)</li>
-					</ul>
-
-					<p><a href="#examples">Voir les exemples</a></p>
-
-					<h4>Utiliser les propriétés de type adresse (<code>shipto</code>, <code>billto</code> et <code>origin</code>)</h4>
-					<p>
-						Les codes pays utilisés sont ceux de Magento (à priori ils sont les mêmes que les <a href="http://fr.wikipedia.org/wiki/ISO_3166-1" target=_blank>codes ISO 3166-1 alpha-2</a>).<br/>
-						Il est possible de spécifier les codes régions (uniquement avec <code>shipto</code>) ou les codes postaux que l'on veut filtrer ou exclure.
-					</p>
-					<p class=new>
-						Vous pouvez utiliser le caractère <strong>jocker</strong> <code>*</code> ou les <strong>expressions régulières</strong> pour les codes postaux.<br/>
-						Une expression régulière doit commencer et se terminer par le caractère <code>/</code>. Si vous souhaitez utiliser les caractères <code>(</code>, <code>)</code> ou <code>.</code>, vous devez les échapper avec le caractère <code>\</code> (ex: <code><span class=string>"FR(/^25\([0-9]{3}\)$/)"</span></code>).<br/>
-						Vous pouvez utiliser l'option d'insensibilité à la casse (ex: <code><span class=string>"GB(/^PO.*$/i)"</span></code>).
-					</p>
-
-					<p><a href="#examples_using_address_filters">Voir les exemples</a></p>
-
-					<div id="address_filter" class="alert alert-info">
-						<p><strong>Astuce</strong><br/>Pour raccourcir la saisie des pays, vous pouvez utiliser les variables suivantes :</p>
-						<ul>
-							<li><code>{address_filter.AF}</code> : pays d'Afrique</li>
-							<li><code>{address_filter.AS}</code> : pays d'Asie</li>
-							<li><code>{address_filter.EU}</code> : pays d'Europe</li>
-							<li><code>{address_filter.NA}</code> : pays d'Amérique du Nord</li>
-							<li><code>{address_filter.SA}</code> : pays d'Amérique du Sud</li>
-							<li><code>{address_filter.OC}</code> : pays d'Océanie</li>
-							<li><code>{address_filter.AN}</code> : pays d'Antartique</li>
-							<li><code>{address_filter.EU-27}</code> : pays de l'Union Européenne</li>
-							<li><code>{address_filter.DOM}</code> : codes pays des département d'Outre-Mer Français</li>
-							<li><code>{address_filter.COM}</code> : codes pays des Collectivités d'Outre-Mer Françaises</li>
-						</ul>
-						<p><a href="#examples_using_address_filters_shortcuts">Voir les exemples</a></p>
-					</div>
-				</div>
-
-				<div id="definitions_unique_id">
-					<h3>L'identifiant unique</h3>
-
-					<p>Chaque élément de configuration possède un <strong>identifiant unique</strong>. Cet identifiant permet ensuite de faire référence à l'élément.</p>
-					<p>Exemple :</p>
-					<div class="json">{
-					"europe":{"label":"Livraison Europe","fees":10},
-					"us":{"label":"Livraison US","fees":"{europe.fees}+20"}
-					}</div>
-
-					<p class="alert alert-danger"><strong><u>Attention</u> :</strong> pour éviter les conflicts, n'utiliser que les caractères <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>-</code> et <code>_</code> pour former l'identifiant unique.<br/>Vous devez également éviter les identifiants qui correspondent déjà à des noms de variable (<code>cart</code>, <code>product</code>, <code>item</code>…).</p>
-				</div>
-			</div>
-
-			<div id="formulas">
-				<h2>Les formules</h2>
-				<p>
-					Les propriétés <code>fees</code> et <code>conditions</code> sont spécifiées sous la forme de formules.<br/>
-				</p>
-				<p>
-					Une formule utilise des <a href="#formulas_variables">variables</a>, des <a href="#formulas_functions">fonctions</a>, des <a href="#formulas_special_functions">fonctions spéciales</a> et des opérateurs mathématiques.
-				</p>
-				<p>
-					Opérateurs mathématiques disponibles :
-				</p>
-				<ul>
-					<li>opérateurs : <code>*</code>, <code>/</code>, <code>+</code> et <code>-</code></li>
-					<li>modulo : <code>%</code></li>
-					<li>parenthèses : <code>(</code> et <code>)</code></li>
-					<li>les opérateurs booléens <code>&amp;&amp;</code>, <code>and</code>, <code>||</code>, <code>or</code>, <code>==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
-					<li>les opérateurs binaires <code>&amp;</code> et <code>|</code></li>
-					<li>le groupe d'opérateur <code>C ? X : Y</code> (ex: <code><span class=string>"{cart.price_exluding_tax}&gt;100 ? 15*{cart.weight} : 20*{cart.weight}"</span></code>)</li>
-				</ul>
-				<p>
-					Vous avez la possibilité de mettre des espaces et des retours à la ligne dans les formules (pour aérer).
-				</p>
-				<p>
-					Possibilité d'utiliser les fonctionnalités avancées suivantes : casting  en entier <code>(int)</code> ou en nombre flottant <code>(float)</code>,
-					comparaison avec la valeur <code>null</code> ou les valeurs booléennes <code>true</code> et <code>false</code>.
-				</p>
-
-				<div id="formulas_variables">
-					<h3>Les variables</h3>
-
-					<p class="alert alert-info">
-						Lorsque vous utilisez des variables qui ne sont pas numériques ou booléennes, vous devez les échapper avec des guillemets simples ou utiliser la syntaxe d'auto-échappement <code>{{ }}</code>.
-					</p>
-
-					<p>
-						Les variables suivantes peuvent être utilisées dans les <a href="#formulas">formules</a>.
-					</p>
-					<ul>
-						<li id="formulas_variables_cart">Le panier :
-							<ul>
-								<li><code>{cart.weight}</code> : poids des marchandises</li>
-								<li><code>{cart.qty}</code> : la quantité d'articles</li>
-								<li><code>{cart.price-tax+discount}</code> : prix HT avec remise</li>
-								<li><code>{cart.price+tax+discount}</code> : prix TTC avec remise</li>
-								<li><code>{cart.price-tax-discount}</code> : prix HT sans remise</li>
-								<li><code>{cart.price+tax-discount}</code> : prix TTC sans remise</li>
-								<li><code>{cart.coupon_code}</code> : coupon de réduction</li>
-								<li><code>{cart.free_shipping}</code> : frais de port offert (par une règle dans Magento) [true/false]</li>
-								<li><code>{cart.weight_unit}</code> : l'unité de poids</li>
-								<li><code>{cart.weight_for_charge}</code> : poids des marchandises dont la livraison n'est pas offerte (par les règles de prix panier de Magento)</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_quote">Le bon de commande :
-							<ul>
-								<li><code>{quote.subtotal}</code>: sous-total HT</li>
-								<li><code>{quote.subtotal_with_discount}</code>: sous-total HT avec remise</li>
-								<li><code>{quote.grand_total}</code>: total TTC avec remise</li>
-								<li><code>{quote.base_subtotal}</code>: sous-total HT dans la devise de base</li>
-								<li><code>{quote.base_subtotal_with_discount}</code>: sous-total HT avec remise dans la devise de base</li>
-								<li><code>{quote.base_grand_total}</code>: total TTC avec remise dans la devise de base</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_customer_group">Le group client :
-							<ul>
-								<li><code>{customer_group.id}</code> : id du groupe client</li>
-								<li><code>{customer_group.code}</code> : nom du groupe client</li>
-								<li><code>{customer_group.*}</code> : propriété du groupe client (ex: <code>{customer_group.tax_class_id}</code>)</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_customer">Le client :
-							<ul>
-								<li><code>{customer.id}</code> : id du client</li>
-								<li><code>{customer.attribute.*}</code> : attribut du client (ex: lastname, firstname, group_id…)</li>
-								<li><code>{customer.attribute.*.value}</code> : dans le cas des attributs de type liste de sélection, <code>{customer.attribute.*}</code> retourne l'id, pour obtenir la valeur il faut utiliser <code>{customer.attribute.*.value}</code></li>
-								<li><code>{customer.*}</code> : identique à <code>{customer.attribute.*}</code>, sauf si la variable est déjà définie (ex: <code>{customer.id}</code> est déjà définie)</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_customvar">Les variables personnalisées ou `Custom Variables` (depuis la version 1.4.0.1 de Magento) :
-							<ul>
-								<li><code>{customvar.*}</code> : variable personnalisée de Magento (ex: <code>{customvar.my_var}</code>)</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_shipto">L'adresse de livraison :
-							<ul>
-								<li><code>{shipto.country_name}</code> : le nom du pays</li>
-								<li><code>{shipto.country_id}</code> : le code du pays</li>
-								<li><code>{shipto.region_id}</code> : l'id de la région</li>
-								<li><code>{shipto.region_code}</code> : le code de la région</li>
-								<li><code>{shipto.street}</code> : la rue</li>
-								<li><code>{shipto.city}</code> : la ville</li>
-								<li><code>{shipto.postcode}</code> : le code postal</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_billto">L'adresse de facturation :
-							<ul>
-								<li><code>{billto.country_name}</code> : le nom du pays</li>
-								<li><code>{billto.country_id}</code> : le code du pays</li>
-								<li><code>{billto.postcode}</code> : le code postal</li>
-								<li><code>{billto.*}</code> : propriété de l'adresse de facturation (ex: <code>{billto.city}</code>)</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_origin">L'adresse d'envoi :
-							<ul>
-								<li><code>{origin.country_name}</code> : le nom du pays</li>
-								<li><code>{origin.country_id}</code> : le code du pays</li>
-								<li><code>{origin.region_id}</code> : l'id de la région</li>
-								<li><code>{origin.city}</code> : la ville</li>
-								<li><code>{origin.postcode}</code> : le code postal</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_store">Le magasin :
-							<ul>
-								<li><code>{store.id}</code> <code>{store.code}</code> <code>{store.name}</code> <code>{store.address}</code> <code>{store.phone}</code> : id, code, nom, adresse et téléphone du magasin</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_date">La date courante :
-							<ul>
-								<li><code>{date.timestamp}</code> : timestamp UNIX de la date actuelle</li>
-								<li><code>{date.year}</code> <code>{date.month}</code> <code>{date.day}</code> <code>{date.hour}</code> <code>{date.minute}</code> <code>{date.second}</code> : année, mois, jour, heure, minute et seconde de la date actuelle</li>
-								<li><code>{date.weekday}</code> : jour de la semaine de la date actuelle de 0 (dimanche) à 6 (samedi)</li>
-							</ul>
-						</li>
-						<li id="formulas_variables_request">L'objet <code>request</code> :
-							<ul>
-								<li><code>{request.*}</code> : propriété de l'objet request (Mage_Shipping_Model_Rate_Request) passé en paramètre par Magento (ex: <code>{request.package_qty}</code>). Utiliser l'option "Déboguage" pour obtenir plus de détail sur les propriétés disponibles.</li>
-							</ul>
-						</li>
-					</ul>
-					
-					<div id="formulas_variables_for_special_functions">
-						<h4>Variables utilisables dans les fonctions spéciales</h4>
-
-						<p>Les variables suivantes peuvent être utilisées dans les <a href="#formulas_special_functions">fonctions spéciales</a>.</p>
-
-						<p class="alert alert-danger">Contrairement à ailleurs, les variables suivantes ne doivent pas être entourées par les caractères <code>{</code> et <code>}</code>.</p>
-
-						<p>
-							Un <code>item</code> est une déclinaison d'un <code>product</code> auquel on a ajouté d'éventuelles options. Chaque <code>item</code> a une quantité.
-						</p>
-						<ul>
-							<li id="formulas_variables_item">L'article (ou <code>item</code>) :
-								<ul>
-									<li><code>item.qty</code> : quantité dans le panier</li>
-									<li><code>item.price-tax+discount</code> : le prix HT avec remise</li>
-									<li><code>item.price-tax-discount</code> : le prix HT sans remise</li>
-									<li><code>item.price+tax+discount</code> : le prix TTC avec remise</li>
-									<li><code>item.price+tax-discount</code> : le prix TTC sans remise</li>
-									<li><code>item.option.*</code> : option (la liste des options disponibles dépendra des produits)</li>
-								</ul>
-							</li>
-							<li id="formulas_variables_product">Le produit (ou <code>product</code>) :
-								<ul>
-									<li><code>product.attribute.*</code> : attribut<br/>Attributs intéressants :
-										<ul>
-											<li><code>sku</code> : la référence</li>
-											<li><code>name</code> : le nom</li>
-											<li><code>weight</code> : le poids</li>
-											<li><code>price</code> : le prix (tel qu'il a été saisi sur la fiche du produit)</li>
-											<li><code>special_price</code> : le prix promotionnel (tel qu'il a été saisi sur la fiche du produit)</li>
-											<li>…</li>
-										</ul>
-									</li>
-									<li><code>product.attribute.*.value</code> : valeur de l'attribut<br/>Dans le cas des attributs de type liste de sélection, <code>product.attribute.*</code> retourne l'id. Pour obtenir la valeur, il faut utiliser <code>product.attribute.*.value</code></li>
-									<li><code>product.*</code> : identique à <code>product.attribute.*</code> sauf si la variable est définie (ex: <code>product.category</code>)</li>
-									<li>Première catégorie du produit :
-										<ul>
-											<li><code>product.category</code> : nom de la catégorie</li>
-											<li><code>product.category.id</code> : id de la catégorie</li>
-											<li><code>product.category.*</code> : attribut de la catégorie (ex: <code>product.category.is_active</code>)<br/>Attributs intéressants :
-												<ul>
-													<li><code>is_active</code> : catégorie activée ou non</li>
-													<li><code>name</code> : nom</li>
-													<li>…</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									<li>Toutes les catégories du produit (retourne un tableau, <a href="#examples_product_categories">exemples</a>) :
-										<ul>
-											<li><code>product.categories</code> : tableau du nom des catégories</li>
-											<li><code>product.categories.id</code> : tableau de l'id des catégories</li>
-										</ul>
-									</li>
-									<li>Le jeu d'attributs du produit :
-										<ul>
-											<li><code>product.attribute_set</code> : nom du jeu d'attributs</li>
-											<li><code>product.attribute_set.id</code> : id du jeu d'attributs</li>
-											<li><code>product.attribute_set.*</code> : attribut du jeu d'attributs (ex: <code>product.attribute_set.attribute_set_name</code>)</li>
-										</ul>
-									</li>
-									<li><code>product.stock.*</code> : attribut du stock du produit<br/>Attributs intéressants :
-										<ul>
-											<li><code>is_in_stock</code> : disponibilité du produit</li>
-											<li><code>qty</code> : stock du produit</li>
-											<li>…</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-
-					<div id="formulas_variables_for_foreach">
-						<h4>Variables utilisables dans les boucles <code>foreach</code></h4>
-
-						<p>Les variables suivantes peuvent être utilisées dans les <a href="#formulas_foreach">boucles <code>foreach</code></a>.</p>
-
-						<ul>
-							<li><code>{selection.weight}</code> : poids de la sélection</li>
-							<li><code>{selection.qty}</code> : nombre d'articles dans la sélection</li>
-						</ul>
-						<p>
-							Lorsque la sélection se fait sur le sku, chaque sélection est composée d'un seul article.
-							On peut donc utiliser les <a href="#formulas_variables_for_special_functions">variables article et produit</a>.
-						</p>
-						<ul>
-							<li><code>{item.*}</code> : propriété de l'article</li>
-							<li><code>{product.*}</code> : propriété du produit</li>
-						</ul>
-						<p class="alert alert-info">
-							Les variables article et produit sont identiques aux <a href="#formulas_variables_for_special_functions">variables utilisables dans les fonctions spéciales</a> à la seule différence qu'elles doivent être entourées par les caractères <code>{</code> et <code>}</code>.
-						</p>
-					</div>
-				</div>
-
-				<div id="formulas_functions">
-					<h3>Les fonctions</h3>
-
-					<h4>Les fonctions numériques</h4>
-					<ul>
-						<li><code>abs(x)</code> : valeur absolue</li>
-						<li><code>ceil(x)</code> : arrondi supérieur</li>
-						<li><code>exp(x)</code> : exponentiel</li>
-						<li><code>floor(x)</code> : arrondi inférieur</li>
-						<li><code>log(x)</code> : logarithme népérien</li>
-						<li><code>log(x, base)</code> : logarithme</li>
-						<li><code>max(x, y, …)</code> : maximum, valeurs nulles ignorées</li>
-						<li><code>min(x, y, …)</code> : minimum, valeurs nulles ignorées</li>
-						<li><code>pi()</code> : nombre PI</li>
-						<li><code>pow(x, puissance)</code> : puissance </li>
-						<li><code>rand(min, max)</code> : entier aléatoire</li>
-						<li><code>round(x)</code> : arrondi</li>
-						<li><code>sqrt(x)</code> : racine carrée</li>
-					</ul>
-
-					<h4>Les fonctions pour manipuler des chaînes de caractères</h4>
-					<ul>
-						<li><code>substr(string, start, length)</code> : retourne un segment de chaîne de caractères.</li>
-					</ul>
-
-					<h4>Les fonctions pour manipuler des tableaux</h4>
-					<ul>
-						<li><code>in_array(value, array(value1, value2, …))</code> : retourne vrai si la valeur se trouve dans le tableau.</li>
-						<li><code>array_match_any(array(value1, value2, …), array(value1, value2, …))</code> : retourne vrai si au moins une valeur est présente dans les deux tableaux.</li>
-						<li><code>array_match_all(array(value1, value2, …), array(value1, value2, …))</code> : retourne vrai si le contenu des tableaux est identique.</li>
-					</ul>
-
-					<h4>Fonctions diverses</h4>
-					<ul>
-						<li><code>range(value, min, max, include_min, include_max)</code> : retourne vrai si <code>value</code> est comprise entre <code>min</code> et <code>max</code>. Par défaut, <code>include_min</code> et <code>include_max</code> sont égales à <code>true</code>.</li>
-					</ul>
-				</div>
-
-				<div id="formulas_special_functions">
-					<h3>Les fonctions spéciales</h3>
-
-					<ul>
-						<li><code>{table … in …}</code> : définit des valeurs en fonction de seuils (<a href="#examples_special_table">exemples</a>)</li>
-						<li><code>{switch … in …}</code> : définit une table de correspondance (<a href="#examples_special_switch">exemples</a>)</li>
-					</ul>
-					<p>
-						Le premier paramètre <code>…</code> des fonctions <code>table</code> et <code>switch</code> est la valeur de référence, il peut s'agir soit d'une variable, soit d'une formule.
-					</p>
-					<ul>
-						<li><code>{count items[ where …]}</code> : compte les articles remplissant les conditions (<a href="#examples_special_count">exemples</a>)</li>
-						<li><code>{count distinct …[ where …]}</code> : compte les différentes valeurs d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_count_distinct">exemples</a>)</li>
-						<li><code>{sum …[ where …]}</code> : calcule la somme des valeurs d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_sum">exemples</a>)</li>
-						<li><code>{min …[ where …]}</code> : retourne la valeur minimum d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_min">exemples</a>)</li>
-						<li><code>{max …[ where …]}</code> : retourne la valeur maximum d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_max">exemples</a>)</li>
-					</ul>
-					<p>
-						Le premier paramètre <code>…</code> des fonctions <code>count distinct</code>, <code>sum</code>, <code>min</code> et <code>max</code> doit être une propriété (ex: <code>product.attribute.weight</code>).
-					</p>
-					<p>La condition <code>where</code> est facultative. Si elle est spécifiée, elle le sera sous la forme d'une formule.</p>
-				</div>
-
-				<div id="formulas_foreach">
-					<h3>Utilisation des boucles <code>foreach</code></h3>
-
-					<p>
-						Les boucles <code>foreach</code> permettent d'effectuer un calcul sur des groupes de produits plutôt que de tenir compte de tous les produits du panier.<br/>
-						Le résultat global d'une boucle <code>foreach</code> est la somme des résultats de chaque passage dans la boucle.
-					</p>
-					<p>
-						A l'intérieur d'une boucle <code>foreach</code>, il est possible d'utiliser de <a href="#formulas_variables_for_foreach">nouvelles variables</a>.
-					</p>
-					<p>
-						<a href="#examples_using_foreach">Exemples</a>
-					</p>
-				</div>
-
-				<div id="formulas_deprecated_variables">
-					<h3>Les variables dépréciées</h3>
-					
-					<p>Les variables suivantes doivent être remplacées par leur équivalente.</p>
-					
-					<ul>
-						<li><a href="#formulas_variables"><code><span class=strike>{cart.coupon}</span> {cart.coupon_code}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{cart.quantity}</span> {cart.qty}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{cart.price_excluding_tax}</span> {cart.price-tax+discount}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{cart.price_including_tax}</span> {cart.price+tax+discount}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{cart.weight.for-charge}</span> {cart.weight_for_charge}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{cart.weight.unit}</span> {cart.weight_unit}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{customer.group.code}</span> {customer_group.code}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{customer.group.id}</span> {customer_group.id}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{{customVar code=*}}</span> {customvar.*}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{destination.country.code}</span> {shipto.country_id}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{destination.country.name}</span> {shipto.country_name}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{destination.postcode}</span> {shipto.postcode}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{destination.region.code}</span> {shipto.region_code}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{free_shipping}</span> {cart.free_shipping}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{origin.country.code}</span> {origin.country_id}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{origin.country.name}</span> {origin.country_name}</code></a></li>
-						<li><a href="#formulas_variables"><code><span class=strike>{origin.region.code}</span> {origin.region_id}</code></a></li>
-						<li><a href="#formulas_variables_for_foreach"><code><span class=strike>{selection.quantity}</span> {selection.qty}</code></a></li>
-					</ul>
-					<ul>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.quantity</span> item.qty</code></a></li>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price-tax+discount</span> item.price-tax+discount</code></a></li>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price-tax-discount</span> item.price-tax-discount</code></a></li>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price+tax+discount</span> item.price+tax+discount</code></a></li>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price+tax-discount</span> item.price+tax-discount</code></a></li>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.option.*</span> item.option.*</code></a></li>
-						<li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.option.*</span> item.option.*</code></a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div id="more">
-				<h2>Divers</h2>
-				
-				<div id="more_tracking_url">
-					<h3>L'URL de suivi <code>tracking_url</code></h3>
-
-					<p class="alert alert-danger">
-						L'utilisation de la propriété <code>tracking_url</code> est réservée aux utilisateurs expérimentés. Si vous ne comprenez pas les indications ci-dessous, il est préférable que vous évitiez d'utiliser cette fonctionnalité.
-					</p>
-					<p>
-						La propriété <code>tracking_url</code> permet de surcharger le champ "URL de suivi" d'un mode de livraison Owebia-Shipping et ainsi de spécifier une URL de suivi <strong>par méthode de livraison</strong> plutôt qu'une pour tout le mode de livraison.
-					</p>
-					<p>
-						Pour insérer automatiquement le numéro de colis dans l'URL de suivi, vous devez utiliser <code>{tracking_number}</code>.
-					</p>
-
-					<div class="json">{
-					"__auto__":{"label":"Exemple avec URL de suivi pour le transporteur Colissimo","fees":10,"tracking_url":"http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart={tracking_number}"}
-					}</div>
-
-					<p>
-						Magento ne gère pas les liens de tracking mais un statut de tracking. L'extension Owebia-Shipping fournit un lien HTML à la place du statut, lien qui permet d'aller sur le site du transporteur et de suivre l'avancement de la livraison du colis.
-					</p>
-					<p>
-						Lorsque l'URL de suivi est construite par l'extension, la seule information disponible est le numéro de colis et on n'a nul part accès à la méthode de livraison sélectionnée. Afin de pouvoir retrouver l'url de suivi dans la configuration, il faut spécifier la méthode de livraison dans le numéro de tracking, par exemple : <code>colissimo:8Lxxxxxxxxxxx</code> où <code>colissimo</code> est le code de la méthode de livraison sélectionnée.<br/>
-						Si aucun code n'est spécifié (si vous saisissez uniquement le numéro de tracking), l'url utilisée sera celle globale au mode de livraison.
-					</p>
-					<p class="alert alert-danger">
-						Pour répondre à une question récurrente, Magento affiche le statut de livraison depuis le back office ou le front office. Si vous souhaitez insérer l'URL de suivi dans les mails d'expédition, <strong>vous devrez développer vous même</strong> la récupération de l'URL de suivi et son insertion dans le mail, en effet, l'extension Owebia-Shipping se contente de fournir des modes de livraison paramétrables sans apporter de grande modification au coeur de Magento afin de réduire les problèmes d'incompatibilité et de mise à jour.
-					</p>
-					<p class="alert alert-danger">
-						Si vous obtenez un popup vide lorsque vous cliquez sur le lien de suivi, votre problème est très certainement lié au fait que vous n'avez pas spécifié le code de la méthode de livraison dans le numéro de suivi (voir indications plus haut) et que votre champ global "URL de suivi" est vide.
-					</p>
-					<p class="alert alert-danger">Il n'est actuellement pas prévu de modifier les fonctionnalitées de l'extension liées à l'URL de suivi.</p>
-				</div>
-			</div>
-
-			<div id="changelog">
-				<h2>Changelog</h2>
-
-				<pre class=changelog>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="affix sidebar">
+                <!-- doc sidebar start -->
+                <ul class="nav sidenav">
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#examples">Exemples</a>
+                        <ul class="nav">
+                            <li><a href="#examples_simple">Exemple simple : port offert</a></li>
+                            <li><a href="#examples_using_address_filters">Frais relatifs à la destination</a></li>
+                            <li><a href="#examples_using_customer_groups">Frais relatifs au groupe client</a></li>
+                            <li><a href="#examples_using_formulas">Utiliser les formules</a></li>
+                            <li><a href="#examples_using_special_functions">Utiliser les fonctions spéciales</a></li>
+                            <li><a href="#examples_using_foreach">Utiliser les boucles <code>{foreach …}</code></a></li>
+                            <li><a href="#examples_using_array_functions">Manipuler les tableaux</a></li>
+                            <li><a href="#examples_more">Autres exemples</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#definitions">Définitions</a>
+                        <ul class="nav">
+                            <li><a href="#definitions_element">Les éléments</a></li>
+                            <li><a href="#definitions_property">Les propriétés</a></li>
+                            <li><a href="#definitions_unique_id">L'identifiant unique</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#formulas">Les formules</a>
+                        <ul class="nav">
+                            <li><a href="#formulas_variables">Les variables</a></li>
+                            <li><a href="#formulas_functions">Les fonctions</a></li>
+                            <li><a href="#formulas_special_functions">Les fonctions spéciales</a></li>
+                            <li><a href="#formulas_foreach">Les boucles <code>foreach</code></a></li>
+                            <li><a href="#formulas_deprecated_variables">Les variables dépréciées</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#more">Divers</a>
+                        <ul class="nav">
+                            <li><a href="#more_tracking_url">L'URL de suivi</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#changelog">Changelog</a></li>
+                    <li><a href="#index">Index</a></li>
+                </ul>
+                <!-- doc sidebar end -->
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <!-- doc content start -->
+            <h1>Documentation de l'extension Owebia-Shipping 2.5.20 pour Magento</h1>
+            <div id="introduction">
+                <h2>Introduction</h2>
+
+                <p>Owebia-Shipping est une extension pour la solution de e-commerce <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
+                <p>Grace à sa syntaxe au format <a href="http://fr.wikipedia.org/wiki/JavaScript_Object_Notation" target=_blank>JSON</a>, cette extension permet une grande souplesse dans le paramétrage des frais de livraison.</p>
+                
+                <p>Cette documentation explique comment créer une configuration pour l'un des modes de livraison proposé par l'extension.</p>
+                
+                <p class="alert alert-info">Nouvelle documentation, plus simple et plus claire.<br/>
+                <strong>Utilisez l'<a href="#index">index</a></strong> pour vous retrouver plus facilement dans la documentation.</p>
+            </div>
+
+            <div id="examples">
+                <h2>Exemples</h2>
+
+                <div id="examples_simple">
+                    <h3>Exemple simple : port offert</h3>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison gratuite","fees": 0}
+                    }</div>
+                </div>
+
+                <div id="examples_using_address_filters">
+                    <h3>Frais relatifs à la destination</h3>
+                    <div class="json">{
+                    "__auto__":{"label":"France, Allemagne, Suisse, Espagne, Italie","shipto":"FR,DE,CH,ES,IT","fees":10},
+                    "__auto__":{"label":"France sauf la Corse","shipto":"FR-(2A,2B)","fees":10},
+                    "__auto__":{"label":"Corse","shipto":"FR(2A,2B)","fees":10},
+                    "__auto__":{"label":"Monde entier sauf l'Allemagne et la Corse","shipto":"* - ( DE, FR(2A,2B) )","fees":10}
+                    }</div>
+
+                    <h4>Utiliser le caractère jocker <code>*</code> ou les expressions régulières</h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Caractère jocker autorisant les codes postaux commençant par 25","shipto":"FR(25*)","fees":10},
+                    "__auto__":{"label":"Expression régulière acceptant les codes postaux commençant par 'PO', 'po', 'Po' ou 'pO'","shipto":"GB(/^PO.*$/i)","fees":10}
+                    }</div>
+
+                    <div id="examples_excluding_domtom_postcode">
+                        <h4>Bloquer la livraison vers la France mais avec un code postal DOM/TOM</h4>
+                        <p>Avec l'expression régulière suivante, vous bloquez les codes postaux commançant par 97 ou 98 (avec ou sans zéros et espaces intercalés).</p>
+                        <div class="json">{
+                        "__auto__":{"label":"Expression régulière refusant les codes postaux commençant par 97 et 98","shipto":"FR-(/^[0\\s]*9\\s*[78].*/)","fees":10}
+                        }</div>
+                    </div>
+
+                    <div id="examples_using_address_filters_shortcuts">
+                        <h4>Utilisation des raccourcis <code>address_filter</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Europe sauf la France","shipto":"({address_filter.EU-27}) - (FR)","fees":10}
+                        }</div>
+                    </div>
+                </div>
+
+                <div id="examples_using_customer_groups">
+                    <h3>Frais relatifs au groupe client</h3>
+                    <p>On peut utiliser le nom ou l'ID des groupes client.</p>
+                    <div class="json">{
+                    "__auto__":{"label":"Groupes NOT LOGGED IN et General","customer_groups":"NOT LOGGED IN,General","fees":10},
+                    "__auto__":{"label":"Groupes NOT LOGGED IN et General par leur ID","customer_groups":"0,1","fees":10},
+                    "__auto__":{"label":"Groupe Retailer","customer_groups":"Retailer","fees":10}
+                    }</div>
+                </div>
+
+                <div id="examples_using_formulas">
+                    <h3>Utiliser les formules</h3>
+                    <p>Les formules peuvent être utilisées dans les propriétés <code>conditions</code> et <code>fees</code>.</p>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","fees":"0.1 * {cart.price-tax+discount} + 10.00"}
+                    }</div>
+
+                    <h4>Copier la propriété d'un autre élément</h4>
+                    <div class="json">{
+                    "standard":{"label":"Livraison standard","conditions":"{cart.price-tax+discount} < 1000.00","fees":10},
+                    "express":{"label":"Livraison express","conditions":"( {standard.conditions} ) && ( {cart.weight} < 10 )","fees":12}
+                    }</div>
+
+                    <h4>Utiliser la fonction <code>min()</code></h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","fees":"min({cart.weight}, {cart.price+tax+discount}, {cart.qty})"}
+                    }</div>
+
+                    <h4>Utiliser la fonction <code>range()</code></h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","conditions":"range({cart.weight}, 1.0, 3.0)","fees":10}
+                    }</div>
+
+                    <h4>Utiliser la fonction <code>substr()</code></h4>
+                    <p>Une variable de type chaîne de caractères doit être entourée par des guillemets simples sauf si on utilise l'auto-échappement avec les caractères <code>{{</code> et <code>}}</code>.</p>
+                    <div class="json">{
+                    "__auto__":{"label":"Sans utiliser l'auto-échappement","conditions":"substr('{cart.coupon_code}', 0, 5)=='free_'","fees":10},
+                    "__auto__":{"label":"En utilisant l'auto-échappement","conditions":"substr({{cart.coupon_code}}, 0, 5)=='free_'","fees":10}
+                    }</div>
+
+                </div>
+
+                <div id="examples_using_special_functions">
+                    <h3>Utiliser les fonctions spéciales</h3>
+
+                    <div id="examples_special_table">
+                        <h4>Utilisation de la fonction spéciale <code>{table … in …}</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Livraison","fees":"{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10}"}
+                        }</div>
+                        <p>
+                            Dans une <code>table</code>, on peut inclure ou exclure une valeur limite avec les caractères <code>[</code> et <code>]</code> :
+                        </p>
+                        <div class="json">{
+                        "__auto__":{"label":"Limite supérieure incluse","fees":"{table {cart.weight} in 1.0]:5.00}"},
+                        "__auto__":{"label":"Limite supérieure exclue","fees":"{table {cart.weight} in 1.0[:5.00}"}
+                        }</div>
+
+                        <p>
+                            Dans une <code>table</code>, on doit spécifier la valeur de référence. Pour cela, on peut utiliser une des <a href="#formulas_variables">variables</a> disponibles.<br/>
+                            On peut aussi utiliser une formule afin de définir une autre variable de référence.
+                        </p>
+
+                        <div class="json">{
+                        "__auto__":{"label":"Table avec poids du panier","fees":"{table {cart.weight} in 0.5:5.30, 1.0:6.50}"},
+                        "__auto__":{"label":"Table avec quantité d'articles","fees":"{table {cart.qty} in 10:5.30, 20:6.50}"},
+                        "__auto__":{"label":"Table avec prix TTC","fees":"{table {cart.price+tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}"},
+                        "__auto__":{"label":"Table avec prix HT","fees":"{table {cart.price-tax+discount} in 15.00:5.30, 30.00:6.50, *:10.00}"},
+                        "__auto__":{"label":"Table avec valeur personnalisée","fees":"{table ceil({cart.weight}/10) in 1:5.30, 2:6.50}"}
+                        }</div>
+                    </div>
+
+                    <div id="examples_special_switch">
+                        <h4>Utilisation de la fonction spéciale <code>{switch … in …}</code> (table de correspondance)</h4>
+                        <p>
+                            Dans un <code>switch</code>, on doit spécifier la valeur de référence. Pour cela, on peut utiliser une des <a href="#formulas_variables">variables</a> disponibles.<br/>
+                            On peut aussi utiliser une formule afin de définir une autre variable de référence.
+                        </p>
+                        <div class="json">{
+                        "__auto__":{"label":"Switch avec code promo","fees":"{switch {{cart.coupon_code}} in 'coupon1':5.30, 'coupon2':6.50, null:10.00, *:7.50}"},
+                        "__auto__":{"label":"Switch avec pays de livraison","fees":"{switch {{shipto.country_id}} in 'FR':5.30, 'BE':6.50, 'DE':10.00, *:7.50}"}
+                        }</div>
+                    </div>
+
+                    <div id="examples_special_count">
+                        <h4>Utiliser la fonction spéciale <code>{count …}</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Si au moins un produit possède l'attribut 'color' égal à 'Bleu'","conditions":"{count items where product.attribute.color=='Bleu'} > 0","fees":10},
+                        "__auto__":{"label":"Si tous les produits possèdent l'option 'size' supérieure ou égal à '1'","conditions":"{count items where item.option.size>='1'} == {cart.qty}","fees":10}
+                        }</div>
+
+                        <p>
+                            Si la propriété est de type <strong>Oui/Non</strong>, vous devez utiliser les valeurs <code>true</code>/<code>false</code> ou <code>1</code>/<code>0</code> sans les guillemets.
+                        </p>
+                        <div class="json">{
+                        "__auto__":{"label":"Exemple propriété de type Oui/Non : 1","conditions":"{count items where product.attribute.colissimo_allowed==1}","fees":10},
+                        "__auto__":{"label":"Exemple propriété de type Oui/Non : true","conditions":"{count items where product.attribute.colissimo_allowed==true}","fees":10}
+                        }</div>
+                    </div>
+
+                    <div id="examples_special_count_distinct">
+                        <h4>Utiliser la fonction spéciale <code>{count distinct …}</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Nombre de SKU différents","conditions":"{count distinct product.attribute.sku}","fees":10}
+                        }</div>
+                    </div>
+
+                    <div id="examples_special_sum">
+                        <h4>Utiliser la fonction spéciale <code>{sum …}</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Somme de toutes les options 'size' est supérieure à 30","conditions":"{sum item.option.size} > 30","fees":10}
+                        }</div>
+                    </div>
+
+                    <div id="examples_special_min">
+                        <h4>Utiliser la fonction spéciale <code>{min …}</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Prix HT sans remise minimum des articles dans le panier est supérieur à 10","conditions":"{min item.price-tax-discount} > 10","fees":10}
+                        }</div>
+                    </div>
+
+                    <div id="examples_special_max">
+                        <h4>Utiliser la fonction spéciale <code>{max …}</code></h4>
+                        <div class="json">{
+                        "__auto__":{"label":"Valeur maximum de l'option 'size' des articles dans le panier est inférieure à 50","conditions":"{max item.option.size} < 50","fees":10}
+                        }</div>
+                    </div>
+                </div>
+
+                <div id="examples_using_foreach">
+                    <h3>Utiliser les boucles <code>{foreach …}</code></h3>
+                    <div class="json">{
+                    "__auto__":{"label":"Regroupement des produits par origine puis traitement des groupes séparémment","fees":"{foreach product.attribute.code_origin}{table {selection.weight} in 0.0:0.00, 1.0:11.00, 3.0:12.00, 5.0:13.00}{/foreach}"},
+                    "__auto__":{"label":"Calcul des frais de port par produit","fees":"{foreach product.attribute.sku}{product.attribute.shipping}*{item.qty}{/foreach}"}
+                    }</div>
+                </div>
+
+                <div id="examples_using_array_functions">
+                    <h3>Manipuler les tableaux</h3>
+
+                    <h4>Utilisation de la fonction <code>in_array()</code></h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","conditions":"in_array({cart.qty}, array(10, 20, 30))","fees":10}
+                    }</div>
+
+                    <h4>Utilisation de la fonction <code>in_array()</code> avec des chaînes de caractères *</h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","conditions":"in_array({{cart.coupon_code}}, array('free1', 'free2'))","fees":10}
+                    }</div>
+
+                    <h4>Utilisation de la fonction <code>array_match_any()</code></h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","about":"5 x poids des produits qui se trouvent dans la catégorie 2 ou 3","fees":"{sum product.weight where array_match_any(product.categories.id, array(2, 3))} * 5.0"}
+                    }</div>
+
+                    <h4>Utilisation de la fonction <code>array_match_all()</code></h4>
+                    <div class="json">{
+                    "__auto__":{"label":"Livraison","about":"5 x poids des produits qui se trouvent à la fois dans la catégorie 2 et dans la catégorie 3","fees":"{sum product.weight where array_match_all(product.categories.id, array(2, 3))} * 5.0"}
+                    }</div>
+                </div>
+
+                <div id="examples_more">
+                    <h3>Autres exemples</h3>
+
+                    <div id="examples_product_categories">
+                        <h4>Utiliser la catégorie des produits</h4>
+                        <p class="alert alert-danger">Attention, il est à noter que dans Magento, <strong>un produit peut être dans plusieurs catégories</strong>. Faites donc particulièrement attention à la façon dont vous utilisez cette propriété.</p>
+                        <div class="json">{
+                        "__auto__":{"label":"Boucle foreach dont l'itération se fait sur la catégorie","fees":"{foreach product.categories}{selection.weight}{/foreach}"},
+                        "__auto__":{"label":"Utilisation de la catégorie à l'intérieur d'une boucle foreach","fees":"{foreach product.sku}({{product.category}}=='Test' ? 2.00 : 1.00)*{item.qty}{/foreach}"},
+                        "__auto__":{"label":"Utilisation de l'id de la catégorie à l'intérieur d'une boucle foreach","fees":"{foreach product.sku}({product.category.id}==12 ? 2.00 : 1.00)*{item.qty}{/foreach}"},
+                        "__auto__":{"about":"La fonction in_array() est utilisée car product.categories retourne un tableau","label":"Somme des attributs weight des produits de la catégorie 'Test'","fees":"{sum product.weight where in_array('Test', product.categories)}"},
+                        "__auto__":{"about":"La fonction in_array() est utilisée car product.categories.id retourne un tableau","label":"Somme des attributs weight des produits de la catégorie dont l'id est 12","fees":"{sum product.weight where in_array(12, product.categories.id)}"},
+                        "__auto__":{"about":"La fonction array_match_any() est utilisée car product.categories.id retourne un tableau","label":"Somme des attributs weight des produits des catégories dont les id sont 11 et 12","fees":"{sum product.weight where array_match_any(product.categories.id, array(11, 12))}"},
+                        "__auto__":{"label":"Somme des poids des produits dont la première catégorie est 'Test'","fees":"{sum product.weight where product.category=='Test'}"},
+                        "__auto__":{"label":"Somme des poids des produits dont l'id de la première catégorie est 12","fees":"{sum product.weight where product.category.id==12}"}
+                        }</div>
+                    </div>
+
+                    <div id="examples_data">
+                        <h4>Ajout et utilisation d'un élément <code>data</code></h4>
+                        <p>Un élément de type <code>data</code> permet de spécifier des données utilisables dans les méthodes de livraison.</p>
+                        <div class="json">{
+                        "mydata":{"type":"data","var1":"12"},
+                        "__auto__":{"label":"Livraison","shipto":"FR","fees": "{mydata.var1}"},
+                        "__auto__":{"label":"Livraison","shipto":"DE","fees": "{mydata.var1}*1.5"}
+                        }</div>
+                    </div>
+
+                    <div id="examples_meta">
+                        <h4>Ajout d'un élément <code>meta</code></h4>
+                        <p>Un élément de type <code>meta</code> permet d'ajouter des données informatives (auteur, date…).</p>
+                        <div class="json">{
+                        "about":{"type":"meta","author":"Owebia","date":"15/07/2013","about":"Tarifs 2013"}
+                        }</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="definitions">
+                <h2>Définitions</h2>
+                <p>
+                    La configuration d'un mode de livraison est un objet JSON contenant plusieurs <strong><a href="#definitions_property">propriétés</a></strong>.<br/>
+                    Comme imposé par JSON, chaque propriété a un nom unique, qui servira d'<a href="#definitions_unique_id">identifiant unique</a>.<br/>
+                    Chaque propriété constitue un <strong><a href="#definitions_element">élément</a></strong> de configuration (qui est également un objet JSON).<br/>
+                </p>
+                <div id="definitions_element">
+                    <h3>Les éléments</h3>
+
+                    <p>
+                        Il existe trois différents types d'<strong>élément</strong> de configuration :
+                    </p>
+                    <ul>
+                        <li><code>method</code> : méthode de livraison (par défaut si non spécifié)</li>
+                        <li><code>data</code> : données pouvant être utilisées dans une ou plusieurs méthodes de livraison (<a href="#examples_data">exemples</a>)</li>
+                        <li><code>meta</code> : données informatives (<a href="#examples_meta">exemples</a>)</li>
+                    </ul>
+                </div>
+
+                <div id="definitions_property">
+                    <h3>Les propriétés</h3>
+
+                    <p>
+                        Chaque élément possède plusieurs <strong>propriétés</strong> :
+                    </p>
+                    <ul>
+                        <li id="property_about"><code>about</code> : commentaire sur l'élément</li>
+                        <li id="property_type"><code>type</code> : type de l'élément (<code>method</code>, <code>meta</code> ou <code>data</code>)</li>
+                    </ul>
+
+                    <p>
+                        Propriétés spécifiques à un élément de type <code>method</code> :
+                    </p>
+                    <ul>
+                        <li id="property_label"><code>label</code> : nom de la méthode de livraison</li>
+                        <li id="property_description"><code>description</code> : description (visible seulement si le template l'affiche)</li>
+                        <li id="property_enabled"><code>enabled</code> : méthode de livraison activée ou non</li>
+                        <li id="property_fees"><code>fees</code> : frais de port</li>
+                        <li id="property_conditions"><code>conditions</code> : conditions d'activation</li>
+                        <li id="property_shipto"><code>shipto</code> : pays (régions, codes postaux) autorisés à la livraison</li>
+                        <li id="property_billto"><code>billto</code> : pays (régions, codes postaux) autorisés à la facturation</li>
+                        <li id="property_origin"><code>origin</code> : pays (régions, codes postaux) autorisés en origine</li>
+                        <li id="property_customer_groups"><code>customer_groups</code> : groupes de client autorisés</li>
+                        <li id="property_tracking_url"><code>tracking_url</code> : URL de suivi (<a href="#more_tracking_url">plus d'informations</a>)</li>
+                    </ul>
+
+                    <p><a href="#examples">Voir les exemples</a></p>
+
+                    <h4>Utiliser les propriétés de type adresse (<code>shipto</code>, <code>billto</code> et <code>origin</code>)</h4>
+                    <p>
+                        Les codes pays utilisés sont ceux de Magento (à priori ils sont les mêmes que les <a href="http://fr.wikipedia.org/wiki/ISO_3166-1" target=_blank>codes ISO 3166-1 alpha-2</a>).<br/>
+                        Il est possible de spécifier les codes régions (uniquement avec <code>shipto</code>) ou les codes postaux que l'on veut filtrer ou exclure.
+                    </p>
+                    <p class=new>
+                        Vous pouvez utiliser le caractère <strong>jocker</strong> <code>*</code> ou les <strong>expressions régulières</strong> pour les codes postaux.<br/>
+                        Une expression régulière doit commencer et se terminer par le caractère <code>/</code>. Si vous souhaitez utiliser les caractères <code>(</code>, <code>)</code> ou <code>.</code>, vous devez les échapper avec le caractère <code>\</code> (ex: <code><span class=string>"FR(/^25\([0-9]{3}\)$/)"</span></code>).<br/>
+                        Vous pouvez utiliser l'option d'insensibilité à la casse (ex: <code><span class=string>"GB(/^PO.*$/i)"</span></code>).
+                    </p>
+
+                    <p><a href="#examples_using_address_filters">Voir les exemples</a></p>
+
+                    <div id="address_filter" class="alert alert-info">
+                        <p><strong>Astuce</strong><br/>Pour raccourcir la saisie des pays, vous pouvez utiliser les variables suivantes :</p>
+                        <ul>
+                            <li><code>{address_filter.AF}</code> : pays d'Afrique</li>
+                            <li><code>{address_filter.AS}</code> : pays d'Asie</li>
+                            <li><code>{address_filter.EU}</code> : pays d'Europe</li>
+                            <li><code>{address_filter.NA}</code> : pays d'Amérique du Nord</li>
+                            <li><code>{address_filter.SA}</code> : pays d'Amérique du Sud</li>
+                            <li><code>{address_filter.OC}</code> : pays d'Océanie</li>
+                            <li><code>{address_filter.AN}</code> : pays d'Antartique</li>
+                            <li><code>{address_filter.EU-27}</code> : pays de l'Union Européenne</li>
+                            <li><code>{address_filter.DOM}</code> : codes pays des département d'Outre-Mer Français</li>
+                            <li><code>{address_filter.COM}</code> : codes pays des Collectivités d'Outre-Mer Françaises</li>
+                        </ul>
+                        <p><a href="#examples_using_address_filters_shortcuts">Voir les exemples</a></p>
+                    </div>
+                </div>
+
+                <div id="definitions_unique_id">
+                    <h3>L'identifiant unique</h3>
+
+                    <p>Chaque élément de configuration possède un <strong>identifiant unique</strong>. Cet identifiant permet ensuite de faire référence à l'élément.</p>
+                    <p>Exemple :</p>
+                    <div class="json">{
+                    "europe":{"label":"Livraison Europe","fees":10},
+                    "us":{"label":"Livraison US","fees":"{europe.fees}+20"}
+                    }</div>
+
+                    <p class="alert alert-danger"><strong><u>Attention</u> :</strong> pour éviter les conflicts, n'utiliser que les caractères <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>-</code> et <code>_</code> pour former l'identifiant unique.<br/>Vous devez également éviter les identifiants qui correspondent déjà à des noms de variable (<code>cart</code>, <code>product</code>, <code>item</code>…).</p>
+                </div>
+            </div>
+
+            <div id="formulas">
+                <h2>Les formules</h2>
+                <p>
+                    Les propriétés <code>fees</code> et <code>conditions</code> sont spécifiées sous la forme de formules.<br/>
+                </p>
+                <p>
+                    Une formule utilise des <a href="#formulas_variables">variables</a>, des <a href="#formulas_functions">fonctions</a>, des <a href="#formulas_special_functions">fonctions spéciales</a> et des opérateurs mathématiques.
+                </p>
+                <p>
+                    Opérateurs mathématiques disponibles :
+                </p>
+                <ul>
+                    <li>opérateurs : <code>*</code>, <code>/</code>, <code>+</code> et <code>-</code></li>
+                    <li>modulo : <code>%</code></li>
+                    <li>parenthèses : <code>(</code> et <code>)</code></li>
+                    <li>les opérateurs booléens <code>&amp;&amp;</code>, <code>and</code>, <code>||</code>, <code>or</code>, <code>==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+                    <li>les opérateurs binaires <code>&amp;</code> et <code>|</code></li>
+                    <li>le groupe d'opérateur <code>C ? X : Y</code> (ex: <code><span class=string>"{cart.price_exluding_tax}&gt;100 ? 15*{cart.weight} : 20*{cart.weight}"</span></code>)</li>
+                </ul>
+                <p>
+                    Vous avez la possibilité de mettre des espaces et des retours à la ligne dans les formules (pour aérer).
+                </p>
+                <p>
+                    Possibilité d'utiliser les fonctionnalités avancées suivantes : casting  en entier <code>(int)</code> ou en nombre flottant <code>(float)</code>,
+                    comparaison avec la valeur <code>null</code> ou les valeurs booléennes <code>true</code> et <code>false</code>.
+                </p>
+
+                <div id="formulas_variables">
+                    <h3>Les variables</h3>
+
+                    <p class="alert alert-info">
+                        Lorsque vous utilisez des variables qui ne sont pas numériques ou booléennes, vous devez les échapper avec des guillemets simples ou utiliser la syntaxe d'auto-échappement <code>{{ }}</code>.
+                    </p>
+
+                    <p>
+                        Les variables suivantes peuvent être utilisées dans les <a href="#formulas">formules</a>.
+                    </p>
+                    <ul>
+                        <li id="formulas_variables_cart">Le panier :
+                            <ul>
+                                <li><code>{cart.weight}</code> : poids des marchandises</li>
+                                <li><code>{cart.qty}</code> : la quantité d'articles</li>
+                                <li><code>{cart.price-tax+discount}</code> : prix HT avec remise</li>
+                                <li><code>{cart.price+tax+discount}</code> : prix TTC avec remise</li>
+                                <li><code>{cart.price-tax-discount}</code> : prix HT sans remise</li>
+                                <li><code>{cart.price+tax-discount}</code> : prix TTC sans remise</li>
+                                <li><code>{cart.coupon_code}</code> : coupon de réduction</li>
+                                <li><code>{cart.free_shipping}</code> : frais de port offert (par une règle dans Magento) [true/false]</li>
+                                <li><code>{cart.weight_unit}</code> : l'unité de poids</li>
+                                <li><code>{cart.weight_for_charge}</code> : poids des marchandises dont la livraison n'est pas offerte (par les règles de prix panier de Magento)</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_quote">Le bon de commande :
+                            <ul>
+                                <li><code>{quote.subtotal}</code>: sous-total HT</li>
+                                <li><code>{quote.subtotal_with_discount}</code>: sous-total HT avec remise</li>
+                                <li><code>{quote.grand_total}</code>: total TTC avec remise</li>
+                                <li><code>{quote.base_subtotal}</code>: sous-total HT dans la devise de base</li>
+                                <li><code>{quote.base_subtotal_with_discount}</code>: sous-total HT avec remise dans la devise de base</li>
+                                <li><code>{quote.base_grand_total}</code>: total TTC avec remise dans la devise de base</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_customer_group">Le group client :
+                            <ul>
+                                <li><code>{customer_group.id}</code> : id du groupe client</li>
+                                <li><code>{customer_group.code}</code> : nom du groupe client</li>
+                                <li><code>{customer_group.*}</code> : propriété du groupe client (ex: <code>{customer_group.tax_class_id}</code>)</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_customer">Le client :
+                            <ul>
+                                <li><code>{customer.id}</code> : id du client</li>
+                                <li><code>{customer.attribute.*}</code> : attribut du client (ex: lastname, firstname, group_id…)</li>
+                                <li><code>{customer.attribute.*.value}</code> : dans le cas des attributs de type liste de sélection, <code>{customer.attribute.*}</code> retourne l'id, pour obtenir la valeur il faut utiliser <code>{customer.attribute.*.value}</code></li>
+                                <li><code>{customer.*}</code> : identique à <code>{customer.attribute.*}</code>, sauf si la variable est déjà définie (ex: <code>{customer.id}</code> est déjà définie)</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_customvar">Les variables personnalisées ou `Custom Variables` (depuis la version 1.4.0.1 de Magento) :
+                            <ul>
+                                <li><code>{customvar.*}</code> : variable personnalisée de Magento (ex: <code>{customvar.my_var}</code>)</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_shipto">L'adresse de livraison :
+                            <ul>
+                                <li><code>{shipto.country_name}</code> : le nom du pays</li>
+                                <li><code>{shipto.country_id}</code> : le code du pays</li>
+                                <li><code>{shipto.region_id}</code> : l'id de la région</li>
+                                <li><code>{shipto.region_code}</code> : le code de la région</li>
+                                <li><code>{shipto.street}</code> : la rue</li>
+                                <li><code>{shipto.city}</code> : la ville</li>
+                                <li><code>{shipto.postcode}</code> : le code postal</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_billto">L'adresse de facturation :
+                            <ul>
+                                <li><code>{billto.country_name}</code> : le nom du pays</li>
+                                <li><code>{billto.country_id}</code> : le code du pays</li>
+                                <li><code>{billto.postcode}</code> : le code postal</li>
+                                <li><code>{billto.*}</code> : propriété de l'adresse de facturation (ex: <code>{billto.city}</code>)</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_origin">L'adresse d'envoi :
+                            <ul>
+                                <li><code>{origin.country_name}</code> : le nom du pays</li>
+                                <li><code>{origin.country_id}</code> : le code du pays</li>
+                                <li><code>{origin.region_id}</code> : l'id de la région</li>
+                                <li><code>{origin.city}</code> : la ville</li>
+                                <li><code>{origin.postcode}</code> : le code postal</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_store">Le magasin :
+                            <ul>
+                                <li><code>{store.id}</code> <code>{store.code}</code> <code>{store.name}</code> <code>{store.address}</code> <code>{store.phone}</code> : id, code, nom, adresse et téléphone du magasin</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_date">La date courante :
+                            <ul>
+                                <li><code>{date.timestamp}</code> : timestamp UNIX de la date actuelle</li>
+                                <li><code>{date.year}</code> <code>{date.month}</code> <code>{date.day}</code> <code>{date.hour}</code> <code>{date.minute}</code> <code>{date.second}</code> : année, mois, jour, heure, minute et seconde de la date actuelle</li>
+                                <li><code>{date.weekday}</code> : jour de la semaine de la date actuelle de 0 (dimanche) à 6 (samedi)</li>
+                            </ul>
+                        </li>
+                        <li id="formulas_variables_request">L'objet <code>request</code> :
+                            <ul>
+                                <li><code>{request.*}</code> : propriété de l'objet request (Mage_Shipping_Model_Rate_Request) passé en paramètre par Magento (ex: <code>{request.package_qty}</code>). Utiliser l'option "Déboguage" pour obtenir plus de détail sur les propriétés disponibles.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div id="formulas_variables_for_special_functions">
+                        <h4>Variables utilisables dans les fonctions spéciales</h4>
+
+                        <p>Les variables suivantes peuvent être utilisées dans les <a href="#formulas_special_functions">fonctions spéciales</a>.</p>
+
+                        <p class="alert alert-danger">Contrairement à ailleurs, les variables suivantes ne doivent pas être entourées par les caractères <code>{</code> et <code>}</code>.</p>
+
+                        <p>
+                            Un <code>item</code> est une déclinaison d'un <code>product</code> auquel on a ajouté d'éventuelles options. Chaque <code>item</code> a une quantité.
+                        </p>
+                        <ul>
+                            <li id="formulas_variables_item">L'article (ou <code>item</code>) :
+                                <ul>
+                                    <li><code>item.qty</code> : quantité dans le panier</li>
+                                    <li><code>item.price-tax+discount</code> : le prix HT avec remise</li>
+                                    <li><code>item.price-tax-discount</code> : le prix HT sans remise</li>
+                                    <li><code>item.price+tax+discount</code> : le prix TTC avec remise</li>
+                                    <li><code>item.price+tax-discount</code> : le prix TTC sans remise</li>
+                                    <li><code>item.option.*</code> : option (la liste des options disponibles dépendra des produits)</li>
+                                </ul>
+                            </li>
+                            <li id="formulas_variables_product">Le produit (ou <code>product</code>) :
+                                <ul>
+                                    <li><code>product.attribute.*</code> : attribut<br/>Attributs intéressants :
+                                        <ul>
+                                            <li><code>sku</code> : la référence</li>
+                                            <li><code>name</code> : le nom</li>
+                                            <li><code>weight</code> : le poids</li>
+                                            <li><code>price</code> : le prix (tel qu'il a été saisi sur la fiche du produit)</li>
+                                            <li><code>special_price</code> : le prix promotionnel (tel qu'il a été saisi sur la fiche du produit)</li>
+                                            <li>…</li>
+                                        </ul>
+                                    </li>
+                                    <li><code>product.attribute.*.value</code> : valeur de l'attribut<br/>Dans le cas des attributs de type liste de sélection, <code>product.attribute.*</code> retourne l'id. Pour obtenir la valeur, il faut utiliser <code>product.attribute.*.value</code></li>
+                                    <li><code>product.*</code> : identique à <code>product.attribute.*</code> sauf si la variable est définie (ex: <code>product.category</code>)</li>
+                                    <li>Première catégorie du produit :
+                                        <ul>
+                                            <li><code>product.category</code> : nom de la catégorie</li>
+                                            <li><code>product.category.id</code> : id de la catégorie</li>
+                                            <li><code>product.category.*</code> : attribut de la catégorie (ex: <code>product.category.is_active</code>)<br/>Attributs intéressants :
+                                                <ul>
+                                                    <li><code>is_active</code> : catégorie activée ou non</li>
+                                                    <li><code>name</code> : nom</li>
+                                                    <li>…</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Toutes les catégories du produit (retourne un tableau, <a href="#examples_product_categories">exemples</a>) :
+                                        <ul>
+                                            <li><code>product.categories</code> : tableau du nom des catégories</li>
+                                            <li><code>product.categories.id</code> : tableau de l'id des catégories</li>
+                                        </ul>
+                                    </li>
+                                    <li>Le jeu d'attributs du produit :
+                                        <ul>
+                                            <li><code>product.attribute_set</code> : nom du jeu d'attributs</li>
+                                            <li><code>product.attribute_set.id</code> : id du jeu d'attributs</li>
+                                            <li><code>product.attribute_set.*</code> : attribut du jeu d'attributs (ex: <code>product.attribute_set.attribute_set_name</code>)</li>
+                                        </ul>
+                                    </li>
+                                    <li><code>product.stock.*</code> : attribut du stock du produit<br/>Attributs intéressants :
+                                        <ul>
+                                            <li><code>is_in_stock</code> : disponibilité du produit</li>
+                                            <li><code>qty</code> : stock du produit</li>
+                                            <li>…</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="formulas_variables_for_foreach">
+                        <h4>Variables utilisables dans les boucles <code>foreach</code></h4>
+
+                        <p>Les variables suivantes peuvent être utilisées dans les <a href="#formulas_foreach">boucles <code>foreach</code></a>.</p>
+
+                        <ul>
+                            <li><code>{selection.weight}</code> : poids de la sélection</li>
+                            <li><code>{selection.qty}</code> : nombre d'articles dans la sélection</li>
+                        </ul>
+                        <p>
+                            Lorsque la sélection se fait sur le sku, chaque sélection est composée d'un seul article.
+                            On peut donc utiliser les <a href="#formulas_variables_for_special_functions">variables article et produit</a>.
+                        </p>
+                        <ul>
+                            <li><code>{item.*}</code> : propriété de l'article</li>
+                            <li><code>{product.*}</code> : propriété du produit</li>
+                        </ul>
+                        <p class="alert alert-info">
+                            Les variables article et produit sont identiques aux <a href="#formulas_variables_for_special_functions">variables utilisables dans les fonctions spéciales</a> à la seule différence qu'elles doivent être entourées par les caractères <code>{</code> et <code>}</code>.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="formulas_functions">
+                    <h3>Les fonctions</h3>
+
+                    <h4>Les fonctions numériques</h4>
+                    <ul>
+                        <li><code>abs(x)</code> : valeur absolue</li>
+                        <li><code>ceil(x)</code> : arrondi supérieur</li>
+                        <li><code>exp(x)</code> : exponentiel</li>
+                        <li><code>floor(x)</code> : arrondi inférieur</li>
+                        <li><code>log(x)</code> : logarithme népérien</li>
+                        <li><code>log(x, base)</code> : logarithme</li>
+                        <li><code>max(x, y, …)</code> : maximum, valeurs nulles ignorées</li>
+                        <li><code>min(x, y, …)</code> : minimum, valeurs nulles ignorées</li>
+                        <li><code>pi()</code> : nombre PI</li>
+                        <li><code>pow(x, puissance)</code> : puissance </li>
+                        <li><code>rand(min, max)</code> : entier aléatoire</li>
+                        <li><code>round(x)</code> : arrondi</li>
+                        <li><code>sqrt(x)</code> : racine carrée</li>
+                    </ul>
+
+                    <h4>Les fonctions pour manipuler des chaînes de caractères</h4>
+                    <ul>
+                        <li><code>substr(string, start, length)</code> : retourne un segment de chaîne de caractères.</li>
+                    </ul>
+
+                    <h4>Les fonctions pour manipuler des tableaux</h4>
+                    <ul>
+                        <li><code>in_array(value, array(value1, value2, …))</code> : retourne vrai si la valeur se trouve dans le tableau.</li>
+                        <li><code>array_match_any(array(value1, value2, …), array(value1, value2, …))</code> : retourne vrai si au moins une valeur est présente dans les deux tableaux.</li>
+                        <li><code>array_match_all(array(value1, value2, …), array(value1, value2, …))</code> : retourne vrai si le contenu des tableaux est identique.</li>
+                    </ul>
+
+                    <h4>Fonctions diverses</h4>
+                    <ul>
+                        <li><code>range(value, min, max, include_min, include_max)</code> : retourne vrai si <code>value</code> est comprise entre <code>min</code> et <code>max</code>. Par défaut, <code>include_min</code> et <code>include_max</code> sont égales à <code>true</code>.</li>
+                    </ul>
+                </div>
+
+                <div id="formulas_special_functions">
+                    <h3>Les fonctions spéciales</h3>
+
+                    <ul>
+                        <li><code>{table … in …}</code> : définit des valeurs en fonction de seuils (<a href="#examples_special_table">exemples</a>)</li>
+                        <li><code>{switch … in …}</code> : définit une table de correspondance (<a href="#examples_special_switch">exemples</a>)</li>
+                    </ul>
+                    <p>
+                        Le premier paramètre <code>…</code> des fonctions <code>table</code> et <code>switch</code> est la valeur de référence, il peut s'agir soit d'une variable, soit d'une formule.
+                    </p>
+                    <ul>
+                        <li><code>{count items[ where …]}</code> : compte les articles remplissant les conditions (<a href="#examples_special_count">exemples</a>)</li>
+                        <li><code>{count distinct …[ where …]}</code> : compte les différentes valeurs d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_count_distinct">exemples</a>)</li>
+                        <li><code>{sum …[ where …]}</code> : calcule la somme des valeurs d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_sum">exemples</a>)</li>
+                        <li><code>{min …[ where …]}</code> : retourne la valeur minimum d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_min">exemples</a>)</li>
+                        <li><code>{max …[ where …]}</code> : retourne la valeur maximum d'une propriété pour les articles remplissant les conditions (<a href="#examples_special_max">exemples</a>)</li>
+                    </ul>
+                    <p>
+                        Le premier paramètre <code>…</code> des fonctions <code>count distinct</code>, <code>sum</code>, <code>min</code> et <code>max</code> doit être une propriété (ex: <code>product.attribute.weight</code>).
+                    </p>
+                    <p>La condition <code>where</code> est facultative. Si elle est spécifiée, elle le sera sous la forme d'une formule.</p>
+                </div>
+
+                <div id="formulas_foreach">
+                    <h3>Utilisation des boucles <code>foreach</code></h3>
+
+                    <p>
+                        Les boucles <code>foreach</code> permettent d'effectuer un calcul sur des groupes de produits plutôt que de tenir compte de tous les produits du panier.<br/>
+                        Le résultat global d'une boucle <code>foreach</code> est la somme des résultats de chaque passage dans la boucle.
+                    </p>
+                    <p>
+                        A l'intérieur d'une boucle <code>foreach</code>, il est possible d'utiliser de <a href="#formulas_variables_for_foreach">nouvelles variables</a>.
+                    </p>
+                    <p>
+                        <a href="#examples_using_foreach">Exemples</a>
+                    </p>
+                </div>
+
+                <div id="formulas_deprecated_variables">
+                    <h3>Les variables dépréciées</h3>
+                    
+                    <p>Les variables suivantes doivent être remplacées par leur équivalente.</p>
+                    
+                    <ul>
+                        <li><a href="#formulas_variables"><code><span class=strike>{cart.coupon}</span> {cart.coupon_code}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{cart.quantity}</span> {cart.qty}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{cart.price_excluding_tax}</span> {cart.price-tax+discount}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{cart.price_including_tax}</span> {cart.price+tax+discount}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{cart.weight.for-charge}</span> {cart.weight_for_charge}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{cart.weight.unit}</span> {cart.weight_unit}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{customer.group.code}</span> {customer_group.code}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{customer.group.id}</span> {customer_group.id}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{{customVar code=*}}</span> {customvar.*}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{destination.country.code}</span> {shipto.country_id}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{destination.country.name}</span> {shipto.country_name}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{destination.postcode}</span> {shipto.postcode}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{destination.region.code}</span> {shipto.region_code}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{free_shipping}</span> {cart.free_shipping}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{origin.country.code}</span> {origin.country_id}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{origin.country.name}</span> {origin.country_name}</code></a></li>
+                        <li><a href="#formulas_variables"><code><span class=strike>{origin.region.code}</span> {origin.region_id}</code></a></li>
+                        <li><a href="#formulas_variables_for_foreach"><code><span class=strike>{selection.quantity}</span> {selection.qty}</code></a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.quantity</span> item.qty</code></a></li>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price-tax+discount</span> item.price-tax+discount</code></a></li>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price-tax-discount</span> item.price-tax-discount</code></a></li>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price+tax+discount</span> item.price+tax+discount</code></a></li>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.price+tax-discount</span> item.price+tax-discount</code></a></li>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.option.*</span> item.option.*</code></a></li>
+                        <li><a href="#formulas_variables_for_special_functions"><code><span class=strike>product.option.*</span> item.option.*</code></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="more">
+                <h2>Divers</h2>
+                
+                <div id="more_tracking_url">
+                    <h3>L'URL de suivi <code>tracking_url</code></h3>
+
+                    <p class="alert alert-danger">
+                        L'utilisation de la propriété <code>tracking_url</code> est réservée aux utilisateurs expérimentés. Si vous ne comprenez pas les indications ci-dessous, il est préférable que vous évitiez d'utiliser cette fonctionnalité.
+                    </p>
+                    <p>
+                        La propriété <code>tracking_url</code> permet de surcharger le champ "URL de suivi" d'un mode de livraison Owebia-Shipping et ainsi de spécifier une URL de suivi <strong>par méthode de livraison</strong> plutôt qu'une pour tout le mode de livraison.
+                    </p>
+                    <p>
+                        Pour insérer automatiquement le numéro de colis dans l'URL de suivi, vous devez utiliser <code>{tracking_number}</code>.
+                    </p>
+
+                    <div class="json">{
+                    "__auto__":{"label":"Exemple avec URL de suivi pour le transporteur Colissimo","fees":10,"tracking_url":"http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart={tracking_number}"}
+                    }</div>
+
+                    <p>
+                        Magento ne gère pas les liens de tracking mais un statut de tracking. L'extension Owebia-Shipping fournit un lien HTML à la place du statut, lien qui permet d'aller sur le site du transporteur et de suivre l'avancement de la livraison du colis.
+                    </p>
+                    <p>
+                        Lorsque l'URL de suivi est construite par l'extension, la seule information disponible est le numéro de colis et on n'a nul part accès à la méthode de livraison sélectionnée. Afin de pouvoir retrouver l'url de suivi dans la configuration, il faut spécifier la méthode de livraison dans le numéro de tracking, par exemple : <code>colissimo:8Lxxxxxxxxxxx</code> où <code>colissimo</code> est le code de la méthode de livraison sélectionnée.<br/>
+                        Si aucun code n'est spécifié (si vous saisissez uniquement le numéro de tracking), l'url utilisée sera celle globale au mode de livraison.
+                    </p>
+                    <p class="alert alert-danger">
+                        Pour répondre à une question récurrente, Magento affiche le statut de livraison depuis le back office ou le front office. Si vous souhaitez insérer l'URL de suivi dans les mails d'expédition, <strong>vous devrez développer vous même</strong> la récupération de l'URL de suivi et son insertion dans le mail, en effet, l'extension Owebia-Shipping se contente de fournir des modes de livraison paramétrables sans apporter de grande modification au coeur de Magento afin de réduire les problèmes d'incompatibilité et de mise à jour.
+                    </p>
+                    <p class="alert alert-danger">
+                        Si vous obtenez un popup vide lorsque vous cliquez sur le lien de suivi, votre problème est très certainement lié au fait que vous n'avez pas spécifié le code de la méthode de livraison dans le numéro de suivi (voir indications plus haut) et que votre champ global "URL de suivi" est vide.
+                    </p>
+                    <p class="alert alert-danger">Il n'est actuellement pas prévu de modifier les fonctionnalitées de l'extension liées à l'URL de suivi.</p>
+                </div>
+            </div>
+
+            <div id="changelog">
+                <h2>Changelog</h2>
+
+                <pre class=changelog>
+[2.5.20 - 25 avril 2016]
+Fix code indentation
+Fix version number
+Add readme file in package
+
+[2.5.19 - 09 novembre 2015]
+Note: the extension is not affected by the patch SUPEE-6788 since it uses the new admin url routing syntax for 3 years (version 2.4.8.0)
+Fix bug: deactivation of auto-escaping by default since it can cause some bugs (ex: impossible to use {address_filter.EU-27} in shipto)
+Fix bug: fix auto-escaping of properties like {{shipto.country_name}}
+Fix bug: variable replacements in labels (variables {cart.price-tax-discount}, {cart.price-tax+discount}, {cart.price+tax-discount} and {cart.price+tax+discount})
+Fix bug: use items and not quote to retrieve values {cart.price-tax-discount}, {cart.price-tax+discount}, {cart.price+tax-discount} and {cart.price+tax+discount} (quote totals are not available at this time, calculating them causes duplications of addresses and a false grand_total value)
+Fix bug: retrieve customer in backoffice order
+Fix unicode accented chars in json_encode for PHP &lt; 5.4
+Fix bug: usage of regular expressions inside {count ...}, {sum ...}, {min ...} and {max ...}
+Allow usage of php functions date and strtotime (ex: "label": "'Your package will be delivered between ' . date('d/m', strtotime('+5 days')) . ' and ' . date('d/m Y', strtotime('+7 days'))",
+
 [2.5.18 - 24 juillet 2014]
 Pas de modification, nouvelle version pour Magento Connect
 
@@ -930,8 +946,8 @@ Mise à jour de la syntaxe de la configuration par défaut
 Modification de la syntaxe de la configuration pour la rendre 100% compatible JSON
 Refonte complète de l'éditeur
 Suppression de la compatibilité avec les propriétés dépréciées suivantes :
-	'fees_table', 'fees_formula', 'fixed_fees', 'reference_value', 'prices_range', 'weights_range', 'product_properties',
-	'free_shipping__fees_table', 'free_shipping__fees_formula', 'free_shipping__fixed_fees', 'free_shipping__label',
+    'fees_table', 'fees_formula', 'fixed_fees', 'reference_value', 'prices_range', 'weights_range', 'product_properties',
+    'free_shipping__fees_table', 'free_shipping__fees_formula', 'free_shipping__fixed_fees', 'free_shipping__label',
 Suppression de la compatibilité avec la désactivation d'une méthode de livraison à l'aide du caractère #
 Suppression de la compatibilité avec les mots réservés en majuscule : TABLE, SUM, COUNT, DISTINCT et IN
 Ajout des fonctions array_match_any et array_match_all
@@ -956,9 +972,9 @@ Correction du code PHP pour supprimer des erreurs E_STRICT
 Correction d'un bug dans l'utilisation de la fonction {table ... in ...} : lorsque la variable de référence est indéfinie, le résultat était invalide (valeur précédente de la variable $replacement)
 Correction d'un problème avec les produits packagés (bundle product) : les produits 'bundle' et les produits 'simple' étaient tous deux récupérés ce qui faussait les résultats
 Support des sets d'attributs
-	product.attribute_set dans les conditions de boucle foreach
-	{product.attribute_set} et {product.attribute_set.id} comme variables dans les boucles foreach
-	product.attribute_set, product.attribute_set.id dans les conditions des opérations sum, count, min et max
+    product.attribute_set dans les conditions de boucle foreach
+    {product.attribute_set} et {product.attribute_set.id} comme variables dans les boucles foreach
+    product.attribute_set, product.attribute_set.id dans les conditions des opérations sum, count, min et max
 Optimisation du chargement de certaines valeurs (catégories, attribute set, ...)
 Correction d'un problème avec les castings successifs (string), (float) qui posent problème lorsque la locale utilise la virgule comme séparateur de décimales
 
@@ -985,18 +1001,18 @@ Initialisation des formules sum et count à 0 au lieu de null (pour éviter les 
 Ajout des alias &quot;a&quot; et &quot;attr&quot; pour &quot;attribute&quot;, &quot;o&quot; et &quot;opt&quot; pour &quot;option&quot;, &quot;p&quot; pour &quot;product&quot;, &quot;c&quot; pour &quot;cart&quot;, &quot;s&quot; pour &quot;selection&quot;
 Correction de la récupération des variables personnalisées : getValue('text') au lieu de getValue('plain')
 Support des catégories
-	product.categories dans les conditions de boucle foreach
-	{product.category} et {product.category.id} comme variables dans les boucles foreach
-	product.category, product.category.id, product.categories, product.categories.id dans les conditions des opérations sum, count, min et max
+    product.categories dans les conditions de boucle foreach
+    {product.category} et {product.category.id} comme variables dans les boucles foreach
+    product.category, product.category.id, product.categories, product.categories.id dans les conditions des opérations sum, count, min et max
 Amélioration du debug
 
 [2.4.1 - 24 août 2011]
 Modification légère du code php pour éviter un plantage avec certaines versions d'eAccelerator (cache php)
-		$row = null;
-		$this-&gt;addMessage('info',$row,null,'Ignored lines %s','&lt;div class=&quot;code&quot;&gt;'.trim($config_string).'&lt;/div&gt;');
-	au lieu de ;
-		$this-&gt;addMessage('info',$row=null,null,'Ignored lines %s','&lt;div class=&quot;code&quot;&gt;'.trim($config_string).'&lt;/div&gt;');
-	(cf http://www.magentocommerce.com/boards/viewthread/233202/)
+        $row = null;
+        $this-&gt;addMessage('info',$row,null,'Ignored lines %s','&lt;div class=&quot;code&quot;&gt;'.trim($config_string).'&lt;/div&gt;');
+    au lieu de ;
+        $this-&gt;addMessage('info',$row=null,null,'Ignored lines %s','&lt;div class=&quot;code&quot;&gt;'.trim($config_string).'&lt;/div&gt;');
+    (cf http://www.magentocommerce.com/boards/viewthread/233202/)
 Ajout des variables de debug &quot;info.server.os&quot; et &quot;info.server.software&quot;
 Ajout de la possibilité de récupérer la valeur minimum ou maximum de la quantité (ex: &quot;{max product.quantity}&quot;)
 
@@ -1223,295 +1239,295 @@ Corrections de bugs
 [2.0 - 3 avril 2009]
 Création de la version 2.0 du module Owebia Shipping qui n'est plus compatible avec les anciennes versions
 
-				</pre>
-			</div>
+                </pre>
+            </div>
 
-			<div id="index">
-				<h2>Index</h2>
-				<div class="panel">
-					<div class="row">
-						<div class="col-lg-6">
-							<h3>A</h3>
-							<ul>
-								<li><code>about</code> : <a href="#property_about">propriété</a></li>
-								<li>activation : voir <code>enabled</code></li>
-								<li>adresse d'envoi : voir <code>origin</code></li>
-								<li>adresse de facturation : voir <code>billto</code></li>
-								<li>adresse de livraison : voir <code>shipto</code></li>
-								<li><code>address_filter</code> : <a href="#address_filter">raccourci</a>, <a href="#examples_using_address_filters_shortcuts">exemples</a></li>
-								<li>attribut produit : voir <code>product.attribute.*</code></li>
-							</ul>
+            <div id="index">
+                <h2>Index</h2>
+                <div class="panel">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3>A</h3>
+                            <ul>
+                                <li><code>about</code> : <a href="#property_about">propriété</a></li>
+                                <li>activation : voir <code>enabled</code></li>
+                                <li>adresse d'envoi : voir <code>origin</code></li>
+                                <li>adresse de facturation : voir <code>billto</code></li>
+                                <li>adresse de livraison : voir <code>shipto</code></li>
+                                <li><code>address_filter</code> : <a href="#address_filter">raccourci</a>, <a href="#examples_using_address_filters_shortcuts">exemples</a></li>
+                                <li>attribut produit : voir <code>product.attribute.*</code></li>
+                            </ul>
 
-							<h3>B</h3>
-							<ul>
-								<li><code>billto</code> :
-									<ul>
-										<li><a href="#property_billto">propriété</a></li>
-										<li><a href="#formulas_variables_billto">variables</a></li>
-									</ul>
-								</li>
-								<li>bon de commande : voir <code>quote</code></li>
-							</ul>
+                            <h3>B</h3>
+                            <ul>
+                                <li><code>billto</code> :
+                                    <ul>
+                                        <li><a href="#property_billto">propriété</a></li>
+                                        <li><a href="#formulas_variables_billto">variables</a></li>
+                                    </ul>
+                                </li>
+                                <li>bon de commande : voir <code>quote</code></li>
+                            </ul>
 
-							<h3>C</h3>
-							<ul>
-								<li><code>cart</code> : <a href="#formulas_variables_cart">variables</a></li>
-								<li>commentaire : voir <code>about</code></li>
-								<li><code>conditions</code> : <a href="#property_conditions">propriété</a></li>
-								<li><code>count</code> : <a href="#formulas_special_functions">fonction spéciale</a></li>
-								<li><code>count distinct</code> : <a href="#formulas_special_functions">fonction spéciale</a></li>
-								<li><code>customer</code> : <a href="#formulas_variables_customer">variables</a></li>
-								<li><code>customer_group</code> : <a href="#formulas_variables_customer_group">variables</a></li>
-								<li><code>customer_groups</code> : <a href="#property_customer_groups">propriété</a></li>
-								<li><code>customvar</code> : <a href="#formulas_variables_customvar">variables</a></li>
-							</ul>
+                            <h3>C</h3>
+                            <ul>
+                                <li><code>cart</code> : <a href="#formulas_variables_cart">variables</a></li>
+                                <li>commentaire : voir <code>about</code></li>
+                                <li><code>conditions</code> : <a href="#property_conditions">propriété</a></li>
+                                <li><code>count</code> : <a href="#formulas_special_functions">fonction spéciale</a></li>
+                                <li><code>count distinct</code> : <a href="#formulas_special_functions">fonction spéciale</a></li>
+                                <li><code>customer</code> : <a href="#formulas_variables_customer">variables</a></li>
+                                <li><code>customer_group</code> : <a href="#formulas_variables_customer_group">variables</a></li>
+                                <li><code>customer_groups</code> : <a href="#property_customer_groups">propriété</a></li>
+                                <li><code>customvar</code> : <a href="#formulas_variables_customvar">variables</a></li>
+                            </ul>
 
-							<h3>D</h3>
-							<ul>
-								<li><code>data</code> : <a href="#definitions_element">type d'élément</a>, <a href="#examples_data">exemples</a></li>
-								<li><code>date</code> : <a href="#formulas_variables_date">variables</a></li>
-								<li>désactivation : voir <code>enabled</code></li>
-								<li><code>description</code> : <a href="#property_description">propriété</a></li>
-								<li>destination : voir <code>shipto</code></li>
-								<li>DOM/TOM : <a href="#examples_excluding_domtom_postcode">exclusion des codes postaux</a></li>
-							</ul>
+                            <h3>D</h3>
+                            <ul>
+                                <li><code>data</code> : <a href="#definitions_element">type d'élément</a>, <a href="#examples_data">exemples</a></li>
+                                <li><code>date</code> : <a href="#formulas_variables_date">variables</a></li>
+                                <li>désactivation : voir <code>enabled</code></li>
+                                <li><code>description</code> : <a href="#property_description">propriété</a></li>
+                                <li>destination : voir <code>shipto</code></li>
+                                <li>DOM/TOM : <a href="#examples_excluding_domtom_postcode">exclusion des codes postaux</a></li>
+                            </ul>
 
-							<h3>E</h3>
-							<ul>
-								<li>élément : <a href="#definitions_element">définition</a></li>
-								<li><code>enabled</code> : <a href="#property_enabled">propriété</a></li>
-								<li>expression régulière : voir la propriété <code>shipto</code></li>
-							</ul>
+                            <h3>E</h3>
+                            <ul>
+                                <li>élément : <a href="#definitions_element">définition</a></li>
+                                <li><code>enabled</code> : <a href="#property_enabled">propriété</a></li>
+                                <li>expression régulière : voir la propriété <code>shipto</code></li>
+                            </ul>
 
-							<h3>F</h3>
-							<ul>
-								<li><code>fees</code> : <a href="#property_fees">propriété</a></li>
-								<li><a href="#formulas_functions">Fonctions</a></li>
-								<li><code>foreach</code> : <a href="#formulas_foreach">boucle</a>, <a href="#examples_using_foreach">exemples</a></li>
-								<li><a href="#formulas">Formules</a></li>
-								<li>frais de port : voir <code>fees</code></li>
-							</ul>
+                            <h3>F</h3>
+                            <ul>
+                                <li><code>fees</code> : <a href="#property_fees">propriété</a></li>
+                                <li><a href="#formulas_functions">Fonctions</a></li>
+                                <li><code>foreach</code> : <a href="#formulas_foreach">boucle</a>, <a href="#examples_using_foreach">exemples</a></li>
+                                <li><a href="#formulas">Formules</a></li>
+                                <li>frais de port : voir <code>fees</code></li>
+                            </ul>
 
-							<h3>G</h3>
-							<ul>
-								<li>gratuit : voir "port offert"</li>
-								<li>groupes client : voir <code>customer_groups</code></li>
-							</ul>
+                            <h3>G</h3>
+                            <ul>
+                                <li>gratuit : voir "port offert"</li>
+                                <li>groupes client : voir <code>customer_groups</code></li>
+                            </ul>
 
-							<h3>I</h3>
-							<ul>
-								<li>identifiant unique : <a href="#definitions_unique_id">définition</a></li>
-								<li><code>item</code> : <a href="#formulas_variables_item">variables</a></li>
-								<li><code>item.option.*</code> : <a href="#formulas_variables_item">variables</a></li>
-							</ul>
-						</div>
-						<div class="col-lg-6">
-							<h3>L</h3>
-							<ul>
-								<li><code>label</code> : <a href="#property_label">propriété</a></li>
-							</ul>
+                            <h3>I</h3>
+                            <ul>
+                                <li>identifiant unique : <a href="#definitions_unique_id">définition</a></li>
+                                <li><code>item</code> : <a href="#formulas_variables_item">variables</a></li>
+                                <li><code>item.option.*</code> : <a href="#formulas_variables_item">variables</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <h3>L</h3>
+                            <ul>
+                                <li><code>label</code> : <a href="#property_label">propriété</a></li>
+                            </ul>
 
-							<h3>M</h3>
-							<ul>
-								<li><code>max</code> :
-									<ul>
-										<li><a href="#formulas_functions">fonction</a></li>
-										<li><a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_max">exemples</a></li>
-									</ul>
-								</li>
-								<li><code>meta</code> : <a href="#definitions_element">type d'élément</a>, <a href="#examples_meta">exemples</a></li>
-								<li><code>method</code> : <a href="#definitions_element">type d'élément</a></li>
-								<li><code>min</code> :
-									<ul>
-										<li><a href="#formulas_functions">fonction</a></li>
-										<li><a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_min">exemples</a></li>
-									</ul>
-								</li>
-							</ul>
+                            <h3>M</h3>
+                            <ul>
+                                <li><code>max</code> :
+                                    <ul>
+                                        <li><a href="#formulas_functions">fonction</a></li>
+                                        <li><a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_max">exemples</a></li>
+                                    </ul>
+                                </li>
+                                <li><code>meta</code> : <a href="#definitions_element">type d'élément</a>, <a href="#examples_meta">exemples</a></li>
+                                <li><code>method</code> : <a href="#definitions_element">type d'élément</a></li>
+                                <li><code>min</code> :
+                                    <ul>
+                                        <li><a href="#formulas_functions">fonction</a></li>
+                                        <li><a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_min">exemples</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
 
-							<h3>O</h3>
-							<ul>
-								<li>offert : voir "port offert"</li>
-								<li>option produit : voir <code>item.option.*</code></li>
-								<li><code>origin</code> :
-									<ul>
-										<li><a href="#property_origin">propriété</a></li>
-										<li><a href="#formulas_variables_origin">variables</a></li>
-									</ul>
-								</li>
-							</ul>
+                            <h3>O</h3>
+                            <ul>
+                                <li>offert : voir "port offert"</li>
+                                <li>option produit : voir <code>item.option.*</code></li>
+                                <li><code>origin</code> :
+                                    <ul>
+                                        <li><a href="#property_origin">propriété</a></li>
+                                        <li><a href="#formulas_variables_origin">variables</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
 
-							<h3>P</h3>
-							<ul>
-								<li>panier : voir <code>cart</code></li>
-								<li>port offert : <a href="#examples_simple">exemples</a></li>
-								<li><code>product</code> : <a href="#formulas_variables_product">variables</a></li>
-								<li><code>product.attribute.*</code> : <a href="#formulas_variables_product">variables</a></li>
-								<li><code>product.categories</code> : <a href="#formulas_variables_product">variables</a>, <a href="#examples_product_categories">exemples</a></li>
-								<li>propriété : <a href="#definitions_property">définition</a></li>
-							</ul>
+                            <h3>P</h3>
+                            <ul>
+                                <li>panier : voir <code>cart</code></li>
+                                <li>port offert : <a href="#examples_simple">exemples</a></li>
+                                <li><code>product</code> : <a href="#formulas_variables_product">variables</a></li>
+                                <li><code>product.attribute.*</code> : <a href="#formulas_variables_product">variables</a></li>
+                                <li><code>product.categories</code> : <a href="#formulas_variables_product">variables</a>, <a href="#examples_product_categories">exemples</a></li>
+                                <li>propriété : <a href="#definitions_property">définition</a></li>
+                            </ul>
 
-							<h3>Q</h3>
-							<ul>
-								<li><code>quote</code> : <a href="#formulas_variables_quote">variables</a></li>
-							</ul>
+                            <h3>Q</h3>
+                            <ul>
+                                <li><code>quote</code> : <a href="#formulas_variables_quote">variables</a></li>
+                            </ul>
 
-							<h3>R</h3>
-							<ul>
-								<li><code>request</code> : <a href="#formulas_variables_request">variables</a></li>
-							</ul>
+                            <h3>R</h3>
+                            <ul>
+                                <li><code>request</code> : <a href="#formulas_variables_request">variables</a></li>
+                            </ul>
 
-							<h3>S</h3>
-							<ul>
-								<li><code>shipto</code> :
-									<ul>
-										<li><a href="#property_shipto">propriété</a>, <a href="#examples_using_address_filters">exemples</a></li>
-										<li><a href="#formulas_variables_shipto">variables</a></li>
-									</ul>
-								</li>
-								<li><code>store</code> : <a href="#formulas_variables_store">variables</a></li>
-								<li><code>sum</code> : <a href="#formulas_special_functions">fonction spéciale</a></li>
-								<li><code>switch</code> : <a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_switch">exemples</a></li>
-							</ul>
+                            <h3>S</h3>
+                            <ul>
+                                <li><code>shipto</code> :
+                                    <ul>
+                                        <li><a href="#property_shipto">propriété</a>, <a href="#examples_using_address_filters">exemples</a></li>
+                                        <li><a href="#formulas_variables_shipto">variables</a></li>
+                                    </ul>
+                                </li>
+                                <li><code>store</code> : <a href="#formulas_variables_store">variables</a></li>
+                                <li><code>sum</code> : <a href="#formulas_special_functions">fonction spéciale</a></li>
+                                <li><code>switch</code> : <a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_switch">exemples</a></li>
+                            </ul>
 
-							<h3>T</h3>
-							<ul>
-								<li><code>table</code> : <a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_table">exemples</a></li>
-								<li>table de correspondance&nbsp;: voir <code>switch</code></li>
-								<li>titre&nbsp;: voir <code>label</code></li>
-								<li><code>tracking_url</code>&nbsp;: <a href="#property_tracking_url">propriété</a>, <a href="#more_tracking_url">plus d'informations</a></li>
-								<li><code>type</code>&nbsp;: <a href="#property_type">propriété</a></li>
-							</ul>
+                            <h3>T</h3>
+                            <ul>
+                                <li><code>table</code> : <a href="#formulas_special_functions">fonction spéciale</a>, <a href="#examples_special_table">exemples</a></li>
+                                <li>table de correspondance&nbsp;: voir <code>switch</code></li>
+                                <li>titre&nbsp;: voir <code>label</code></li>
+                                <li><code>tracking_url</code>&nbsp;: <a href="#property_tracking_url">propriété</a>, <a href="#more_tracking_url">plus d'informations</a></li>
+                                <li><code>type</code>&nbsp;: <a href="#property_type">propriété</a></li>
+                            </ul>
 
-							<h3>U</h3>
-							<ul>
-								<li>URL de suivi&nbsp;: voir <code>tracking_url</code></li>
-							</ul>
+                            <h3>U</h3>
+                            <ul>
+                                <li>URL de suivi&nbsp;: voir <code>tracking_url</code></li>
+                            </ul>
 
-							<h3>V</h3>
-							<ul>
-								<li>Variables : <a href="#formulas_variables">disponibles</a>, <a href="#formulas_deprecated_variables">dépréciées</a></li>
-								<li>Variables personnalisées de Magento : voir <code>customvar</code></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- doc content end -->
-		</div>
-	</div>
+                            <h3>V</h3>
+                            <ul>
+                                <li>Variables : <a href="#formulas_variables">disponibles</a>, <a href="#formulas_deprecated_variables">dépréciées</a></li>
+                                <li>Variables personnalisées de Magento : voir <code>customvar</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doc content end -->
+        </div>
+    </div>
 </div>
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 <script>
 <!-- doc scripts start -->
 function jsonEncode(data, beautify, html, level, current_indent) {
-	if (typeof beautify == 'undefined') beautify = false;
-	if (typeof html == 'undefined') html = false;
-	if (typeof level == 'undefined') level = 0;
-	if (typeof current_indent == 'undefined') current_indent = '';
+    if (typeof beautify == 'undefined') beautify = false;
+    if (typeof html == 'undefined') html = false;
+    if (typeof level == 'undefined') level = 0;
+    if (typeof current_indent == 'undefined') current_indent = '';
 
-	var indent = html ? '&nbsp;&nbsp;&nbsp;' : "\t";
-	var line_break = html ? '<br/>' : "\n";
-	var new_indent = current_indent + indent;
-	switch (typeof(data)) {
-		case 'undefined':
-			return (html ? '<span class=json-reserved>' : '') + 'null' + (html ? '</span>' : '');
-		case 'boolean':
-			return (html ? '<span class=json-reserved>' : '') + (data ? 'true' : 'false') + (html ? '</span>' : '');
-		case 'number':
-			return (html ? '<span class=json-numeric>' : '') + data + (html ? '</span>' : '');
-		case 'string':
-			var output = JSON.stringify(data);
-			return html ? '<span class=json-string>' + output + '</span>' : output;
-		case 'object':
-			var output_index_count = 0;
-			var output = [];
-			for (var key in data) {
-				var value = data[key];
-				if (output_index_count!==null && output_index_count++!==key) {
-					output_index_count = null;
-				}
-			}
-			var is_associative = output_index_count===null;
-			for (var key in data) {
-				var value = data[key];
-				if (is_associative) {
-					var classes = [];
-					if (key=='about') classes.push('json-about');
-					if (key=='conditions' || key=='fees') classes.push('json-formula');
-					var property_classes = ['json-property'];
-					if (level==0) property_classes.push('json-id');
-					output.push(
-						(html && classes.length ? '<span class="' + classes.join(' ') + '">' : '')
-						+ (html ? '<span' + (property_classes.length ? ' class="' + property_classes.join(' ') + '"' : '') + '>' : '')
-						+ jsonEncode('' + key)
-						+ (html ? '</span>' : '') + ':'
-						+ (beautify ? ' ' : '')
-						+ jsonEncode(value, beautify, html, level+1, new_indent)
-						+ (html && classes.length ? '</span>' : '')
-					);
-				} else {
-					output.push(jsonEncode(value, beautify, html, level+1, current_indent));
-				}
-			}
-			if (is_associative) {
-				var classes = [];
-				if (data.type == 'meta') classes.push('json-meta');
-				output = (html && classes.length ? '<span class="' + classes.join(' ') + '">' : '')
-					+ '{'
-					+ (beautify ? line_break + new_indent : '')
-					+ output.join(',' + (beautify ? line_break + new_indent : ''))
-					+ (beautify ? line_break + current_indent : '')
-					+ '}'
-					+ (html && classes.length ? '</span>' : '');
-				return output;
-			} else {
-				return '[' + output.join(',' + (beautify ? ' ' : '')) + ']';
-			}
-		default:
-			return ''; // Not supported
-	}
+    var indent = html ? '&nbsp;&nbsp;&nbsp;' : "\t";
+    var line_break = html ? '<br/>' : "\n";
+    var new_indent = current_indent + indent;
+    switch (typeof(data)) {
+        case 'undefined':
+            return (html ? '<span class=json-reserved>' : '') + 'null' + (html ? '</span>' : '');
+        case 'boolean':
+            return (html ? '<span class=json-reserved>' : '') + (data ? 'true' : 'false') + (html ? '</span>' : '');
+        case 'number':
+            return (html ? '<span class=json-numeric>' : '') + data + (html ? '</span>' : '');
+        case 'string':
+            var output = JSON.stringify(data);
+            return html ? '<span class=json-string>' + output + '</span>' : output;
+        case 'object':
+            var output_index_count = 0;
+            var output = [];
+            for (var key in data) {
+                var value = data[key];
+                if (output_index_count!==null && output_index_count++!==key) {
+                    output_index_count = null;
+                }
+            }
+            var is_associative = output_index_count===null;
+            for (var key in data) {
+                var value = data[key];
+                if (is_associative) {
+                    var classes = [];
+                    if (key=='about') classes.push('json-about');
+                    if (key=='conditions' || key=='fees') classes.push('json-formula');
+                    var property_classes = ['json-property'];
+                    if (level==0) property_classes.push('json-id');
+                    output.push(
+                        (html && classes.length ? '<span class="' + classes.join(' ') + '">' : '')
+                        + (html ? '<span' + (property_classes.length ? ' class="' + property_classes.join(' ') + '"' : '') + '>' : '')
+                        + jsonEncode('' + key)
+                        + (html ? '</span>' : '') + ':'
+                        + (beautify ? ' ' : '')
+                        + jsonEncode(value, beautify, html, level+1, new_indent)
+                        + (html && classes.length ? '</span>' : '')
+                    );
+                } else {
+                    output.push(jsonEncode(value, beautify, html, level+1, current_indent));
+                }
+            }
+            if (is_associative) {
+                var classes = [];
+                if (data.type == 'meta') classes.push('json-meta');
+                output = (html && classes.length ? '<span class="' + classes.join(' ') + '">' : '')
+                    + '{'
+                    + (beautify ? line_break + new_indent : '')
+                    + output.join(',' + (beautify ? line_break + new_indent : ''))
+                    + (beautify ? line_break + current_indent : '')
+                    + '}'
+                    + (html && classes.length ? '</span>' : '');
+                return output;
+            } else {
+                return '[' + output.join(',' + (beautify ? ' ' : '')) + ']';
+            }
+        default:
+            return ''; // Not supported
+    }
 }
 
 $(function(){
-	var navHeight = $('.navbar').outerHeight(true) + 10;
+    var navHeight = $('.navbar').outerHeight(true) + 10;
 
-	$('a[href^="#"]').click(function (e) {
-		$('.highlight').removeClass('highlight');
-		var anchor = $(this).attr('href').replace('#', '');
-		window.location.hash = '#' + anchor;
-		var jelem = $('#' + anchor);
-		jelem.addClass('highlight');
-		$('body,html').scrollTop(Math.round(jelem.offset().top - navHeight + 10));
-		e.preventDefault()
-	});
+    $('a[href^="#"]').click(function (e) {
+        $('.highlight').removeClass('highlight');
+        var anchor = $(this).attr('href').replace('#', '');
+        window.location.hash = '#' + anchor;
+        var jelem = $('#' + anchor);
+        jelem.addClass('highlight');
+        $('body,html').scrollTop(Math.round(jelem.offset().top - navHeight + 10));
+        e.preventDefault()
+    });
 
-	$('a[href^="#"]').each(function (e) {
-		var anchor = $(this).attr('href').replace('#', '');
-		if (anchor == '') return;
-		var jelem = $('#' + anchor);
-		if (!jelem.length) {
-			$(this).css('border', 'solid 1px red').css('padding', 3);
-		}
-	});
+    $('a[href^="#"]').each(function (e) {
+        var anchor = $(this).attr('href').replace('#', '');
+        if (anchor == '') return;
+        var jelem = $('#' + anchor);
+        if (!jelem.length) {
+            $(this).css('border', 'solid 1px red').css('padding', 3);
+        }
+    });
 
-	var index = 0;
-	$('div.json').each(function(){
-		var text = $(this).text();
-		while (text.match(/"__auto__"/)) {
-			text = text.replace(/"__auto__"/, '"id_' + ('000' + index).slice(-3) + '"');
-			index++;
-		}
-		var obj = $.parseJSON(text);
-		var beautified = jsonEncode(obj, true, true);
-		$(this).html('<pre>' + beautified + '</pre>');
-		$(this).addClass('code');
-	});
-	$('body').scrollspy({
-		target: '.sidebar',
-		offset: navHeight
-	});
+    var index = 0;
+    $('div.json').each(function(){
+        var text = $(this).text();
+        while (text.match(/"__auto__"/)) {
+            text = text.replace(/"__auto__"/, '"id_' + ('000' + index).slice(-3) + '"');
+            index++;
+        }
+        var obj = $.parseJSON(text);
+        var beautified = jsonEncode(obj, true, true);
+        $(this).html('<pre>' + beautified + '</pre>');
+        $(this).addClass('code');
+    });
+    $('body').scrollspy({
+        target: '.sidebar',
+        offset: navHeight
+    });
 
 });
 <!-- doc scripts end -->

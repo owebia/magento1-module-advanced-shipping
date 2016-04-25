@@ -21,61 +21,61 @@
 
 class Owebia_Shipping2_Model_Os2_Data_CustomerGroup extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-	protected static $_customer_groups = null;
+    protected static $_customer_groups = null;
 
-	public static function getCollection()
-	{
-		if (!self::$_customer_groups) {
-			$collection = Mage::getModel('customer/group')->getCollection();
-			$customer_groups = array();
-			foreach ($collection as $customer_group) {
-				$customer_groups[$customer_group->getId()] = $customer_group->getCustomerGroupCode();
-			}
-			self::$_customer_groups = $customer_groups;
-		}
-		return self::$_customer_groups;
-	}
+    public static function getCollection()
+    {
+        if (!self::$_customer_groups) {
+            $collection = Mage::getModel('customer/group')->getCollection();
+            $customer_groups = array();
+            foreach ($collection as $customer_group) {
+                $customer_groups[$customer_group->getId()] = $customer_group->getCustomerGroupCode();
+            }
+            self::$_customer_groups = $customer_groups;
+        }
+        return self::$_customer_groups;
+    }
 
-	public static function readable($input)
-	{
-		$customer_groups = self::getCollection();
-		$elems = preg_split('/\b/', $input);
-		$output = '';
-		foreach ($elems as $elem) {
-			$output .= isset($customer_groups[$elem]) ? $customer_groups[$elem] : $elem;
-		}
-		return $output;
-	}
+    public static function readable($input)
+    {
+        $customer_groups = self::getCollection();
+        $elems = preg_split('/\b/', $input);
+        $output = '';
+        foreach ($elems as $elem) {
+            $output .= isset($customer_groups[$elem]) ? $customer_groups[$elem] : $elem;
+        }
+        return $output;
+    }
 
-	protected $additional_attributes = array('*');
+    protected $additional_attributes = array('*');
 
-	public function __construct($arguments=null)
-	{
-		$customer_group_id = Mage::getSingleton('customer/session')->getCustomerGroupId();
-		if ($customer_group_id==0) { // Pour les commandes depuis Adminhtml
-			$customer_group_id2 = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getCustomerGroupId();
-			if (isset($customer_group_id2)) $customer_group_id = $customer_group_id2;
-		}
-		parent::__construct(array(
-			'id' => $customer_group_id,
-		));
-	}
+    public function __construct($arguments=null)
+    {
+        $customer_group_id = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        if ($customer_group_id==0) { // Pour les commandes depuis Adminhtml
+            $customer_group_id2 = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getCustomerGroupId();
+            if (isset($customer_group_id2)) $customer_group_id = $customer_group_id2;
+        }
+        parent::__construct(array(
+            'id' => $customer_group_id,
+        ));
+    }
 
-	protected function _load($name)
-	{
-		switch ($name) {
-			case 'code': return $this->customer_group_code;
-			default: return parent::_load($name);
-		}
-	}
+    protected function _load($name)
+    {
+        switch ($name) {
+            case 'code': return $this->customer_group_code;
+            default: return parent::_load($name);
+        }
+    }
 
-	protected function _loadObject()
-	{
-		return Mage::getSingleton('customer/group')->load($this->id);
-	}
+    protected function _loadObject()
+    {
+        return Mage::getSingleton('customer/group')->load($this->id);
+    }
 
-	public function __toString()
-	{
-		return $this->code.' (id:'.$this->id.')';
-	}
+    public function __toString()
+    {
+        return $this->code.' (id:'.$this->id.')';
+    }
 }

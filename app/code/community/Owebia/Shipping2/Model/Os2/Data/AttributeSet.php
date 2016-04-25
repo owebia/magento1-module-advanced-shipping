@@ -21,16 +21,18 @@
 
 class Owebia_Shipping2_Model_Os2_Data_AttributeSet extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-	protected function _loadObject() {
-		return Mage::getModel('eav/entity_attribute_set')->load($this->id);
-	}
+    protected function _loadObject()
+    {
+        return Mage::getModel('eav/entity_attribute_set')->load($this->id);
+    }
 
-	protected function _load($name) {
-		switch ($name) {
-			case 'name': return $this->{'attribute_set_name'};
-			default: return parent::_load($name);
-		}
-	}
+    protected function _load($name)
+    {
+        switch ($name) {
+            case 'name':
+                return $this->{'attribute_set_name'};
+            default:
+                return parent::_load($name);
+        }
+    }
 }
-
-?>

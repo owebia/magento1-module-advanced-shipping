@@ -21,5 +21,5 @@
 
 class Owebia_Shipping2_Model_Carrier_OwebiaShipping1 extends Owebia_Shipping2_Model_Carrier_Abstract
 {
-	protected $_code = 'owebiashipping1';
+    protected $_code = 'owebiashipping1';
 }

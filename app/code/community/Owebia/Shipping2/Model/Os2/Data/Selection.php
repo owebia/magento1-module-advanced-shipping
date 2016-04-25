@@ -21,9 +21,8 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Selection extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-	public function set($name, $value) {
-		$this->_data[$name] = $value;
-	}
+    public function set($name, $value)
+    {
+        $this->_data[$name] = $value;
+    }
 }
-
-?>

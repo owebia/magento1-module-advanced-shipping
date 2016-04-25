@@ -43,11 +43,11 @@ class Owebia_Shipping2_Checkout_CartController extends Mage_Checkout_CartControl
             ->setRegionId($regionId)
             ->setRegion($region)
             ->setCollectShippingRates(true);
-		
-		/*<owebia>*/
-		// Recalcul des totaux
-		$this->_getQuote()->collectTotals();
-		/*</owebia>*/
+        
+        /*<owebia>*/
+        // Recalcul des totaux
+        $this->_getQuote()->collectTotals();
+        /*</owebia>*/
 
         $this->_getQuote()->save();
         $this->_goBack();

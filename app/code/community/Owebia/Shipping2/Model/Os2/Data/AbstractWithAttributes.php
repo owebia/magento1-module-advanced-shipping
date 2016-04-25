@@ -21,47 +21,47 @@
 
 class Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-	protected function _load($name) {
-		$elems = explode('.', $name, $limit=2);
-		$count = count($elems);
-		$last_index = $count-1;
-		if ($count==2) {
-			switch ($elems[0]) {
-				case 'a':
-				case 'attribute':
-					$name = $elems[1];
-					return $this->_getAttribute($name);
-			}
-		}
-		//return parent::_load($name);
-		return $this->_getAttribute($name);
-	}
+    protected function _load($name)
+    {
+        $elems = explode('.', $name, $limit=2);
+        $count = count($elems);
+        $last_index = $count-1;
+        if ($count==2) {
+            switch ($elems[0]) {
+                case 'a':
+                case 'attribute':
+                    $name = $elems[1];
+                    return $this->_getAttribute($name);
+            }
+        }
+        //return parent::_load($name);
+        return $this->_getAttribute($name);
+    }
 
-	protected function _getAttribute($attribute_name) {
-		$get_value = false;
-		if (substr($attribute_name, strlen($attribute_name)-6, 6)=='.value') {
-			$get_value = true;
-			$attribute_name = substr($attribute_name, 0, strlen($attribute_name)-6);
-		}
+    protected function _getAttribute($attribute_name)
+    {
+        $get_value = false;
+        if (substr($attribute_name, strlen($attribute_name)-6, 6)=='.value') {
+            $get_value = true;
+            $attribute_name = substr($attribute_name, 0, strlen($attribute_name)-6);
+        }
 
-		$object = $this->_getObject();
-		if (!$object) return null;
-		$attribute = $object->getResource()->getAttribute($attribute_name);
-		if (!$attribute) return null;
+        $object = $this->_getObject();
+        if (!$object) return null;
+        $attribute = $object->getResource()->getAttribute($attribute_name);
+        if (!$attribute) return null;
 
-		$attribute_frontend = $attribute->getFrontend();
-		$input_type = $attribute_frontend->getInputType();
-		switch ($input_type) {
-			case 'select' :
-				//echo 'attribute_name:'.$object->getData($attribute_name).', '.$attribute_frontend->getValue($object).';<br/>';
-				$value = !$get_value ? $object->getData($attribute_name) : $attribute_frontend->getValue($object);
-				break;
-			default :
-				$value = $object->getData($attribute_name);
-				break;
-		}
-		return $value;
-	}
+        $attribute_frontend = $attribute->getFrontend();
+        $input_type = $attribute_frontend->getInputType();
+        switch ($input_type) {
+            case 'select' :
+                //echo 'attribute_name:'.$object->getData($attribute_name).', '.$attribute_frontend->getValue($object).';<br/>';
+                $value = !$get_value ? $object->getData($attribute_name) : $attribute_frontend->getValue($object);
+                break;
+            default :
+                $value = $object->getData($attribute_name);
+                break;
+        }
+        return $value;
+    }
 }
-
-?>
