@@ -872,11 +872,7 @@ class OwebiaShippingHelper
             $this->debug('      doesn\'t match ('.self::esc($error).')');
             return null;
         }
-        $formula = str_replace(
-            array('min', 'max', 'range', 'array_match_any', 'array_match_all'),
-            array('$this->_min', '$this->_max', '$this->_range', '$this->_array_match_any', '$this->_array_match_all'),
-            $formula
-        );
+        $formula = preg_replace('@\b(min|max|range|array_match_any|array_match_all)\(@', '\$this->_\1', $formula);
         $eval_result = null;
         //echo $formula.'<br/>';
         @eval('$eval_result = ('.$formula.');');
