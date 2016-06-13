@@ -1,0 +1,10 @@
+{
+    "name": "owebia/magento1-module-shipping-free",
+    "description": "Provides 3 shipping modes configurable with a very flexible syntax",
+    "type": "magento-module",
+    "authors": [
+        {
+            "name": "Owebia"
+        }
+    ]
+}
