@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Owebia_Shipping2>
-            <version>2.5.23</version>
+            <version>2.5.24</version>
             <depends>
                 <Mage_Shipping />
             </depends>

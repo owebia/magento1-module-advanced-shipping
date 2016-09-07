@@ -2,7 +2,7 @@
 <html>
 <head lang="fr">
 <meta charset="utf-8"/>
-<title>Documentation de l'extension Owebia-Shipping 2.5.22</title>
+<title>Documentation de l'extension Owebia Shipping 2.5.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -114,17 +114,40 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
         </div>
         <div class="col-lg-9">
             <!-- doc content start -->
-            <h1>Documentation de l'extension Owebia-Shipping 2.5.20 pour Magento</h1>
+            <h1>Documentation de l'extension Owebia Shipping 2.5.24 pour Magento</h1>
             <div id="introduction">
                 <h2>Introduction</h2>
 
-                <p>Owebia-Shipping est une extension pour la solution de e-commerce <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
+                <p>Owebia Shipping est une extension pour la solution de e-commerce <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
                 <p>Grace à sa syntaxe au format <a href="http://fr.wikipedia.org/wiki/JavaScript_Object_Notation" target=_blank>JSON</a>, cette extension permet une grande souplesse dans le paramétrage des frais de livraison.</p>
                 
                 <p>Cette documentation explique comment créer une configuration pour l'un des modes de livraison proposé par l'extension.</p>
-                
-                <p class="alert alert-info">Nouvelle documentation, plus simple et plus claire.<br/>
-                <strong>Utilisez l'<a href="#index">index</a></strong> pour vous retrouver plus facilement dans la documentation.</p>
+
+                <div class="jumbotron">
+                    <h3>Vous souhaitez faire plus avec Owebia Shipping ?</h3>
+                    <p>Venez découvrir nos plugins sur <a href="https://fr.store.owebia.com/" target=_blank>Owebia Store</a>.</p>
+                    <div class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <h4><a href="https://fr.store.owebia.com/magento1-module-shipping-pro.html" target=_blank>Owebia Shipping Pro</a></h4>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <h4><a href="https://fr.store.owebia.com/magento1-module-adv-ship-unlimited-carriers-addon.html" target=_blank>Plugin Unlimited Carriers</a></h4>
+                            Créez des nouveaux transporteurs avec Owebia Shipping
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <h4><a href="https://fr.store.owebia.com/magento1-module-adv-ship-universal-setting-addon.html" target=_blank>Plugin Universal Setting</a></h4>
+                            Cacher ou changer le prix des méthodes de tous les modules de livraison
+                        </div>
+                    </div>
+                </div>
+                <p>Utilisez l'<a href="#index">index</a> pour vous retrouver plus facilement dans la documentation.</p>
             </div>
 
             <div id="examples">
@@ -809,7 +832,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                         L'utilisation de la propriété <code>tracking_url</code> est réservée aux utilisateurs expérimentés. Si vous ne comprenez pas les indications ci-dessous, il est préférable que vous évitiez d'utiliser cette fonctionnalité.
                     </p>
                     <p>
-                        La propriété <code>tracking_url</code> permet de surcharger le champ "URL de suivi" d'un mode de livraison Owebia-Shipping et ainsi de spécifier une URL de suivi <strong>par méthode de livraison</strong> plutôt qu'une pour tout le mode de livraison.
+                        La propriété <code>tracking_url</code> permet de surcharger le champ "URL de suivi" d'un mode de livraison Owebia Shipping et ainsi de spécifier une URL de suivi <strong>par méthode de livraison</strong> plutôt qu'une pour tout le mode de livraison.
                     </p>
                     <p>
                         Pour insérer automatiquement le numéro de colis dans l'URL de suivi, vous devez utiliser <code>{tracking_number}</code>.
@@ -820,14 +843,14 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                     }</div>
 
                     <p>
-                        Magento ne gère pas les liens de tracking mais un statut de tracking. L'extension Owebia-Shipping fournit un lien HTML à la place du statut, lien qui permet d'aller sur le site du transporteur et de suivre l'avancement de la livraison du colis.
+                        Magento ne gère pas les liens de tracking mais un statut de tracking. L'extension Owebia Shipping fournit un lien HTML à la place du statut, lien qui permet d'aller sur le site du transporteur et de suivre l'avancement de la livraison du colis.
                     </p>
                     <p>
                         Lorsque l'URL de suivi est construite par l'extension, la seule information disponible est le numéro de colis et on n'a nul part accès à la méthode de livraison sélectionnée. Afin de pouvoir retrouver l'url de suivi dans la configuration, il faut spécifier la méthode de livraison dans le numéro de tracking, par exemple : <code>colissimo:8Lxxxxxxxxxxx</code> où <code>colissimo</code> est le code de la méthode de livraison sélectionnée.<br/>
                         Si aucun code n'est spécifié (si vous saisissez uniquement le numéro de tracking), l'url utilisée sera celle globale au mode de livraison.
                     </p>
                     <p class="alert alert-danger">
-                        Pour répondre à une question récurrente, Magento affiche le statut de livraison depuis le back office ou le front office. Si vous souhaitez insérer l'URL de suivi dans les mails d'expédition, <strong>vous devrez développer vous même</strong> la récupération de l'URL de suivi et son insertion dans le mail, en effet, l'extension Owebia-Shipping se contente de fournir des modes de livraison paramétrables sans apporter de grande modification au coeur de Magento afin de réduire les problèmes d'incompatibilité et de mise à jour.
+                        Pour répondre à une question récurrente, Magento affiche le statut de livraison depuis le back office ou le front office. Si vous souhaitez insérer l'URL de suivi dans les mails d'expédition, <strong>vous devrez développer vous même</strong> la récupération de l'URL de suivi et son insertion dans le mail, en effet, l'extension Owebia Shipping se contente de fournir des modes de livraison paramétrables sans apporter de grande modification au coeur de Magento afin de réduire les problèmes d'incompatibilité et de mise à jour.
                     </p>
                     <p class="alert alert-danger">
                         Si vous obtenez un popup vide lorsque vous cliquez sur le lien de suivi, votre problème est très certainement lié au fait que vous n'avez pas spécifié le code de la méthode de livraison dans le numéro de suivi (voir indications plus haut) et que votre champ global "URL de suivi" est vide.
@@ -840,6 +863,9 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                 <h2>Changelog</h2>
 
                 <pre class=changelog>
+[2.5.24 - September 07, 2016]
+Update documentation
+
 [2.5.23 - August 18, 2016]
 Fix special functions call issue: missing opening parenthesis
 
