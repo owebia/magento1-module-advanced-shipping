@@ -20,9 +20,13 @@ Indeed, with Owebia Shipping Free, you can set shipping rates using almost any v
 - Extension used in many countries over the world
 - Easy-to-use documentation in english and in french
 
+## Want to do more?
+
+[Discover our add-ons for Owebia Shipping](https://en.store.owebia.com/)
+
 ## Documentation
 
-http://htmlpreview.github.io/?https://github.com/owebia/module-shipping-free-for-magento-1/blob/master/app/code/community/Owebia/Shipping2/doc_en_US.html
+[See the documentation](http://www.owebia.com/os2/en/doc)
 
 ## License
 
@@ -58,6 +62,14 @@ To solve this problem, you must execute the following MySQL query:
 --------------------------
 
 # FRANCAIS
+
+## Vous voulez davantage de fonctionnalités ?
+
+[Découvrez nos plugins pour Owebia Shipping](https://fr.store.owebia.com/)
+
+## Documentation
+
+[Voir la documentation](http://www.owebia.com/os2/fr/doc)
 
 ## Comment installer l'extension manuellement ?
 
