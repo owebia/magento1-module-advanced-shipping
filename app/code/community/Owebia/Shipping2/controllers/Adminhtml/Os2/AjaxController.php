@@ -59,10 +59,11 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     {
         header('Content-Type: text/html; charset=UTF-8');
 
-        switch ($_POST['what']) {
+        $request = $this->getRequest();
+        switch ($request->getPost('what')) {
             case 'page':
-                $with_dialog = (bool)$_POST['with_dialog'];
-                $page = $_POST['page'];
+                $with_dialog = (bool)$request->getPost('with_dialog');
+                $page = $request->getPost('page');
                 $layout_content = array();
                 //$page_header_buttons = null;
                 switch ($page) {
@@ -79,32 +80,32 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                         $layout_content['south'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Debug')}</h4></div><div id=os2-debug class=ui-layout-center></div>";
                         break;
                     case 'help':
-                        $output = $this->__('{os2editor.help.'.$_POST['input'].'}');
-                        $layout_content['center'] = $this->_processHelp($_POST['input'], $output);
+                        $output = $this->__('{os2editor.help.'.$request->getPost('input').'}');
+                        $layout_content['center'] = $this->_processHelp($request->getPost('input'), $output);
                         break;
                 }
                 return $this->outputContent(
                     $this->page($page, $layout_content, $with_dialog)
                 );
             case 'correction':
-                $helper = $this->_getOs2Helper($_POST['source']);
+                $helper = $this->_getOs2Helper($request->getPost('source'));
                 $helper->checkConfig();
                 return $this->json(array(
                     'correction' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = true),
                     'debug' => $helper->getDebug(),
-                    'editor' => $this->_getEditor($_POST),
+                    'editor' => $this->_getEditor($request->getPost()),
                 ));
             case 'property-tools':
                 $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
                 return $this->outputContent(
-                    $block->getPropertyTools($this, $_POST['property'])
+                    $block->getPropertyTools($this, $request->getPost('property'))
                 );
             case 'update-property':
-                $helper = $this->_getOs2Helper($_POST['source']);
+                $helper = $this->_getOs2Helper($request->getPost('source'));
                 $config = $helper->getConfig();
-                $row_id = $_POST['row'];
-                $property = $_POST['property'];
-                $value = $_POST['value'];
+                $row_id = $request->getPost('row');
+                $property = $request->getPost('property');
+                $value = $request->getPost('value');
                 if ($property==='type' && $value=='method' || $property==='enabled' && $value=='1' || $property!=='enabled' && empty($value)) {
                     unset($config[$row_id][$property]);
                 } else if ($property==='enabled') {
@@ -121,48 +122,49 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                     'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
                 ));
             case 'add-row':
-                $helper = $this->_getOs2Helper($_POST['source']);
+                $helper = $this->_getOs2Helper($request->getPost('source'));
                 $row = array('label' => array('value' => $this->__('New shipping method')), 'fees' => array('value' => 0)); // By reference
                 $helper->addRow('new'.time(), $row);
                 return $this->json(array(
                     'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
                 ));
             case 'remove-row':
-                $helper = $this->_getOs2Helper($_POST['source']);
+                $helper = $this->_getOs2Helper($request->getPost('source'));
                 $config = $helper->getConfig();
-                unset($config[$_POST['id']]);
+                unset($config[$request->getPost('id']));
                 $helper->setConfig($config);
                 return $this->json(array(
                     'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
                 ));
             case 'row-ui':
-                $helper = $this->_getOs2Helper($_POST['source']);
-                $row = $helper->getConfigRow($_POST['id']);
+                $helper = $this->_getOs2Helper($request->getPost('source'));
+                $row = $helper->getConfigRow($request->getPost('id'));
                 $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
                 return $this->outputContent(
                     $block->getRowUI($row, true)
                 );
             case 'readable-selection':
-                switch ($_POST['property']) {
+                switch ($request->getPost('property')) {
                     case 'shipto':
                     case 'billto':
                     case 'origin':
                         return $this->outputContent(
-                            Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')->readable($_POST['input'])
+                            Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')->readable($request->getPost('input'))
                         );
                     case 'customer_groups':
                         return $this->outputContent(
-                            Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')->readable($_POST['input'])
+                            Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')->readable($request->getPost('input'))
                         );
                 }
                 break;
             case 'save-config':
-                $compress = (bool)Mage::getStoreConfig('carriers/'.$_POST['shipping_code'].'/compression');
-                $config = $compress ? $this->_getCorrection($_POST['source'], $compress) : $_POST['source'];
-                //Mage::getConfig()->saveConfig('carriers/'.$_POST['shipping_code'].'/config',$output);
+                $compress = (bool)Mage::getStoreConfig('carriers/'.$request->getPost('shipping_code').'/compression');
+                $source = $request->getPost('source');
+                $config = $compress ? $this->_getCorrection($source, $compress) : $source;
+                //Mage::getConfig()->saveConfig('carriers/'.$request->getPost('shipping_code').'/config',$output);
                 return $this->outputContent($config);
             case 'save-to-file':
-                $config = $_POST['source'];
+                $config = $request->getPost('source');
                 return $this->forceDownload('owebia-shipping-config.txt', $config);
         }
 
