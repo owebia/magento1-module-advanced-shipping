@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2008-14 Owebia
+ * Copyright (c) 2008-16 Owebia
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
  * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -34,6 +34,20 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         } else {
             return Mage::getBaseDir('code') . '/community/Owebia/Shipping2/' . $path;
         }
+    }
+
+    protected function outputContent($content)
+    {
+        return $this->getResponse()
+            ->setBody($content);
+    }
+
+    protected function json($data)
+    {
+        return $this->outputContent(
+            Mage::helper('core')
+                ->jsonEncode($data)
+        );
     }
 
     protected function getMimeType($extension)
@@ -73,8 +87,7 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         header('Pragma: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         header('Expires: 0');
-        echo $content;
-        return true;
+        return $this->outputContent($content);
     }
 
     protected function cleanKey($key)

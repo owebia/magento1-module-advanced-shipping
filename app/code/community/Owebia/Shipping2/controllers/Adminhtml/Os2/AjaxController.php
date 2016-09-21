@@ -55,20 +55,6 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
         return $block->getHtml();
     }
 
-    protected function ajaxOutput($content)
-    {
-        return $this->getResponse()
-            ->setBody($content);
-    }
-
-    protected function json($data)
-    {
-        return $this->ajaxOutput(
-            Mage::helper('core')
-                ->jsonEncode($data)
-        );
-    }
-
     public function indexAction()
     {
         header('Content-Type: text/html; charset=UTF-8');
@@ -97,7 +83,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                         $layout_content['center'] = $this->_processHelp($_POST['input'], $output);
                         break;
                 }
-                return $this->ajaxOutput(
+                return $this->outputContent(
                     $this->page($page, $layout_content, $with_dialog)
                 );
             case 'correction':
@@ -110,7 +96,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 ));
             case 'property-tools':
                 $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
-                return $this->ajaxOutput(
+                return $this->outputContent(
                     $block->getPropertyTools($this, $_POST['property'])
                 );
             case 'update-property':
@@ -153,7 +139,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $helper = $this->_getOs2Helper($_POST['source']);
                 $row = $helper->getConfigRow($_POST['id']);
                 $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
-                return $this->ajaxOutput(
+                return $this->outputContent(
                     $block->getRowUI($row, true)
                 );
             case 'readable-selection':
@@ -161,11 +147,11 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                     case 'shipto':
                     case 'billto':
                     case 'origin':
-                        return $this->ajaxOutput(
+                        return $this->outputContent(
                             Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')->readable($_POST['input'])
                         );
                     case 'customer_groups':
-                        return $this->ajaxOutput(
+                        return $this->outputContent(
                             Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')->readable($_POST['input'])
                         );
                 }
@@ -174,13 +160,13 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $compress = (bool)Mage::getStoreConfig('carriers/'.$_POST['shipping_code'].'/compression');
                 $config = $compress ? $this->_getCorrection($_POST['source'], $compress) : $_POST['source'];
                 //Mage::getConfig()->saveConfig('carriers/'.$_POST['shipping_code'].'/config',$output);
-                return $this->ajaxOutput($config);
+                return $this->outputContent($config);
             case 'save-to-file':
                 $config = $_POST['source'];
                 return $this->forceDownload('owebia-shipping-config.txt', $config);
         }
 
-        return $this->ajaxOutput(
+        return $this->outputContent(
             "<script type=\"text/javascript\">".$script."</script>"
         );
     }
@@ -202,6 +188,6 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 }
             }
         }
-        return $this->ajaxOutput($output);
+        return $this->outputContent($output);
     }
 }
