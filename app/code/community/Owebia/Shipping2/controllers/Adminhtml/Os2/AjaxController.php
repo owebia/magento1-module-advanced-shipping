@@ -96,10 +96,6 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                         $output = $this->__('{os2editor.help.'.$_POST['input'].'}');
                         $layout_content['center'] = $this->_processHelp($_POST['input'], $output);
                         break;
-                    case 'donate':
-                        $layout_content['center'] = "<div class=\"ui-layout-north os2-help-header\"><h4>".$this->__('You appreciate this extension and would like to help?')."</h4></div>"
-                                ."<div id=os2-help class=ui-layout-center>".$this->__('{os2editor.donate-page.content}')."</div>";
-                        break;
                 }
                 return $this->ajaxOutput(
                     $this->page($page, $layout_content, $with_dialog)

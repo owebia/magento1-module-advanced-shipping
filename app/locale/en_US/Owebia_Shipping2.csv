@@ -74,8 +74,6 @@
     "Export","Export"
     "Add a shipping method","Add a shipping method"
     "New shipping method","New shipping method"
-    "You appreciate this extension and would like to help?","You appreciate this extension and would like to help?"
-    "{os2editor.donate-page.content}","<p>The extension Owebia Shipping 2 is offered by the company Owebia (<a href=""http://www.owebia.com/"">http://www.owebia.com/</a>).<br/>If you want to support the developement of the extension, you can make a donation.</p><p>You will receive an invoice to keep trace of the donation.</p><p>Thanks to all donators.</p>"
 
 # app/code/community/Owebia/Shipping2/etc/system.xml
     "Configuration","Configuration"

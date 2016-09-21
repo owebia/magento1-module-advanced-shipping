@@ -89,7 +89,6 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
                     . $this->pageHeader($this->__('Owebia Shipping 2 Editor'),
                         $this->button__('Source &amp; Correction',     "os2editor.page('source');",     'source')
                         . $this->button__('Help',       "os2editor.help('summary');",    'help')
-                        //. $this->button__('Donate',     "os2editor.page('donate');",     'donate')
                         . $this->button__('Close',      "os2editor.close();",            'cancel')
                     )
                     . "<div id=os2-page-container class=ui-layout-center>" : '')

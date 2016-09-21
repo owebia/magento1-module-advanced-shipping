@@ -74,8 +74,6 @@
     "Export","Exporter"
     "Add a shipping method","Ajouter une méthode de livraison"
     "New shipping method","Nouvelle méthode de livraison"
-    "You appreciate this extension and would like to help?","Vous appréciez cette extension et vous aimeriez apporter votre soutien ?"
-    "{os2editor.donate-page.content}","<p>L'extension Owebia Shipping 2 est développée bénévolement par l'entreprise Owebia (<a href=""http://www.owebia.com/"">http://www.owebia.com/</a>).<br/>Si vous souhaitez soutenir financièrement le développement de l'extension, vous pouvez faire un &laquo;&nbsp;don&nbsp;&raquo;.</p><p>En France, seules certaines associations peuvent recevoir des dons, c'est pourquoi nous ne pouvons recevoir une somme d'argent sans qu'elle soit déclarée.<br/>Pour cela, nous enverrons à chaque &laquo;&nbsp;donateur&nbsp;&raquo; une facture (acquitée) du montant du &laquo;&nbsp;don&nbsp;&raquo;.</p><p>Cela permettra à chacun de garder une trace de ces &laquo;&nbsp;dons&nbsp;&raquo;.</p><p><strong>Pour effectuer un &laquo;&nbsp;don&nbsp;&raquo;, merci d'envoyer un chèque à l'adresse suivante :</strong></p><p class=""owebia-address"">Owebia<br/>4, Rue du Collège<br/>25500 Morteau (France)</p><p><strong>N'oubliez pas de joindre à ce chèque les coordonnées qui doivent figurer sur la facture qui vous sera envoyée.</strong></p><p>Merci à tous les donateurs.</p>"
 
 # app/code/community/Owebia/Shipping2/etc/system.xml
     "Configuration","Configuration"
