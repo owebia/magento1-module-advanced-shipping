@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2008-14 Owebia
+ * Copyright (c) 2008-16 Owebia
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
  * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -54,7 +54,21 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
         ));
         return $block->getHtml();
     }
-    
+
+    protected function ajaxOutput($content)
+    {
+        return $this->getResponse()
+            ->setBody($content);
+    }
+
+    protected function json($data)
+    {
+        return $this->ajaxOutput(
+            Mage::helper('core')
+                ->jsonEncode($data)
+        );
+    }
+
     public function indexAction()
     {
         header('Content-Type: text/html; charset=UTF-8');
@@ -87,21 +101,22 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                                 ."<div id=os2-help class=ui-layout-center>".$this->__('{os2editor.donate-page.content}')."</div>";
                         break;
                 }
-                echo $this->page($page, $layout_content, $with_dialog);
-                exit;
+                return $this->ajaxOutput(
+                    $this->page($page, $layout_content, $with_dialog)
+                );
             case 'correction':
                 $helper = $this->_getOs2Helper($_POST['source']);
                 $helper->checkConfig();
-                echo json_encode(array(
+                return $this->json(array(
                     'correction' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = true),
                     'debug' => $helper->getDebug(),
                     'editor' => $this->_getEditor($_POST),
                 ));
-                exit;
             case 'property-tools':
                 $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
-                echo $block->getPropertyTools($this, $_POST['property']);
-                exit;
+                return $this->ajaxOutput(
+                    $block->getPropertyTools($this, $_POST['property'])
+                );
             case 'update-property':
                 $helper = $this->_getOs2Helper($_POST['source']);
                 $config = $helper->getConfig();
@@ -120,59 +135,58 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                     unset($config[$row_id]);
                 }
                 $helper->setConfig($config);
-                echo json_encode(array(
+                return $this->json(array(
                     'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
                 ));
-                exit;
             case 'add-row':
                 $helper = $this->_getOs2Helper($_POST['source']);
                 $row = array('label' => array('value' => $this->__('New shipping method')), 'fees' => array('value' => 0)); // By reference
                 $helper->addRow('new'.time(), $row);
-                echo json_encode(array(
+                return $this->json(array(
                     'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
                 ));
-                exit;
             case 'remove-row':
                 $helper = $this->_getOs2Helper($_POST['source']);
                 $config = $helper->getConfig();
                 unset($config[$_POST['id']]);
                 $helper->setConfig($config);
-                echo json_encode(array(
+                return $this->json(array(
                     'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
                 ));
-                exit;
             case 'row-ui':
                 $helper = $this->_getOs2Helper($_POST['source']);
                 $row = $helper->getConfigRow($_POST['id']);
                 $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
-                echo $block->getRowUI($row, true);
-                exit;
+                return $this->ajaxOutput(
+                    $block->getRowUI($row, true)
+                );
             case 'readable-selection':
                 switch ($_POST['property']) {
                     case 'shipto':
                     case 'billto':
                     case 'origin':
-                        echo Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')->readable($_POST['input']);
-                        break;
+                        return $this->ajaxOutput(
+                            Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')->readable($_POST['input'])
+                        );
                     case 'customer_groups':
-                        echo Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')->readable($_POST['input']);
-                        break;
+                        return $this->ajaxOutput(
+                            Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')->readable($_POST['input'])
+                        );
                 }
-                exit;
+                break;
             case 'save-config':
                 $compress = (bool)Mage::getStoreConfig('carriers/'.$_POST['shipping_code'].'/compression');
                 $config = $compress ? $this->_getCorrection($_POST['source'], $compress) : $_POST['source'];
                 //Mage::getConfig()->saveConfig('carriers/'.$_POST['shipping_code'].'/config',$output);
-                echo $config;
-                exit;
+                return $this->ajaxOutput($config);
             case 'save-to-file':
                 $config = $_POST['source'];
-                $this->forceDownload('owebia-shipping-config.txt', $config);
-                exit;
+                return $this->forceDownload('owebia-shipping-config.txt', $config);
         }
 
-        echo "<script type=\"text/javascript\">".$script."</script>";
-        exit;
+        return $this->ajaxOutput(
+            "<script type=\"text/javascript\">".$script."</script>"
+        );
     }
 
     public function docAction()
@@ -192,7 +206,6 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 }
             }
         }
-        echo $output;
-        exit;
+        return $this->ajaxOutput($output);
     }
 }
