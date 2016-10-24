@@ -133,7 +133,7 @@ class Owebia_Shipping2_Model_ConfigParser
 
     public static function jsonEncode($data, $beautify = false, $html = false, $level = 0, $currentIndent = '')
     {
-        switch ($type = $this->getType($data)) {
+        switch ($type = self::getType($data)) {
             case 'NULL':
                 return ($html ? '<span class=json-reserved>' : '') . 'null' . ($html ? '</span>' : '');
             case 'boolean':
@@ -259,7 +259,7 @@ class Owebia_Shipping2_Model_ConfigParser
             . self::esc(str_replace('.', '</span>.<span class=osh-key>', $variablePath))
             . '</span> = <span class=osh-formula>'
             . self::esc(self::toString($variableValue))
-            . '</span> (' . $this->getType($variableValue) . ')<br/>';
+            . '</span> (' . self::getType($variableValue) . ')<br/>';
     }
 
     protected function initDebugData($objectName, $data)
@@ -410,7 +410,7 @@ class Owebia_Shipping2_Model_ConfigParser
                 $this->debug(
                     '         .<span class=osh-key>' . self::esc($key) . '</span>'
                     . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
-                    . ' (' . $this->getType($value) . ')'
+                    . ' (' . self::getType($value) . ')'
                 );
             }
             return new $this->createResult(false);
@@ -741,14 +741,14 @@ class Owebia_Shipping2_Model_ConfigParser
             $this->debug(
                 '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
                 . ' = <span class=osh-formula>' . self::esc(self::toString($value->result)) . '</span>'
-                . ' (' . $this->getType($value->result) . ')'
+                . ' (' . self::getType($value->result) . ')'
             );
         } else {
             $this->_expressionCache[$expression] = $value; // Do not use self::toString to make isset work
             $this->debug(
                 '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
                 . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
-                . ' (' . $this->getType($value) . ')'
+                . ' (' . self::getType($value) . ')'
             );
         }
     }
@@ -759,7 +759,7 @@ class Owebia_Shipping2_Model_ConfigParser
         $this->debug(
             '      get cached expression <span class=osh-replacement>' . self::esc($original) . '</span>'
             . ' = <span class=osh-formula>' . self::esc(self::toString($replacement)) . '</span>'
-            . ' (' . $this->getType($replacement) . ')'
+            . ' (' . self::getType($replacement) . ')'
         );
         return $replacement;
     }
@@ -1263,7 +1263,7 @@ class Owebia_Shipping2_Model_ConfigParser
 
     protected function _parseInput($autoCorrection)
     {
-        $configString = $his->_parseInputPrepareInput($this->_input);
+        $configString = $this->_parseInputPrepareInput($this->_input);
         $this->debug('parse config (auto correction = ' . self::esc(self::toString($autoCorrection)) . ')');
         $config = null;
         $lastJsonError = null;
@@ -1682,7 +1682,7 @@ class Owebia_Shipping2_Model_ConfigParser
         return $returnValue;
     }
 
-    protected function getType($variable)
+    protected static function getType($variable)
     {
         return gettype($variable);
     }
