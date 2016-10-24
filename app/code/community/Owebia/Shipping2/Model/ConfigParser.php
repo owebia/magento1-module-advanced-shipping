@@ -62,7 +62,7 @@ class Owebia_Shipping2_Model_ConfigParser
     public static function getDefaultProcessData()
     {
         return array(
-            'info'              => Mage::getModel('owebia_shipping2/Os2_Data', array(self::getInfos())),
+            'info'              => Mage::getModel('owebia_shipping2/Os2_Data', self::getInfos()),
             'cart'              => Mage::getModel('owebia_shipping2/Os2_Data'),
             'quote'             => Mage::getModel('owebia_shipping2/Os2_Data'),
             'selection'         => Mage::getModel('owebia_shipping2/Os2_Data'),
@@ -397,7 +397,7 @@ class Owebia_Shipping2_Model_ConfigParser
 
     protected function createResult($success, $result = null)
     {
-        return Mage::getModel('owebia_shipping2/Os2_Result', array($this, $success, $result));
+        return Mage::getModel('owebia_shipping2/Os2_Result', $this, $success, $result);
     }
 
     protected function processRowType(&$row)
@@ -1442,7 +1442,7 @@ class Owebia_Shipping2_Model_ConfigParser
         array_shift($args);
         array_shift($args);
         array_shift($args);
-        $message = Mage::getModel('owebia_shipping2/Os2_Message', array($type, $args));
+        $message = Mage::getModel('owebia_shipping2/Os2_Message', $type, $args);
         if (isset($row)) {
             if (isset($property)) {
                 $row[$property]['messages'][] = $message;
@@ -1486,7 +1486,7 @@ class Owebia_Shipping2_Model_ConfigParser
     protected function _addressMatch(&$process, &$row, $propertyName, $addressFilter, $address)
     {
         $addressFilter = $this->_replaceData($process, $addressFilter);
-        $addressFilterParser = Mage::getModel('owebia_shipping2/AddressFilterParser', array($this));
+        $addressFilterParser = Mage::getModel('owebia_shipping2/AddressFilterParser', $this);
         $addressFilter = $addressFilterParser->parse($addressFilter);
 
         $this->debug('      address filter = <span class=osh-formula>' . self::esc($addressFilter) . '</span>');
