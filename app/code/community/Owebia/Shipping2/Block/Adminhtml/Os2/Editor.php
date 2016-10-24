@@ -25,7 +25,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
         return Mage::helper('owebia_shipping2')->__($args);
     }
 
-    private function _getPropertyInput($propertyName, $property)
+    protected function _getPropertyInput($propertyName, $property)
     {
         if (is_array($property)) { // Compatibility PHP 5.2
             $value = isset($property['original_value'])

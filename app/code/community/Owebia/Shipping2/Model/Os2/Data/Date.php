@@ -6,7 +6,7 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Date extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    private $_timestamp;
+    protected $_timestamp;
 
     public function __construct()
     {

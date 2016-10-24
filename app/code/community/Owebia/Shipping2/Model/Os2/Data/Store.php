@@ -6,7 +6,7 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Store extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    private $_store;
+    protected $_store;
 
     public function __construct($arguments=null)
     {

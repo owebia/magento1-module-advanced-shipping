@@ -7,7 +7,7 @@
 class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    private static $_isJsIncluded = false;
+    protected static $_isJsIncluded = false;
 
     public function __()
     {
@@ -31,7 +31,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
         parent::_prepareLayout();
     }
 
-    private function label__($input)
+    protected function label__($input)
     {
         return str_replace(array("\r\n", "\r", "\n", "'"), array("\\n", "\\n", "\\n", "\\'"), $this->__($input));
     }
