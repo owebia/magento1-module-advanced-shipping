@@ -23,9 +23,9 @@ class Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes extends Owebia_Ship
 {
     protected function _load($name)
     {
-        $elems = explode('.', $name, $limit=2);
+        $elems = explode('.', $name, $limit = 2);
         $count = count($elems);
-        if ($count==2) {
+        if ($count == 2) {
             switch ($elems[0]) {
                 case 'a':
                 case 'attribute':
@@ -40,9 +40,9 @@ class Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes extends Owebia_Ship
     protected function _getAttribute($attributeName)
     {
         $getValue = false;
-        if (substr($attributeName, strlen($attributeName)-6, 6)=='.value') {
+        if (substr($attributeName, strlen($attributeName) - 6, 6) == '.value') {
             $getValue = true;
-            $attributeName = substr($attributeName, 0, strlen($attributeName)-6);
+            $attributeName = substr($attributeName, 0, strlen($attributeName) - 6);
         }
 
         $object = $this->_getObject();

@@ -20,8 +20,8 @@
  * @author      Magento, Owebia
  */
 
-if (file_exists(dirname(__FILE__).'/Mage_Checkout_CartController.php')) include_once 'Mage_Checkout_CartController.php';
-else include_once Mage::getBaseDir('code').'/core/Mage/Checkout/controllers/CartController.php';
+if (file_exists(dirname(__FILE__) . '/Mage_Checkout_CartController.php')) include_once 'Mage_Checkout_CartController.php';
+else include_once Mage::getBaseDir('code') . '/core/Mage/Checkout/controllers/CartController.php';
 
 class Owebia_Shipping2_Checkout_CartController extends Mage_Checkout_CartController
 {

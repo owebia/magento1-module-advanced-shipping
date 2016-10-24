@@ -23,11 +23,13 @@ class Owebia_Shipping2_Model_Os2_Data_Customer extends Owebia_Shipping2_Model_Os
 {
     protected $additionalAttributes = array('*');
 
-    public function __construct($arguments=null)
+    public function __construct($arguments = null)
     {
-        parent::__construct(array(
-            'id' => Mage::getModel('owebia_shipping2/Os2_Data_Quote')->getData('customer_id'),
-        ));
+        parent::__construct(
+            array(
+                'id' => Mage::getModel('owebia_shipping2/Os2_Data_Quote')->getData('customer_id'),
+            )
+        );
     }
 
     protected function _loadObject()
@@ -37,6 +39,6 @@ class Owebia_Shipping2_Model_Os2_Data_Customer extends Owebia_Shipping2_Model_Os
 
     public function __toString()
     {
-        return $this->getData('firstname').' '.$this->getData('lastname').' (id:'.$this->getData('id').')';
+        return $this->getData('firstname') . ' ' . $this->getData('lastname') . ' (id:' . $this->getData('id') . ')';
     }
 }

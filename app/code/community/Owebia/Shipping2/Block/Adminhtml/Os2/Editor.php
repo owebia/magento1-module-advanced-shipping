@@ -51,25 +51,25 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
         $toolbar = "<span class=\"os2-field-btn os2-field-help\" data-property=\"{$propertyName}\"></span>";
         switch ($propertyName) {
             case 'enabled':
-                $enabled = $value!==false;
+                $enabled = $value !== false;
                 $input = "<select class=field name=\"{$propertyName}\">"
-                        ."<option value=\"1\"".($enabled ? ' selected="selected"' : '').">".$this->__('Enabled (default)')."</option>"
-                        ."<option value=\"0\"".($enabled ? '' : ' selected="selected"').">".$this->__('Disabled')."</option>"
-                    ."</select>";
+                        . "<option value=\"1\"" . ($enabled ? ' selected="selected"' : '') . ">" . $this->__('Enabled (default)') . "</option>"
+                        . "<option value=\"0\"" . ($enabled ? '' : ' selected="selected"') . ">" . $this->__('Disabled') . "</option>"
+                    . "</select>";
                 break;
             case 'type':
                 $input = "<select class=field name=\"{$propertyName}\">"
-                        ."<option value=method".($value=='method' || !$value ? '' : ' selected="selected"').">".$this->__('Shipping Method (default)')."</option>"
-                        ."<option value=data".($value=='data' ? ' selected="selected"' : '').">".$this->__('Data')."</option>"
-                        ."<option value=meta".($value=='meta' ? ' selected="selected"' : '').">".$this->__('Meta')."</option>"
-                    ."</select>";
+                        . "<option value=method" . ($value=='method' || !$value ? '' : ' selected="selected"') . ">" . $this->__('Shipping Method (default)') . "</option>"
+                        . "<option value=data" . ($value=='data' ? ' selected="selected"' : '') . ">" . $this->__('Data') . "</option>"
+                        . "<option value=meta" . ($value=='meta' ? ' selected="selected"' : '') . ">" . $this->__('Meta') . "</option>"
+                    . "</select>";
                 break;
             case 'shipto':
             case 'billto':
             case 'origin':
-                $toolbar = "<span class=\"os2-field-btn os2-field-edit\"></span>".$toolbar;
+                $toolbar = "<span class=\"os2-field-btn os2-field-edit\"></span>" . $toolbar;
             default:
-                $input = "<input class=field name=\"{$propertyName}\" value=\"".htmlspecialchars($value, ENT_COMPAT, 'UTF-8')."\"/>";
+                $input = "<input class=field name=\"{$propertyName}\" value=\"" . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . "\"/>";
                 break;
         }
         return $input;
@@ -81,68 +81,68 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
         switch ($propertyName) {
             case 'label':
             case 'description':
-                $after = "<fieldset class=buttons-set><legend>".$this->__('Insert')."</legend>"
-                    ."<p>"
-                        .$controller->button__('Shipping country',"os2editor.insertAtCaret(this,'{shipto.country_name}');",'os2-insert')
-                        .$controller->button__('Cart weight',"os2editor.insertAtCaret(this,'{cart.weight}');",'os2-insert')
-                        .$controller->button__('Products quantity',"os2editor.insertAtCaret(this,'{cart.qty}');",'os2-insert')
-                        .$controller->button__('Price incl. tax',"os2editor.insertAtCaret(this,'{cart.price+tax+discount}');",'os2-insert')
-                        .$controller->button__('Price excl. tax',"os2editor.insertAtCaret(this,'{cart.price-tax+discount}');",'os2-insert')
-                    ."</p>"
-                    ."</fieldset>";
+                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                    . "<p>"
+                        . $controller->button__('Shipping country', "os2editor.insertAtCaret(this,'{shipto.country_name}');", 'os2-insert')
+                        . $controller->button__('Cart weight', "os2editor.insertAtCaret(this,'{cart.weight}');", 'os2-insert')
+                        . $controller->button__('Products quantity', "os2editor.insertAtCaret(this,'{cart.qty}');", 'os2-insert')
+                        . $controller->button__('Price incl. tax', "os2editor.insertAtCaret(this,'{cart.price+tax+discount}');", 'os2-insert')
+                        . $controller->button__('Price excl. tax', "os2editor.insertAtCaret(this,'{cart.price-tax+discount}');", 'os2-insert')
+                    . "</p>"
+                    . "</fieldset>";
                 break;
             case 'fees':
-                $after = "<fieldset class=buttons-set><legend>".$this->__('Insert')."</legend>"
-                    ."<p>"
-                        .$controller->button__('Weight',"os2editor.insertAtCaret(this,'{cart.weight}');",'os2-insert')
-                        .$controller->button__('Products quantity',"os2editor.insertAtCaret(this,'{cart.qty}');",'os2-insert')
-                        .$controller->button__('Price incl. tax',"os2editor.insertAtCaret(this,'{cart.price+tax+discount}');",'os2-insert')
-                        .$controller->button__('Price excl. tax',"os2editor.insertAtCaret(this,'{cart.price-tax+discount}');",'os2-insert')
-                    ."</p>"
-                    ."</fieldset>";
+                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                    . "<p>"
+                        . $controller->button__('Weight', "os2editor.insertAtCaret(this,'{cart.weight}');", 'os2-insert')
+                        . $controller->button__('Products quantity', "os2editor.insertAtCaret(this,'{cart.qty}');", 'os2-insert')
+                        . $controller->button__('Price incl. tax', "os2editor.insertAtCaret(this,'{cart.price+tax+discount}');", 'os2-insert')
+                        . $controller->button__('Price excl. tax', "os2editor.insertAtCaret(this,'{cart.price-tax+discount}');", 'os2-insert')
+                    . "</p>"
+                    . "</fieldset>";
                 break;
             case 'conditions':
-                $after = "<fieldset class=buttons-set><legend>".$this->__('Insert')."</legend>"
-                    ."<p>"
-                        .$controller->button__('Weight',"os2editor.insertAtCaret(this,'{cart.weight}');",'os2-insert')
-                        .$controller->button__('Products quantity',"os2editor.insertAtCaret(this,'{cart.qty}');",'os2-insert')
-                        .$controller->button__('Price incl. tax',"os2editor.insertAtCaret(this,'{cart.price+tax+discount}');",'os2-insert')
-                        .$controller->button__('Price excl. tax',"os2editor.insertAtCaret(this,'{cart.price-tax+discount}');",'os2-insert')
-                    ."</p>"
-                    ."</fieldset>";
+                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                    . "<p>"
+                        . $controller->button__('Weight', "os2editor.insertAtCaret(this,'{cart.weight}');", 'os2-insert')
+                        . $controller->button__('Products quantity', "os2editor.insertAtCaret(this,'{cart.qty}');", 'os2-insert')
+                        . $controller->button__('Price incl. tax', "os2editor.insertAtCaret(this,'{cart.price+tax+discount}');", 'os2-insert')
+                        . $controller->button__('Price excl. tax', "os2editor.insertAtCaret(this,'{cart.price-tax+discount}');", 'os2-insert')
+                    . "</p>"
+                    . "</fieldset>";
                 break;
             case 'customer_groups':
                 $model = Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup');
                 $groups = (array)$model->getCollection();
                 $output = '';
                 foreach ($groups as $id => $name) {
-                    $output .= $controller->button($this->esc($name.' ('.$id.')'),"os2editor.insertAtCaret(this,'".$this->jsEscape($id)."');",'os2-insert');
+                    $output .= $controller->button($this->esc($name . ' (' . $id . ')'), "os2editor.insertAtCaret(this,'" . $this->jsEscape($id) . "');", 'os2-insert');
                 }
-                $after = "<fieldset class=buttons-set><legend>".$this->__('Tools')."</legend>"
-                    ."<p>"
-                        .$controller->button__('Human readable version',"os2editor.getReadableSelection(this);")
-                    ."</p><div id=os2-output></div>"
-                    ."</fieldset>"
-                    ."<fieldset class=buttons-set><legend>".$this->__('Insert')."</legend>"
-                    ."<p>{$output}</p>"
-                    ."</fieldset>"
+                $after = "<fieldset class=buttons-set><legend>" . $this->__('Tools') . "</legend>"
+                    . "<p>"
+                        . $controller->button__('Human readable version', "os2editor.getReadableSelection(this);")
+                    . "</p><div id=os2-output></div>"
+                    . "</fieldset>"
+                    . "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                    . "<p>{$output}</p>"
+                    . "</fieldset>"
                 ;
                 break;
             case 'tracking_url':
-                $after = "<fieldset class=buttons-set><legend>".$this->__('Insert')."</legend>"
-                    ."<p>"
-                        .$controller->button__('Tracking number',"os2editor.insertAtCaret(this,'{tracking_number}');",'os2-insert')
-                    ."</p>"
-                    ."</fieldset>";
+                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                    . "<p>"
+                        . $controller->button__('Tracking number', "os2editor.insertAtCaret(this,'{tracking_number}');", 'os2-insert')
+                    . "</p>"
+                    . "</fieldset>";
                 break;
             case 'shipto':
             case 'billto':
             case 'origin':
-                $after = "<fieldset class=buttons-set><legend>".$this->__('Tools')."</legend>"
-                    ."<p>"
-                        .$controller->button__('Human readable version',"os2editor.getReadableSelection(this);")
-                    ."</p><div id=os2-output></div>"
-                    ."</fieldset>"
+                $after = "<fieldset class=buttons-set><legend>" . $this->__('Tools') . "</legend>"
+                    . "<p>"
+                        . $controller->button__('Human readable version', "os2editor.getReadableSelection(this);")
+                    . "</p><div id=os2-output></div>"
+                    . "</fieldset>"
                 ;
                 break;
             case 'about':
@@ -155,7 +155,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
     {
         $i1 = isset($this->propertiesSort[$k1]) ? $this->propertiesSort[$k1] : 1000;
         $i2 = isset($this->propertiesSort[$k2]) ? $this->propertiesSort[$k2] : 1000;
-        return $i1==$i2 ? strcmp($k1, $k2) : $i1-$i2;
+        return $i1 == $i2 ? strcmp($k1, $k2) : $i1 - $i2;
     }
 
     protected function _getRowUI(&$row)
@@ -208,7 +208,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
                     $error[] = $this->__($message);
                 }
             }
-            $content .= "<tr class=\"os2-p-container".($error ? ' os2-error' : '')."\"".($error ? ' title="'.$this->esc(implode(', ', $error)).'"' : '')."><th>".$this->__($propertyLabel)."</th><td>".$this->_getPropertyInput($propertyName, $property, $big = false)."</td></tr>";
+            $content .= "<tr class=\"os2-p-container" . ($error ? ' os2-error' : '') . "\"" . ($error ? ' title="' . $this->esc(implode(', ', $error)) . '"' : '') . "><th>" . $this->__($propertyLabel) . "</th><td>" . $this->_getPropertyInput($propertyName, $property, $big = false) . "</td></tr>";
             $j++;
         }
         //$output = "<ul class=\"properties-list ui-layout-west\">{$list}</ul><div class=\"properties-container ui-layout-center\">{$content}</div>";
@@ -241,7 +241,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
                 break;
             }
         }
-        return "<li data-id=\"{$row['*id']}\"".($error ? ' class=os2-error' : '')."><h5><button class=\"os2-remove-row-btn\" title=\"{$this->__('Remove')}\"></button>".$label."</h5><div class=\"row-ui".($opened ? ' opened' : '')."\">{$content}</div></li>";
+        return "<li data-id=\"{$row['*id']}\"" . ($error ? ' class=os2-error' : '') . "><h5><button class=\"os2-remove-row-btn\" title=\"{$this->__('Remove')}\"></button>" . $label . "</h5><div class=\"row-ui" . ($opened ? ' opened' : '') . "\">{$content}</div></li>";
     }
 
     protected function esc($input)
@@ -251,7 +251,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
 
     protected function jsEscape($input)
     {
-        return str_replace(array("\r\n","\r","\n","'"),array("\\n","\\n","\\n","\\'"),$input);
+        return str_replace(array("\r\n", "\r", "\n", "'"), array("\\n", "\\n", "\\n", "\\'"), $input);
     }
 
     public function getRowUI(&$row)
@@ -263,7 +263,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
     {
         $config = $this->getData('config');
         $openedRowIds = $this->getData('opened_row_ids');
-        $output = /*"<pre>".print_r($config, true)."</pre>".*/"";
+        $output = /*"<pre>" . print_r($config, true) . "</pre>" . */"";
         $i = 0;
         if (!$config) {
             $output .= "<p style=\"padding:10px;\">Configuration vide</p>";

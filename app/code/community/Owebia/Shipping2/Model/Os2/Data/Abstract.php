@@ -39,7 +39,7 @@ class Owebia_Shipping2_Model_Os2_Data_Abstract
 
     protected function _getObject()
     {
-        if ($this->_loadedObject===false) $this->_loadedObject = $this->_loadObject();
+        if ($this->_loadedObject === false) $this->_loadedObject = $this->_loadObject();
         //foreach ($this->_loadedObject->getData() as $index => $value) echo "$index = $value<br/>";
         return $this->_loadedObject;
     }

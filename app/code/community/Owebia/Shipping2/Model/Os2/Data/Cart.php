@@ -73,12 +73,12 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
             $parentItemId = $item->getData('parent_item_id');
             $parentItem = isset($cartItems[$parentItemId]) ? $cartItems[$parentItemId] : null;
             $parentType = isset($parentItem) ? $parentItem->getProduct()->getTypeId() : null;
-            if ($type!='configurable') {
-                if ($type=='bundle' && $bundleProcessChildren) {
+            if ($type != 'configurable') {
+                if ($type == 'bundle' && $bundleProcessChildren) {
                     $this->_data['qty'] -= $item->getQty();
                     continue;
                 }
-                if ($parentType=='bundle') {
+                if ($parentType == 'bundle') {
                     if (!$bundleProcessChildren) continue;
                     else $this->_data['qty'] += $item->getQty();
                 }

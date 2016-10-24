@@ -32,9 +32,9 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
 
     protected function _load($name)
     {
-        $elems = explode('.', $name, $limit=2);
+        $elems = explode('.', $name, $limit = 2);
         $count = count($elems);
-        if ($count==2) {
+        if ($count == 2) {
             switch ($elems[0]) {
                 case 'attribute_set':
                     return $this->getAttributeSet()->{$elems[1]};
@@ -46,7 +46,8 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
             }
         }
         switch ($name) {
-            case 'attribute_set': return $this->getAttributeSet()->getData('name'); // Compatibility
+            case 'attribute_set':
+                return $this->getAttributeSet()->getData('name'); // Compatibility
             case 'category': // Compatibility
                 $category = $this->_getCategory();
                 return $category ? $category->getData('name') : null;
@@ -64,20 +65,25 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
                     $output[] = $category->getData('id');
                 }
                 return $output;
-            default: return parent::_load($name);
+            default:
+                return parent::_load($name);
         }
     }
 
     public function getAttributeSet()
     {
-        if (isset($this->_attributeSet)) return $this->_attributeSet;
+        if (isset($this->_attributeSet)) {
+            return $this->_attributeSet;
+        }
         return $this->_attributeSet = Mage::getModel('owebia_shipping2/Os2_Data_AttributeSet', array('id' => (int)$this->getData('attribute_set_id')));
     }
 
     protected function _getStockItem()
     {
         //foreach ($this->_loaded_object->getData() as $index => $value) echo "$index = $value<br/>";
-        if (isset($this->_stockItem)) return $this->_stockItem;
+        if (isset($this->_stockItem)) {
+            return $this->_stockItem;
+        }
         return $this->_stockItem = Mage::getModel('owebia_shipping2/Os2_Data_StockItem', array('product_id' => (int)$this->getData('id')));
     }
 
@@ -102,8 +108,10 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
     protected function _getAttribute($attributeName)
     {
         switch ($attributeName) {
-            case 'weight': return (double)parent::_getAttribute($attributeName);
-            default: return parent::_getAttribute($attributeName);
+            case 'weight':
+                return (double)parent::_getAttribute($attributeName);
+            default:
+                return parent::_getAttribute($attributeName);
         }
     }
 
@@ -120,6 +128,6 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
 
     public function __toString()
     {
-        return $this->getData('name').' (id:'.$this->getData('id').', sku:'.$this->getData('sku').')';
+        return $this->getData('name') . ' (id:' . $this->getData('id') . ', sku:' . $this->getData('sku') . ')';
     }
 }

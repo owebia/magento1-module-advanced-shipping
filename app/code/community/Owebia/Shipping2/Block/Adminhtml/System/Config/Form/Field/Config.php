@@ -51,7 +51,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends M
 
     private function label__($input)
     {
-        return str_replace(array("\r\n","\r","\n","'"), array("\\n","\\n","\\n","\\'"), $this->__($input));
+        return str_replace(array("\r\n", "\r", "\n", "'"), array("\\n", "\\n", "\\n", "\\'"), $this->__($input));
     }
 
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
@@ -59,29 +59,29 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends M
         $output = '';
         if (!self::$isJsIncluded) {
             $output = "<script type=\"text/javascript\">\n"
-                ."//<![CDATA[\n"
-                ."jQuery.noConflict();\n"
-                ."var os2editor = new OS2Editor({\n"
-                ."ajax_url: '".$this->getUrl('adminhtml/os2_ajax/index')."?isAjax=true',\n"
-                ."form_key: FORM_KEY,\n"
-                ."apply_btn_label: '".$this->label__('Apply')."',\n"
-                ."cancel_btn_label: '".$this->label__('Cancel')."',\n"
-                ."menu_item_dissociate_label: '".$this->label__('Dissociate')."',\n"
-                ."menu_item_remove_label: '".$this->label__('Remove')."',\n"
-                ."menu_item_edit_label: '".$this->label__('Edit')."',\n"
-                ."prompt_new_value_label: '".$this->label__('Enter the new value:')."',\n"
-                ."default_row_label: '".$this->label__('[No label]')."',\n"
-                ."loading_label: '".$this->label__('Loading...')."'\n"
-                ."});\n"
-                ."
+                . "//<![CDATA[\n"
+                . "jQuery.noConflict();\n"
+                . "var os2editor = new OS2Editor({\n"
+                . "ajax_url: '" . $this->getUrl('adminhtml/os2_ajax/index') . "?isAjax=true',\n"
+                . "form_key: FORM_KEY,\n"
+                . "apply_btn_label: '" . $this->label__('Apply') . "',\n"
+                . "cancel_btn_label: '" . $this->label__('Cancel') . "',\n"
+                . "menu_item_dissociate_label: '" . $this->label__('Dissociate') . "',\n"
+                . "menu_item_remove_label: '" . $this->label__('Remove') . "',\n"
+                . "menu_item_edit_label: '" . $this->label__('Edit') . "',\n"
+                . "prompt_new_value_label: '" . $this->label__('Enter the new value:') . "',\n"
+                . "default_row_label: '" . $this->label__('[No label]') . "',\n"
+                . "loading_label: '" . $this->label__('Loading...') . "'\n"
+                . "});\n"
+                . "
 "
-                ."//]]>\n"
-                ."</script>\n"
+                . "//]]>\n"
+                . "</script>\n"
             ;
             self::$isJsIncluded = true;
         }
 
-        $shippingCode = preg_replace('/^groups\[([^\]]*)\].*$/','\1',$element->getName());
+        $shippingCode = preg_replace('/^groups\[([^\]]*)\].*$/', '\1', $element->getName());
         return <<<EOD
 {$output}
 <div style="margin-bottom:1px;">

@@ -49,23 +49,29 @@ class Owebia_Shipping2_Model_Os2_Data_CustomerGroup extends Owebia_Shipping2_Mod
 
     protected $additionalAttributes = array('*');
 
-    public function __construct($arguments=null)
+    public function __construct($arguments = null)
     {
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        if ($customerGroupId==0) { // Pour les commandes depuis Adminhtml
+        if ($customerGroupId == 0) { // Pour les commandes depuis Adminhtml
             $adminCustomerGroupId = Mage::getSingleton('adminhtml/session_quote')->getQuote()->getCustomerGroupId();
-            if (isset($adminCustomerGroupId)) $customerGroupId = $adminCustomerGroupId;
+            if (isset($adminCustomerGroupId)) {
+                $customerGroupId = $adminCustomerGroupId;
+            }
         }
-        parent::__construct(array(
-            'id' => $customerGroupId,
-        ));
+        parent::__construct(
+            array(
+                'id' => $customerGroupId,
+            )
+        );
     }
 
     protected function _load($name)
     {
         switch ($name) {
-            case 'code': return $this->getData('customer_group_code');
-            default: return parent::_load($name);
+            case 'code':
+                return $this->getData('customer_group_code');
+            default:
+                return parent::_load($name);
         }
     }
 
@@ -76,6 +82,6 @@ class Owebia_Shipping2_Model_Os2_Data_CustomerGroup extends Owebia_Shipping2_Mod
 
     public function __toString()
     {
-        return $this->getData('code').' (id:'.$this->getData('id').')';
+        return $this->getData('code') . ' (id:' . $this->getData('id') . ')';
     }
 }

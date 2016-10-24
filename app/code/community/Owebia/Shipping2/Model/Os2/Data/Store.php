@@ -45,7 +45,7 @@ class Owebia_Shipping2_Model_Os2_Data_Store extends Owebia_Shipping2_Model_Os2_D
             case 'name':
             case 'address':
             case 'phone':
-                return $this->_store->getConfig('general/store_information/'.$name);
+                return $this->_store->getConfig('general/store_information/' . $name);
         }
         return null;
     }

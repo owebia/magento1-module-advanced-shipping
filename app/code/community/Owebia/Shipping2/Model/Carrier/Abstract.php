@@ -20,12 +20,12 @@
 **/
 
 // if compilation
-if (file_exists(dirname(__FILE__).'/Owebia_Shipping2_includes_OwebiaShippingHelper.php')) {
+if (file_exists(dirname(__FILE__) . '/Owebia_Shipping2_includes_OwebiaShippingHelper.php')) {
     include_once 'Owebia_Shipping2_includes_OS2_AddressFilterParser.php';
     include_once 'Owebia_Shipping2_includes_OwebiaShippingHelper.php';
 } else {
-    include_once Mage::getBaseDir('code').'/community/Owebia/Shipping2/includes/OS2_AddressFilterParser.php';
-    include_once Mage::getBaseDir('code').'/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php';
+    include_once Mage::getBaseDir('code') . '/community/Owebia/Shipping2/includes/OS2_AddressFilterParser.php';
+    include_once Mage::getBaseDir('code') . '/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php';
 }
 
 abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
@@ -88,7 +88,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         $globalTrackingUrl = $this->__getConfigData('tracking_view_url');
         $trackingUrl = $globalTrackingUrl;
         $parts = explode(':', $trackingNumber);
-        if (count($parts)>=2) {
+        if (count($parts) >= 2) {
             $trackingNumber = $parts[1];
 
             $process = array();
@@ -109,11 +109,9 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
                 array(
                     'status'=> $trackingUrl ? '<a target="_blank" href="' . str_replace('{tracking_number}', $trackingNumber, $trackingUrl) . '">' . $this->__('track the package') . '</a>' : "suivi non disponible pour le colis {$trackingNumber} (originalTrackingNumber='{$originalTrackingNumber}', globalTrackingUrl='{$globalTrackingUrl}'" . (isset($row) ? ", tmpTrackingUrl='{$tmpTrackingUrl}'" : '') . ")"
                 )
-            )
-        ;
+            );
         $trackingResult = Mage::getModel('shipping/tracking_result')
-            ->append($trackingStatus)
-        ;
+            ->append($trackingStatus);
 
         if ($trackings = $trackingResult->getAllTrackings()) return $trackings[0];
         return false;
@@ -139,7 +137,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         $httpRequest = Mage::app()->getFrontController()->getRequest();
         if ($debug && $this->__checkRequest($httpRequest, 'checkout/cart/index')) {
             Mage::getSingleton('core/session')
-                ->addNotice('DEBUG'.$this->_helper->getDebug());
+                ->addNotice('DEBUG' . $this->_helper->getDebug());
         }
     }
 
@@ -160,7 +158,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
     protected function __checkRequest($httpRequest, $path)
     {
         list($router, $controller, $action) = explode('/', $path);
-        return $httpRequest->getRouteName()==$router && $httpRequest->getControllerName()==$controller && $httpRequest->getActionName()==$action;
+        return $httpRequest->getRouteName() == $router && $httpRequest->getControllerName() == $controller && $httpRequest->getActionName() == $action;
     }
 
     protected function __getProcess($request)
@@ -201,8 +199,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
             ->setMethodTitle($helper->getMethodText($this->_helper, $process, $row, 'label'))
             ->setMethodDescription($helper->getMethodText($this->_helper, $process, $row, 'description'))
             ->setPrice($fees)
-            ->setCost($fees)
-        ;
+            ->setCost($fees);
 
         $process['result']->append($method);
     }

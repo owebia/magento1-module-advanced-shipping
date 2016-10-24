@@ -28,6 +28,6 @@ class Owebia_Shipping2_Model_Os2_Data_Category extends Owebia_Shipping2_Model_Os
 
     public function __toString()
     {
-        return $this->getData('name').' (id:'.$this->getData('id').', url_key:'.$this->getData('url_key').')';
+        return $this->getData('name') . ' (id:' . $this->getData('id') . ', url_key:' . $this->getData('url_key') . ')';
     }
 }
