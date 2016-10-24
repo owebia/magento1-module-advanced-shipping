@@ -1,3 +1,8 @@
+[2.6.0 - October 24, 2016]
+Refactor code to comply to Magento coding standards
+Remove compress functionality
+Only one carrier available for new installations
+
 [2.5.24 - September 07, 2016]
 Update documentation
 
