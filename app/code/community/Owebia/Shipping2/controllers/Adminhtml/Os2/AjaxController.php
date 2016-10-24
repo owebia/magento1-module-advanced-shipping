@@ -199,7 +199,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function ajaxSaveConfig()
     {
         $request = $this->getRequest();
-        $shippingCode = $request->getPost('shipping_code')
+        $shippingCode = $request->getPost('shipping_code');
         $config = $request->getPost('source');
         return $this->outputContent($config);
     }
