@@ -259,25 +259,4 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
 
         return $this->outputContent('');
     }
-
-    public function docAction()
-    {
-        $this->getResponse()
-            ->setHeader('Content-Type', 'text/html; charset=UTF-8');
-
-        $fileHandler = fopen(Mage::getBaseDir('locale') . '/fr_FR/Owebia_Shipping2.csv', 'r');
-        $output = "<style>.new{color:blue}strike,.deprecated{color:maroon}</style>";
-        while ($row = fgetcsv($fileHandler, 4096, ',', '"')) {
-            if (isset($row[0])) {
-                $key = $row[0];
-                $data[$key] = isset($row[1]) ? $row[1] : null;
-                if (substr($key, 0, 16)=='{os2editor.help.') {
-                    $id = preg_replace('/[^a-z]/', '_', substr($key, 16, -1));
-                    $content = $this->_processHelp($id, $data[$key]);
-                    $output .= "<div class=\"field\"><a name=\"" . $id . "\"></a>" . $content . "</div>";
-                }
-            }
-        }
-        return $this->outputContent($output);
-    }
 }
