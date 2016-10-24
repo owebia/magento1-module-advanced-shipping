@@ -729,9 +729,9 @@ class Owebia_Shipping2_Model_ConfigParser
     protected function _array_match_all()
     {
         $args = func_get_args();
-        if (!isset($args[0])) return false;
+        if (!isset($args[0]) || !isset($args[1])) return false;
         $result = $this->callFunction('array_intersect', $args);
-        return count($result) == count($args[0]);
+        return count($result) == count($args[1]);
     }
 
     public function processFormula($process, &$row, $propertyName, $formulaString, $isChecking, $useCache = true)
