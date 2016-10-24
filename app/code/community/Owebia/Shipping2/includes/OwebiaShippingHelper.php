@@ -10,24 +10,6 @@ class OwebiaShippingHelper
     const COUPLE_REGEX = '(?:[0-9.]+|\*) *(?:\[|\])? *\: *[0-9.]+';
 
     public static $debugIndexCounter = 0;
-    public static $uncompressedStrings = array(
-        ' product.attribute.',
-        ' item.option.',
-        '{product.attribute.',
-        '{item.option.',
-        '{product.',
-        '{cart.',
-        '{selection.',
-    );
-    public static $compressedStrings = array(
-        ' p.a.',
-        ' item.o.',
-        '{p.a.',
-        '{item.o.',
-        '{p.',
-        '{c.',
-        '{s.',
-    );
 
     public static function esc($input)
     {
@@ -389,8 +371,7 @@ class OwebiaShippingHelper
             uksort($object, array($this, 'sortProperties'));
             $objectArray[$code] = $object;
         }
-        $output = self::jsonEncode($objectArray, $beautify = !$compress, $html);
-        return $compress ? $this->compress($output) : $this->uncompress($output);
+        return self::jsonEncode($objectArray, $beautify = !$compress, $html);
     }
 
     public function checkConfig()
@@ -651,31 +632,6 @@ class OwebiaShippingHelper
     {
         $result = $this->_prepareFormula($process, $row, $propertyName, $input, $isChecking = false, $useCache = true);
         return $result->success ? $result->result : $input;
-    }
-
-    public function compress($input)
-    {
-        $input = str_replace(
-            self::$uncompressedStrings,
-            self::$compressedStrings,
-            $input
-        );
-        if (function_exists('gzcompress') && function_exists('base64_encode')) {
-            $input = 'gz64' . base64_encode(gzcompress($input));
-        }
-        return '$$' . $input;
-    }
-
-    public function uncompress($input)
-    {
-        if (substr($input, 0, 4) == 'gz64' && function_exists('gzuncompress') && function_exists('base64_decode')) {
-            $input = gzuncompress(base64_decode(substr($input, 4, strlen($input))));
-        }
-        return str_replace(
-            self::$compressedStrings,
-            self::$uncompressedStrings,
-            $input
-        );
     }
 
     public function parseProperty($input)
@@ -1184,10 +1140,6 @@ class OwebiaShippingHelper
             array('>', '<', '"', '"', '"', '"', '"', '"', "\n", ' '),
             $input
         );
-
-        if (substr($input, 0, 2) == '$$') {
-            $input = $this->uncompress(substr($input, 2, strlen($input)));
-        }
         return $input;
     }
 
