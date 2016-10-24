@@ -100,7 +100,7 @@ class OwebiaShippingHelper
         $indent = "\t";
         $lineBreak = $html ? '<br/>' : "\n";
         $newIndent = $currentIndent . $indent;
-        switch ($type = gettype($data)) {
+        switch ($type = $this->getType($data)) {
             case 'NULL':
                 return ($html ? '<span class=json-reserved>' : '') . 'null' . ($html ? '</span>' : '');
             case 'boolean':
@@ -175,7 +175,9 @@ class OwebiaShippingHelper
             $output = json_decode($input);
             if (function_exists('json_last_error')) { // PHP >= 5.3.0
                 $error = json_last_error();
-                if ($error!=JSON_ERROR_NONE) throw new Exception($error);
+                if ($error != JSON_ERROR_NONE) {
+                    Mage::throwException($error);
+                }
             }
             return $output;
         } else {
@@ -286,7 +288,7 @@ class OwebiaShippingHelper
                                     . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key))
                                     . '</span> = <span class=osh-formula>'
                                     . self::esc(self::toString($value))
-                                    . '</span> (' . gettype($value) . ')<br/>';
+                                    . '</span> (' . $this->getType($value) . ')<br/>';
                             }
                         }
                     } else {
@@ -294,7 +296,7 @@ class OwebiaShippingHelper
                             . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName))
                             . '</span> = <span class=osh-formula>'
                             . self::esc(self::toString($data))
-                            . '</span> (' . gettype($data) . ')<br/>';
+                            . '</span> (' . $this->getType($data) . ')<br/>';
                     }
                 }
             } else {
@@ -302,7 +304,7 @@ class OwebiaShippingHelper
                     . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index))
                     . '</span> = <span class=osh-formula>'
                     . self::esc(self::toString($processOption))
-                    . '</span> (' . gettype($processOption) . ')<br/>';
+                    . '</span> (' . $this->getType($processOption) . ')<br/>';
             }
         }
         $this->debugCode = $code;
@@ -410,7 +412,7 @@ class OwebiaShippingHelper
                 $this->debug(
                     '         .<span class=osh-key>' . self::esc($key) . '</span>'
                     . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
-                    . ' (' . gettype($value) . ')'
+                    . ' (' . $this->getType($value) . ')'
                 );
             }
             return new OS_Result(false);
@@ -693,14 +695,14 @@ class OwebiaShippingHelper
             $this->debug(
                 '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
                 . ' = <span class=osh-formula>' . self::esc(self::toString($value->result)) . '</span>'
-                . ' (' . gettype($value->result) . ')'
+                . ' (' . $this->getType($value->result) . ')'
             );
         } else {
             $this->_expressionCache[$expression] = $value; // Do not use self::toString to make isset work
             $this->debug(
                 '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
                 . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
-                . ' (' . gettype($value) . ')'
+                . ' (' . $this->getType($value) . ')'
             );
         }
     }
@@ -711,7 +713,7 @@ class OwebiaShippingHelper
         $this->debug(
             '      get cached expression <span class=osh-replacement>' . self::esc($original) . '</span>'
             . ' = <span class=osh-formula>' . self::esc(self::toString($replacement)) . '</span>'
-            . ' (' . gettype($replacement) . ')'
+            . ' (' . $this->getType($replacement) . ')'
         );
         return $replacement;
     }
@@ -1513,6 +1515,11 @@ class OwebiaShippingHelper
         $this->debug('      <span class=osh-loop>end</span>');
 
         return $returnValue;
+    }
+
+    protected function getType($variable)
+    {
+        return gettype($variable);
     }
 
     /* For auto correction */

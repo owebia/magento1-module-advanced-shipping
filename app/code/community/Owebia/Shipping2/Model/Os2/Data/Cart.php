@@ -20,9 +20,9 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
 
         $this->_data = array(
             // Do not use quote to retrieve values, totals are not available
-            // package_value_with_discount : Bad value in backoffice orders
-            'price-tax+discount' => null,//(double)$request->getData('package_value_with_discount'),
-            'price-tax-discount' => null,//(double)$request->getData('package_value'),
+            // package_value and package_value_with_discount : Bad value in backoffice orders
+            'price-tax+discount' => null,
+            'price-tax-discount' => null,
             'price+tax+discount' => null,
             'price+tax-discount' => null,
             'weight' => $request->getData('package_weight'),

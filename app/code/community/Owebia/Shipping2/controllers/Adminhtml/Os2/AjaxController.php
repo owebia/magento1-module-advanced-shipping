@@ -50,7 +50,8 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
 
     public function indexAction()
     {
-        header('Content-Type: text/html; charset=UTF-8');
+        $this->getResponse()
+            ->setHeader('Content-Type', 'text/html; charset=UTF-8');
 
         $request = $this->getRequest();
         switch ($request->getPost('what')) {
@@ -207,7 +208,8 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
 
     public function docAction()
     {
-        header('Content-Type: text/html; charset=UTF-8');
+        $this->getResponse()
+            ->setHeader('Content-Type', 'text/html; charset=UTF-8');
 
         $fileHandler = fopen(Mage::getBaseDir('locale') . '/fr_FR/Owebia_Shipping2.csv', 'r');
         $output = "<style>.new{color:blue}strike,.deprecated{color:maroon}</style>";

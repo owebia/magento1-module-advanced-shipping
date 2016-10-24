@@ -65,12 +65,15 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         $extension = strrchr($filename, '.');
         $mimeType = $this->getMimeType($extension);
 
-        header('Content-disposition: attachment; filename="' . $filename . '"');
-        header('Content-Type: application/force-download');
-        header('Content-Transfer-Encoding: ' . $mimeType . "\n"); // Surtout ne pas enlever le \n
-        header('Pragma: no-cache');
-        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-        header('Expires: 0');
+        $this->getResponse()
+            ->clearHeaders()
+            ->setHeader('Content-disposition', 'attachment; filename="' . $filename . '"')
+            ->setHeader('Content-Type', 'application/force-download')
+            ->setHeader('Content-Transfer-Encoding', $mimeType . "\n") // Surtout ne pas enlever le \n
+            ->setHeader('Pragma', 'no-cache')
+            ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
+            ->setHeader('Expires', '0')
+        ;
         return $this->outputContent($content);
     }
 

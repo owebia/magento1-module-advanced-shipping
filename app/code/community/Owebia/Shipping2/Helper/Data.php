@@ -11,7 +11,7 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
     public function __()
     {
         $args = func_get_args();
-        if (isset($args[0]) && is_array($args[0]) && count($args)==1) {
+        if (isset($args[0]) && is_array($args[0]) && count($args) == 1) {
             $args = $args[0];
         }
         $message = array_shift($args);
@@ -22,7 +22,7 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
 
         $output = parent::__($message);
 
-        if (count($args)==0) {
+        if (count($args) == 0) {
             $result = $output;
         } else {
             if (!isset($this->_isTranslateInlineEnabled)) {
@@ -33,7 +33,7 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
                 $parts = explode('}}{{', $output);
                 $parts[0] = vsprintf($parts[0], $args);
                 $result = implode('}}{{', $parts);
-            } else  {
+            } else {
                 $result = vsprintf($output, $args);
             }
         }
