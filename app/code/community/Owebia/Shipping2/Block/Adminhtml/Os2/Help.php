@@ -20,11 +20,14 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Help extends Mage_Adminhtml_Block_Abs
         $helper = $this->getData('helper');
 
         $localeCode = Mage::app()->getLocale()->getLocaleCode();
-        $helpFile = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2/doc_' . $localeCode . '.html';
-        if (!file_exists($helpFile)) {
-            $helpFile = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2/doc_en_US.html';
+        $helpFileDir = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2';
+        $helpFileBasename = 'doc_' . $localeCode . '.html';
+        $ioFile = new Varien_Io_File();
+        $ioFile->cd($helpFileDir);
+        if ($ioFile->fileExists($helpFileBasename)) {
+            $helpFileBasename = 'doc_en_US.html';
         }
-        $content = file_get_contents($helpFile);
+        $content = $ioFile->read($helpFileBasename);
         $docSidebar = preg_replace('#^.*<!-- doc sidebar start -->(.*)<!-- doc sidebar end -->.*$#s', '\1', $content);
         $docContent = preg_replace('#^.*<!-- doc content start -->(.*)<!-- doc content end -->.*$#s', '\1', $content);
         $docScript = preg_replace('#^.*<!-- doc scripts start -->(.*)<!-- doc scripts end -->.*$#s', '\1', $content);
