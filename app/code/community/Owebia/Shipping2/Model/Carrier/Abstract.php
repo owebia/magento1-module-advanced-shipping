@@ -142,12 +142,11 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
     protected function __getProcess($request)
     {
-        $os2Config = $this->_getConfig();
         $data = Mage::helper('owebia_shipping2')->getDataModelMap($this->_helper, $this->_code, $request);
         $process = array(
             'data' => $data,
             'cart.items' => array(),
-            'config' => $os2Config,
+            'config' => $this->_getConfig(),
             'result' => Mage::getModel('shipping/rate_result'),
             'options' => (object)array(
                 'auto_escaping' => (boolean)$this->__getConfigData('auto_escaping'),

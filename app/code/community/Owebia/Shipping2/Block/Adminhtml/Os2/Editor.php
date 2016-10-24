@@ -157,11 +157,12 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
         return $after;
     }
 
-    public function sortProperties($k1, $k2)
+    public function sortProperties($firstKey, $secondKey)
     {
-        $i1 = isset($this->propertiesSort[$k1]) ? $this->propertiesSort[$k1] : 1000;
-        $i2 = isset($this->propertiesSort[$k2]) ? $this->propertiesSort[$k2] : 1000;
-        return $i1 == $i2 ? strcmp($k1, $k2) : $i1 - $i2;
+        $firstKeyPosition = isset($this->propertiesSort[$firstKey]) ? $this->propertiesSort[$firstKey] : 1000;
+        $secondKeyPosition = isset($this->propertiesSort[$secondKey]) ? $this->propertiesSort[$secondKey] : 1000;
+        return $firstKeyPosition == $secondKeyPosition
+            ? strcmp($firstKey, $secondKey) : $firstKeyPosition - $secondKeyPosition;
     }
 
     protected function _getRowUI(&$row)

@@ -331,11 +331,12 @@ class OwebiaShippingHelper
         return $messages;
     }
 
-    public function sortProperties($k1, $k2)
+    public function sortProperties($firstKey, $secondKey)
     {
-        $i1 = isset($this->propertiesSort[$k1]) ? $this->propertiesSort[$k1] : 1000;
-        $i2 = isset($this->propertiesSort[$k2]) ? $this->propertiesSort[$k2] : 1000;
-        return $i1 == $i2 ? strcmp($k1, $k2) : $i1 - $i2;
+        $firstKeyPosition = isset($this->propertiesSort[$firstKey]) ? $this->propertiesSort[$firstKey] : 1000;
+        $secondKeyPosition = isset($this->propertiesSort[$secondKey]) ? $this->propertiesSort[$secondKey] : 1000;
+        return $firstKeyPosition == $secondKeyPosition
+            ? strcmp($firstKey, $secondKey) : $firstKeyPosition - $secondKeyPosition;
     }
 
     public function formatConfig($compress, $keysToRemove = array(), $html = false)
@@ -810,22 +811,22 @@ class OwebiaShippingHelper
                     );
                     $this->addDebugIndent();
                     $this->debug(' #### count  ' . count($process['data']['cart']->items));
-                    $process2 = $process;
+                    $tmpProcess = $process;
                     // Important: clone to not override previous items
-                    $process2['data']['cart'] = clone $process2['data']['cart'];
-                    $process2['data']['cart']->items = $selection['items'];
+                    $tmpProcess['data']['cart'] = clone $tmpProcess['data']['cart'];
+                    $tmpProcess['data']['cart']->items = $selection['items'];
                     $selection['qty'] = 0;
                     $selection['weight'] = 0;
                     foreach ($selection['items'] as $item) {
                         $selection['qty'] += $item->qty;
                         $selection['weight'] += $item->weight;
                     }
-                    if (isset($process2['data']['selection'])) {
-                        $process2['data']['selection']->set('qty', $selection['qty']);
-                        $process2['data']['selection']->set('weight', $selection['weight']);
+                    if (isset($tmpProcess['data']['selection'])) {
+                        $tmpProcess['data']['selection']->set('qty', $selection['qty']);
+                        $tmpProcess['data']['selection']->set('weight', $selection['weight']);
                     }
                     $processResult = $this->processFormula(
-                        $process2,
+                        $tmpProcess,
                         $row,
                         $propertyName,
                         $result[2],
@@ -1560,8 +1561,8 @@ class OwebiaShippingHelper
                 }
             }
 
-            $regex1 = "{copy '([a-zA-Z0-9_]+)'\.'([a-zA-Z0-9_]+)'}";
-            if (preg_match('/' . $regex1 . '/', $input, $resi)) {
+            $copyRegexp = "{copy '([a-zA-Z0-9_]+)'\.'([a-zA-Z0-9_]+)'}";
+            if (preg_match('/' . $copyRegexp . '/', $input, $resi)) {
                 $this->addMessage(
                     'warning',
                     $row,
@@ -1569,16 +1570,16 @@ class OwebiaShippingHelper
                     'Usage of deprecated syntax %s',
                     '<span class=osh-formula>' . $resi[0] . '</span>'
                 );
-                while (preg_match('/' . $regex1 . '/', $input, $resi)) {
+                while (preg_match('/' . $copyRegexp . '/', $input, $resi)) {
                     $input = str_replace($resi[0], '{' . $resi[1] . '.' . $resi[2] . '}', $input);
                 }
             }
 
             $countAllAnyRegexp = "{(count|all|any) (attribute|option) '([^'\)]+)'"
                 . " ?((?:==|<=|>=|<|>|!=) ?(?:" . self::FLOAT_REGEX . "|true|false|'[^'\)]*'))}";
-            $regex2 = "{(sum) (attribute|option) '([^'\)]+)'}";
+            $sumRegexp = "{(sum) (attribute|option) '([^'\)]+)'}";
             if (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
-                || preg_match('/' . $regex2 . '/', $input, $resi)
+                || preg_match('/' . $sumRegexp . '/', $input, $resi)
             ) {
                 $this->addMessage(
                     'warning',
@@ -1588,7 +1589,7 @@ class OwebiaShippingHelper
                     '<span class=osh-formula>' . $resi[0] . '</span>'
                 );
                 while (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
-                    || preg_match('/' . $regex2 . '/', $input, $resi)
+                    || preg_match('/' . $sumRegexp . '/', $input, $resi)
                 ) {
                     switch ($resi[1]) {
                         case 'count':
