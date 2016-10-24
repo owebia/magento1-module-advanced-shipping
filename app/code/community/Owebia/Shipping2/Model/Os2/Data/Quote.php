@@ -13,14 +13,13 @@ class Owebia_Shipping2_Model_Os2_Data_Quote extends Owebia_Shipping2_Model_Os2_D
 
     protected function _loadObject()
     {
-        // Backend
         if (Mage::app()->getStore()->isAdmin()) {
+            // Backend
             $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
             if (!$sessionQuote->getQuoteId()) return; // Avoid infinite loop
             $quote = $sessionQuote->getQuote();
-        }
-        // Frontend
-        else {
+        } else {
+            // Frontend
             $session = Mage::getSingleton('checkout/session');
             if (!$session->getQuoteId()) return; // Avoid infinite loop
             $quote = $session->getQuote();
