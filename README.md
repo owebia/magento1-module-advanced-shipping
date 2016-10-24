@@ -32,7 +32,7 @@ Indeed, with Owebia Shipping Free, you can set shipping rates using almost any v
 
 MIT License
 
-Copyright (c) 2008-15 Owebia
+Copyright (c) 2008-2016 Owebia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
