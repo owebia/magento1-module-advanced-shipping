@@ -80,79 +80,69 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
     public function getPropertyTools($controller, $propertyName)
     {
         $after = '';
-        switch ($propertyName) {
-            case 'label':
-            case 'description':
-                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
-                    . "<p>"
-                        . $this->insertBtn($controller, 'Shipping country', '{shipto.country_name}')
-                        . $this->insertBtn($controller, 'Cart weight', '{cart.weight}')
-                        . $this->insertBtn($controller, 'Products quantity', '{cart.qty}')
-                        . $this->insertBtn($controller, 'Price incl. tax', '{cart.price+tax+discount}')
-                        . $this->insertBtn($controller, 'Price excl. tax', '{cart.price-tax+discount}')
-                    . "</p>"
-                    . "</fieldset>";
-                break;
-            case 'fees':
-                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
-                    . "<p>"
-                        . $this->insertBtn($controller, 'Weight', '{cart.weight}')
-                        . $this->insertBtn($controller, 'Products quantity', '{cart.qty}')
-                        . $this->insertBtn($controller, 'Price incl. tax', '{cart.price+tax+discount}')
-                        . $this->insertBtn($controller, 'Price excl. tax', '{cart.price-tax+discount}')
-                    . "</p>"
-                    . "</fieldset>";
-                break;
-            case 'conditions':
-                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
-                    . "<p>"
-                        . $this->insertBtn($controller, 'Weight', '{cart.weight}')
-                        . $this->insertBtn($controller, 'Products quantity', '{cart.qty}')
-                        . $this->insertBtn($controller, 'Price incl. tax', '{cart.price+tax+discount}')
-                        . $this->insertBtn($controller, 'Price excl. tax', '{cart.price-tax+discount}')
-                    . "</p>"
-                    . "</fieldset>";
-                break;
-            case 'customer_groups':
-                $model = Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup');
-                $groups = (array)$model->getCollection();
-                $output = '';
-                foreach ($groups as $id => $name) {
-                    $output .= $this->insertBtn(
-                        $controller,
-                        $this->esc($name . ' (' . $id . ')'),
-                        $this->jsEscape($id)
-                    );
-                }
-                $after = "<fieldset class=buttons-set><legend>" . $this->__('Tools') . "</legend>"
-                    . "<p>"
-                        . $controller->button__('Human readable version', "os2editor.getReadableSelection(this);")
-                    . "</p><div id=os2-output></div>"
-                    . "</fieldset>"
-                    . "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
-                    . "<p>{$output}</p>"
-                    . "</fieldset>"
-                ;
-                break;
-            case 'tracking_url':
-                $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
-                    . "<p>"
-                        . $this->insertBtn($controller, 'Tracking number', '{tracking_number}')
-                    . "</p>"
-                    . "</fieldset>";
-                break;
-            case 'shipto':
-            case 'billto':
-            case 'origin':
-                $after = "<fieldset class=buttons-set><legend>" . $this->__('Tools') . "</legend>"
-                    . "<p>"
-                        . $controller->button__('Human readable version', "os2editor.getReadableSelection(this);")
-                    . "</p><div id=os2-output></div>"
-                    . "</fieldset>"
-                ;
-                break;
-            case 'about':
-                break;
+        if ($propertyName == 'label' || $propertyName == 'description') {
+            $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                . "<p>"
+                    . $this->insertBtn($controller, 'Shipping country', '{shipto.country_name}')
+                    . $this->insertBtn($controller, 'Cart weight', '{cart.weight}')
+                    . $this->insertBtn($controller, 'Products quantity', '{cart.qty}')
+                    . $this->insertBtn($controller, 'Price incl. tax', '{cart.price+tax+discount}')
+                    . $this->insertBtn($controller, 'Price excl. tax', '{cart.price-tax+discount}')
+                . "</p>"
+                . "</fieldset>";
+        } elseif ($propertyName == 'fees') {
+            $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                . "<p>"
+                    . $this->insertBtn($controller, 'Weight', '{cart.weight}')
+                    . $this->insertBtn($controller, 'Products quantity', '{cart.qty}')
+                    . $this->insertBtn($controller, 'Price incl. tax', '{cart.price+tax+discount}')
+                    . $this->insertBtn($controller, 'Price excl. tax', '{cart.price-tax+discount}')
+                . "</p>"
+                . "</fieldset>";
+        } elseif ($propertyName == 'conditions') {
+            $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                . "<p>"
+                    . $this->insertBtn($controller, 'Weight', '{cart.weight}')
+                    . $this->insertBtn($controller, 'Products quantity', '{cart.qty}')
+                    . $this->insertBtn($controller, 'Price incl. tax', '{cart.price+tax+discount}')
+                    . $this->insertBtn($controller, 'Price excl. tax', '{cart.price-tax+discount}')
+                . "</p>"
+                . "</fieldset>";
+        } elseif ($propertyName == 'customer_groups') {
+            $model = Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup');
+            $groups = (array)$model->getCollection();
+            $output = '';
+            foreach ($groups as $id => $name) {
+                $output .= $this->insertBtn(
+                    $controller,
+                    $this->esc($name . ' (' . $id . ')'),
+                    $this->jsEscape($id)
+                );
+            }
+            $after = "<fieldset class=buttons-set><legend>" . $this->__('Tools') . "</legend>"
+                . "<p>"
+                    . $controller->button__('Human readable version', "os2editor.getReadableSelection(this);")
+                . "</p><div id=os2-output></div>"
+                . "</fieldset>"
+                . "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                . "<p>{$output}</p>"
+                . "</fieldset>"
+            ;
+        } elseif ($propertyName == 'tracking_url') {
+            $after = "<fieldset class=buttons-set><legend>" . $this->__('Insert') . "</legend>"
+                . "<p>"
+                    . $this->insertBtn($controller, 'Tracking number', '{tracking_number}')
+                . "</p>"
+                . "</fieldset>";
+        } elseif ($propertyName == 'shipto' ||$propertyName == 'billto' || $propertyName == 'origin') {
+            $after = "<fieldset class=buttons-set><legend>" . $this->__('Tools') . "</legend>"
+                . "<p>"
+                    . $controller->button__('Human readable version', "os2editor.getReadableSelection(this);")
+                . "</p><div id=os2-output></div>"
+                . "</fieldset>"
+            ;
+        } elseif ($propertyName == 'about') {
+            $after = '';
         }
         return $after;
     }

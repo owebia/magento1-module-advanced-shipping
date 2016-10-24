@@ -95,11 +95,60 @@ class OwebiaShippingHelper
         );
     }
 
-    public static function jsonEncode($data, $beautify = false, $html = false, $level = 0, $currentIndent = '')
+    protected static function jsonEncodeArray($data, $beautify, $html, $level, $currentIndent)
     {
         $indent = "\t";
-        $lineBreak = $html ? '<br/>' : "\n";
         $newIndent = $currentIndent . $indent;
+        $lineBreak = $html ? '<br/>' : "\n";
+        $outputIndexCount = 0;
+        $output = array();
+        foreach ($data as $key => $value) {
+            if ($outputIndexCount !== null && $outputIndexCount++ !== $key) {
+                $outputIndexCount = null;
+            }
+        }
+        $isAssociative = $outputIndexCount === null;
+        foreach ($data as $key => $value) {
+            if ($isAssociative) {
+                $classes = array();
+                if ($key == 'about') {
+                    $classes[] = 'json-about';
+                } elseif ($key == 'conditions' || $key == 'fees') {
+                    $classes[] = 'json-formula';
+                }
+                $propertyClasses = array('json-property');
+                if ($level == 0) {
+                    $propertyClasses[] = 'json-id';
+                }
+                $output[] = ($html && $classes ? '<span class="' . implode(' ', $classes) . '">' : '')
+                    . ($html ? '<span class="' . implode(' ', $propertyClasses) . '">' : '')
+                    . self::jsonEncode((string)$key)
+                    . ($html ? '</span>' : '') . ':'
+                    . ($beautify ? ' ' : '')
+                    . self::jsonEncode($value, $beautify, $html, $level+1, $newIndent)
+                    . ($html && $classes ? '</span>' : '');
+            } else {
+                $output[] = self::jsonEncode($value, $beautify, $html, $level+1, $currentIndent);
+            }
+        }
+        if ($isAssociative) {
+            $classes = array();
+            if (isset($data['type']) && $data['type']=='meta') $classes[] = 'json-meta';
+            $output = ($html && $classes ? '<span class="' . implode(' ', $classes) . '">' : '')
+                .'{'
+                .($beautify ? "{$lineBreak}{$newIndent}" : '')
+                .implode(',' . ($beautify ? "{$lineBreak}{$newIndent}" : ''), $output)
+                .($beautify ? "{$lineBreak}{$currentIndent}" : '')
+                .'}'
+                .($html && $classes ? '</span>' : '');
+            return $output;
+        } else {
+            return '[' . implode(',' . ($beautify ? ' ' : ''), $output) . ']';
+        }
+    }
+
+    public static function jsonEncode($data, $beautify = false, $html = false, $level = 0, $currentIndent = '')
+    {
         switch ($type = $this->getType($data)) {
             case 'NULL':
                 return ($html ? '<span class=json-reserved>' : '') . 'null' . ($html ? '</span>' : '');
@@ -124,46 +173,7 @@ class OwebiaShippingHelper
             case 'object':
                 $data = (array)$data;
             case 'array':
-                $outputIndexCount = 0;
-                $output = array();
-                foreach ($data as $key => $value) {
-                    if ($outputIndexCount !== null && $outputIndexCount++ !== $key) {
-                        $outputIndexCount = null;
-                    }
-                }
-                $isAssociative = $outputIndexCount===null;
-                foreach ($data as $key => $value) {
-                    if ($isAssociative) {
-                        $classes = array();
-                        if ($key=='about') $classes[] = 'json-about';
-                        if ($key=='conditions' || $key=='fees') $classes[] = 'json-formula';
-                        $propertyClasses = array('json-property');
-                        if ($level==0) $propertyClasses[] = 'json-id';
-                        $output[] = ($html && $classes ? '<span class="' . implode(' ', $classes) . '">' : '')
-                            .($html ? '<span class="' . implode(' ', $propertyClasses) . '">' : '')
-                            .self::jsonEncode((string)$key)
-                            .($html ? '</span>' : '') . ':'
-                            .($beautify ? ' ' : '')
-                            .self::jsonEncode($value, $beautify, $html, $level+1, $newIndent)
-                            .($html && $classes ? '</span>' : '');
-                    } else {
-                        $output[] = self::jsonEncode($value, $beautify, $html, $level+1, $currentIndent);
-                    }
-                }
-                if ($isAssociative) {
-                    $classes = array();
-                    if (isset($data['type']) && $data['type']=='meta') $classes[] = 'json-meta';
-                    $output = ($html && $classes ? '<span class="' . implode(' ', $classes) . '">' : '')
-                        .'{'
-                        .($beautify ? "{$lineBreak}{$newIndent}" : '')
-                        .implode(',' . ($beautify ? "{$lineBreak}{$newIndent}" : ''), $output)
-                        .($beautify ? "{$lineBreak}{$currentIndent}" : '')
-                        .'}'
-                        .($html && $classes ? '</span>' : '');
-                    return $output;
-                } else {
-                    return '[' . implode(',' . ($beautify ? ' ' : ''), $output) . ']';
-                }
+                return static::jsonEncodeArray($data, $beautify, $html, $level, $currentIndent);
             default:
                 return ''; // Not supported
         }
@@ -259,6 +269,49 @@ class OwebiaShippingHelper
         return $output;
     }
 
+    protected function getVariableDisplay($variablePath, $variableValue)
+    {
+        return '<span class=osh-key>'
+            . self::esc(str_replace('.', '</span>.<span class=osh-key>', $variablePath))
+            . '</span> = <span class=osh-formula>'
+            . self::esc(self::toString($variableValue))
+            . '</span> (' . $this->getType($variableValue) . ')<br/>';
+    }
+
+    protected function initDebugData($objectName, $data)
+    {
+        $header = '';
+        if (is_object($data) || is_array($data)) {
+            $header .= '      <span class=osh-key>'
+                . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName))
+                . '</span> &gt;&gt;<br/>';
+            $children = array();
+            if (is_object($data)) {
+                $children = $data->__sleep();
+            } elseif (is_array($data)) {
+                $children = array_keys($data);
+            }
+            foreach ($children as $name) {
+                $key = $name;
+                if ($key == '*') {
+                    $header .= '         .<span class=osh-key>'
+                        . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key))
+                        . '</span> = …<br/>';
+                } else {
+                    if (is_object($data)) {
+                        $value = $data->{$name};
+                    } elseif (is_array($data)) {
+                        $children = $data[$name];
+                    }
+                    $header .= '         .' . $this->getVariableDisplay($key, $value);
+                }
+            }
+        } else {
+            $header .= '      .' . $this->getVariableDisplay($objectName, $data);
+        }
+        return $header;
+    }
+
     public function initDebug($code, $process)
     {
         $header = 'DEBUG OwebiaShippingHelper.php<br/>';
@@ -268,43 +321,10 @@ class OwebiaShippingHelper
                     . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index))
                     . '</span> &gt;&gt;<br/>';
                 foreach ($processOption as $objectName => $data) {
-                    if (is_object($data) || is_array($data)) {
-                        $header .= '      <span class=osh-key>'
-                            . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName))
-                            . '</span> &gt;&gt;<br/>';
-                        $children = array();
-                        if (is_object($data)) $children = $data->__sleep();
-                        else if (is_array($data)) $children = array_keys($data);
-                        foreach ($children as $name) {
-                            $key = $name;
-                            if ($key == '*') {
-                                $header .= '         .<span class=osh-key>'
-                                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key))
-                                    . '</span> = …<br/>';
-                            } else {
-                                if (is_object($data)) $value = $data->{$name};
-                                else if (is_array($data)) $children = $data[$name];
-                                $header .= '         .<span class=osh-key>'
-                                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key))
-                                    . '</span> = <span class=osh-formula>'
-                                    . self::esc(self::toString($value))
-                                    . '</span> (' . $this->getType($value) . ')<br/>';
-                            }
-                        }
-                    } else {
-                        $header .= '      .<span class=osh-key>'
-                            . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName))
-                            . '</span> = <span class=osh-formula>'
-                            . self::esc(self::toString($data))
-                            . '</span> (' . $this->getType($data) . ')<br/>';
-                    }
+                    $header .= $this->initDebugData($objectName, $data);
                 }
             } else {
-                $header .= '   <span class=osh-key>'
-                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index))
-                    . '</span> = <span class=osh-formula>'
-                    . self::esc(self::toString($processOption))
-                    . '</span> (' . $this->getType($processOption) . ')<br/>';
+                $header .= '   ' . $this->getVariableDisplay($index, $processOption);
             }
         }
         $this->debugCode = $code;
@@ -392,18 +412,8 @@ class OwebiaShippingHelper
         }
     }
 
-    public function processRow($process, &$row, $isChecking = false)
+    protected function processRowType(&$row)
     {
-        if (!isset($row['*id'])) {
-            $this->debug('skip row with unknown id');
-            return new OS_Result(false);
-        }
-        $this->debug('process row <span class=osh-key>' . self::esc($row['*id']) . '</span>');
-
-        if (isset($row['about'])) { // Display on debug
-            $about = $this->getRowProperty($row, 'about');
-        }
-
         $type = $this->getRowProperty($row, 'type');
         if ($type == 'data') {
             foreach ($row as $key => $data) {
@@ -417,10 +427,14 @@ class OwebiaShippingHelper
             }
             return new OS_Result(false);
         }
-        if (isset($type) && $type != 'method') return new OS_Result(false);
+        if (isset($type) && $type != 'method') {
+            return new OS_Result(false);
+        }
+        return null;
+    }
 
-        if (!isset($row['label']['value'])) $row['label']['value'] = '***';
-
+    protected function processRowEnabled(&$row, $isChecking)
+    {
         $enabled = $this->getRowProperty($row, 'enabled');
         if (isset($enabled)) {
             if (!$isChecking && !$enabled) {
@@ -428,7 +442,11 @@ class OwebiaShippingHelper
                 return new OS_Result(false);
             }
         }
+        return null;
+    }
 
+    protected function processRowConditions($process, &$row, $isChecking)
+    {
         $conditions = $this->getRowProperty($row, 'conditions');
         if (isset($conditions)) {
             $result = $this->processFormula($process, $row, 'conditions', $conditions, $isChecking);
@@ -440,29 +458,11 @@ class OwebiaShippingHelper
                 }
             }
         }
+        return null;
+    }
 
-        $addressProperties = array(
-            'shipto' => "Shipping zone not allowed",
-            'billto' => "Billing zone not allowed",
-            'origin' => "Shipping origin not allowed",
-        );
-        foreach ($addressProperties as $propertyName => $failureMessage) {
-            $propertyValue = $this->getRowProperty($row, $propertyName);
-            if (isset($propertyValue)) {
-                $match = $this->_addressMatch(
-                    $process,
-                    $row,
-                    $propertyName,
-                    $propertyValue,
-                    $process['data'][$propertyName]
-                );
-                if (!$isChecking && !$match) {
-                    $this->addMessage('info', $row, $propertyName, $failureMessage);
-                    return new OS_Result(false);
-                }
-            }
-        }
-
+    protected function processRowCustomerGroups($process, &$row, $isChecking)
+    {
         $customerGroups = $this->getRowProperty($row, 'customer_groups');
         if (isset($customerGroups)) {
             $groups = explode(',', $customerGroups);
@@ -493,7 +493,37 @@ class OwebiaShippingHelper
                 return new OS_Result(false);
             }
         }
+        return null;
+    }
 
+    protected function processRowAddresses($process, &$row, $isChecking)
+    {
+        $addressProperties = array(
+            'shipto' => "Shipping zone not allowed",
+            'billto' => "Billing zone not allowed",
+            'origin' => "Shipping origin not allowed",
+        );
+        foreach ($addressProperties as $propertyName => $failureMessage) {
+            $propertyValue = $this->getRowProperty($row, $propertyName);
+            if (isset($propertyValue)) {
+                $match = $this->_addressMatch(
+                    $process,
+                    $row,
+                    $propertyName,
+                    $propertyValue,
+                    $process['data'][$propertyName]
+                );
+                if (!$isChecking && !$match) {
+                    $this->addMessage('info', $row, $propertyName, $failureMessage);
+                    return new OS_Result(false);
+                }
+            }
+        }
+        return null;
+    }
+
+    protected function processRowFees($process, &$row, $isChecking)
+    {
         $fees = $this->getRowProperty($row, 'fees');
         if (isset($fees)) {
             $result = $this->processFormula($process, $row, 'fees', $fees, $isChecking);
@@ -503,6 +533,54 @@ class OwebiaShippingHelper
                 . ' = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>'
             );
             return new OS_Result(true, (float)$result->result);
+        }
+        return null;
+    }
+
+    public function processRow($process, &$row, $isChecking = false)
+    {
+        if (!isset($row['*id'])) {
+            $this->debug('skip row with unknown id');
+            return new OS_Result(false);
+        }
+        $this->debug('process row <span class=osh-key>' . self::esc($row['*id']) . '</span>');
+
+        if (isset($row['about'])) { // Display on debug
+            $about = $this->getRowProperty($row, 'about');
+        }
+
+        $result = $this->processRowType($row);
+        if (isset($result)) {
+            return $result;
+        }
+
+        if (!isset($row['label']['value'])) {
+            $row['label']['value'] = '***';
+        }
+
+        $result = $this->processRowEnabled($row, $isChecking);
+        if (isset($result)) {
+            return $result;
+        }
+
+        $result = $this->processRowConditions($process, $row, $isChecking);
+        if (isset($result)) {
+            return $result;
+        }
+
+        $result = $this->processRowAddresses($process, $row, $isChecking);
+        if (isset($result)) {
+            return $result;
+        }
+
+        $result = $this->processRowCustomerGroups($process, $row, $isChecking);
+        if (isset($result)) {
+            return $result;
+        }
+
+        $result = $this->processRowFees($process, $row, $isChecking);
+        if (isset($result)) {
+            return $result;
         }
         return new OS_Result(false);
     }
@@ -759,20 +837,8 @@ class OwebiaShippingHelper
         }
     }
 
-    protected function _prepareFormula($process, $row, $propertyName, $formulaString, $isChecking, $useCache = true)
+    protected function _prepareFormulaForeach($process, $row, $propertyName, $formula, $isChecking, $useCache)
     {
-        if ($useCache && isset($this->_formulaCache[$formulaString])) {
-            $result = $this->_formulaCache[$formulaString];
-            $this->debug(
-                '      get cached formula <span class=osh-replacement>' . self::esc($formulaString) . '</span>'
-                . ' = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>'
-            );
-            return $result;
-        }
-
-        $formula = $formulaString;
-
-        // foreach
         $foreachRegexp = "#{foreach ((?:item|product|p)\.[a-z0-9_\+\-\.]+)}(.*){/foreach}#iU";
         while ($this->_preg_match($foreachRegexp, $formula, $result)) { // ungreedy
             $original = $result[0];
@@ -848,48 +914,11 @@ class OwebiaShippingHelper
             }
             $formula = $this->replace($original, $replacement, $formula);
         }
+        return $formula;
+    }
 
-        if (isset($process['data']['selection'])) {
-            if ($process['data']['selection']->weight == null) {
-                $process['data']['selection']->set('weight', $process['data']['cart']->weight);
-            }
-            if ($process['data']['selection']->qty == null) {
-                $process['data']['selection']->set('qty', $process['data']['cart']->qty);
-            }
-        }
-
-        // data
-        $aliases = array(
-            'p' => 'product',
-            'c' => 'cart',
-            's' => 'selection',
-        );
-        $formula = $this->_replaceData($process, $formula, 'item|product|p|c|s', $aliases);
-
-        // count, sum, min, max
-        $countRegexp = "/{(count)\s+items\s*(?:\s+where\s+((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
-        $sumMinMaxCountRegexp = "/{(sum|min|max|count distinct) ((?:item|product|p)\.[a-z0-9_\+\-\.]+)"
-            . "(?: where ((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
-        while ($this->_preg_match($countRegexp, $formula, $result)
-            || $this->_preg_match($sumMinMaxCountRegexp, $formula, $result)
-        ) {
-            $original = $result[0];
-            if ($useCache && array_key_exists($original, $this->_expressionCache)) {
-                $replacement = $this->_getCachedExpression($original);
-            } else {
-                $replacement = $this->_processProduct(
-                    $process['data']['cart']->items,
-                    $result,
-                    $row,
-                    $propertyName,
-                    $isChecking
-                );
-                if ($useCache) $this->_setCache($result[0], $replacement);
-            }
-            $formula = $this->replace($original, $replacement, $formula);
-        }
-
-        // switch
+    protected function _prepareFormulaSwitch($row, $propertyName, $formula, $isChecking, $useCache)
+    {
         while (preg_match("/{switch ([^}]+) in ([^}]+)}/i", $formula, $result)) {
             $original = $result[0];
             if ($useCache && array_key_exists($original, $this->_expressionCache)) {
@@ -940,8 +969,22 @@ class OwebiaShippingHelper
             }
             $formula = $this->replace($original, $replacement, $formula);
         }
+        return $formula;
+    }
 
-        // range table
+    protected function _prepareFormulaTableIncludeMaxValue($lastChar)
+    {
+        if ($lastChar == '[') {
+            return false;
+        } elseif ($lastChar == ']') {
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    protected function _prepareFormulaTable($row, $propertyName, $formula, $isChecking, $useCache)
+    {
         while (preg_match("/{table ([^}]+) in ([0-9\.:,\*\[\] ]+)}/i", $formula, $result)) {
             $original = $result[0];
             if ($useCache && array_key_exists($original, $this->_expressionCache)) {
@@ -971,10 +1014,9 @@ class OwebiaShippingHelper
                         $fee = trim($feeData[1]);
                         $maxValue = trim($feeData[0]);
 
-                        $lastChar = $maxValue{strlen($maxValue) - 1};
-                        if ($lastChar == '[') $includingMaxValue = false;
-                        else if ($lastChar == ']') $includingMaxValue = true;
-                        else $includingMaxValue = true;
+                        $includingMaxValue = $this->_prepareFormulaTableIncludeMaxValue(
+                            $maxValue{strlen($maxValue) - 1}
+                        );
 
                         $maxValue = str_replace(array('[', ']'), '', $maxValue);
 
@@ -991,6 +1033,67 @@ class OwebiaShippingHelper
             }
             $formula = $this->replace($original, $replacement, $formula);
         }
+        return $formula;
+    }
+
+    protected function _prepareFormula($process, $row, $propertyName, $formulaString, $isChecking, $useCache = true)
+    {
+        if ($useCache && isset($this->_formulaCache[$formulaString])) {
+            $result = $this->_formulaCache[$formulaString];
+            $this->debug(
+                '      get cached formula <span class=osh-replacement>' . self::esc($formulaString) . '</span>'
+                . ' = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>'
+            );
+            return $result;
+        }
+
+        $formula = $formulaString;
+
+        $formula = $this->_prepareFormulaForeach($process, $row, $propertyName, $formula, $isChecking, $useCache);
+
+        if (isset($process['data']['selection'])) {
+            if ($process['data']['selection']->weight == null) {
+                $process['data']['selection']->set('weight', $process['data']['cart']->weight);
+            }
+            if ($process['data']['selection']->qty == null) {
+                $process['data']['selection']->set('qty', $process['data']['cart']->qty);
+            }
+        }
+
+        // data
+        $aliases = array(
+            'p' => 'product',
+            'c' => 'cart',
+            's' => 'selection',
+        );
+        $formula = $this->_replaceData($process, $formula, 'item|product|p|c|s', $aliases);
+
+        // count, sum, min, max
+        $countRegexp = "/{(count)\s+items\s*(?:\s+where\s+((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
+        $sumMinMaxCountRegexp = "/{(sum|min|max|count distinct) ((?:item|product|p)\.[a-z0-9_\+\-\.]+)"
+            . "(?: where ((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
+        while ($this->_preg_match($countRegexp, $formula, $result)
+            || $this->_preg_match($sumMinMaxCountRegexp, $formula, $result)
+        ) {
+            $original = $result[0];
+            if ($useCache && array_key_exists($original, $this->_expressionCache)) {
+                $replacement = $this->_getCachedExpression($original);
+            } else {
+                $replacement = $this->_processProduct(
+                    $process['data']['cart']->items,
+                    $result,
+                    $row,
+                    $propertyName,
+                    $isChecking
+                );
+                if ($useCache) $this->_setCache($result[0], $replacement);
+            }
+            $formula = $this->replace($original, $replacement, $formula);
+        }
+
+        $formula = $this->_prepareFormulaSwitch($row, $propertyName, $formula, $isChecking, $useCache);
+        $formula = $this->_prepareFormulaTable($row, $propertyName, $formula, $isChecking, $useCache);
+
         $result = new OS_Result(true, $formula);
         return $result;
     }
@@ -1039,20 +1142,158 @@ class OwebiaShippingHelper
         return $evalResult;
     }
 
-    protected function _parseInput($autoCorrection)
+    protected function _parseInputIsValidConfig($config)
+    {
+        if ($config) {
+            foreach ($config as $code => $object) {
+                if (!is_object($object)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function _parseInputIgnore($toIgnore, &$json, &$autoCorrectionWarnings)
+    {
+        foreach ($toIgnore as $toIgnoreItem) {
+            $toIgnoreItem = trim($toIgnoreItem);
+            if (!$toIgnoreItem) continue;
+            $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>'
+                . self::toString($toIgnoreItem) . '</span>)';
+            $n = 0;
+            do {
+                $key = 'meta' . $n;
+                $n++;
+            } while (isset($json[$key]));
+            $json[$key] = array(
+                'type' => 'meta',
+                'ignored' => $toIgnoreItem,
+            );
+        }
+    }
+
+    protected function _parseInputPrepareInput($input)
     {
         $openingQuote = utf8_encode(chr(147));
         $closingQuote = utf8_encode(chr(148));
-        $configString = str_replace(
+        $input = str_replace(
             array('&gt;', '&lt;', '“', '”', $openingQuote, $closingQuote, '&laquo;', '&raquo;', "\r\n", "\t"),
             array('>', '<', '"', '"', '"', '"', '"', '"', "\n", ' '),
-            $this->_input
+            $input
         );
 
-        if (substr($configString, 0, 2) == '$$') {
-            $configString = $this->uncompress(substr($configString, 2, strlen($configString)));
+        if (substr($input, 0, 2) == '$$') {
+            $input = $this->uncompress(substr($input, 2, strlen($input)));
         }
+        return $input;
+    }
 
+    protected function _parseInputParseJsonObject($object, &$autoCorrectionWarnings, &$missingEnquoteOfPropertyName)
+    {
+        $jsonObject = array();
+        $propertyRegexp = '\\s*(?<property_name>"?[a-z0-9_]+"?)\\s*:\\s*'
+            . '(?<property_value>"(?:(?:[^"]|\\\\")*[^\\\\])?"|' . self::FLOAT_REGEX . '|false|true|null)'
+            . '\\s*(?<property_separator>,)?\\s*(?:\\n)?';
+        preg_match_all('/' . $propertyRegexp . '/i', $object[0], $propertySet, PREG_SET_ORDER);
+        $propertiesCount = count($propertySet);
+        foreach ($propertySet as $j => $property) {
+            $name = $property['property_name'];
+            if ($name{0} != '"' || $name{strlen($name) - 1} != '"') {
+                $autoCorrectionWarnings['missing_enquote_of_property_name'] =
+                    'JSON: missing enquote of property name: %s';
+                $missingEnquoteOfPropertyName[] = self::toString(trim($name, '"'));
+            }
+            $propertySeparator = isset($property['property_separator'])
+                ? $property['property_separator'] : null;
+            $isLastProperty = ( $j == $propertiesCount - 1 );
+            if (!$isLastProperty && $propertySeparator != ',') {
+                $autoCorrectionWarnings[] = 'JSON: missing property separator (comma)';
+            } else if ($isLastProperty && $propertySeparator == ',') {
+                $autoCorrectionWarnings[] = 'JSON: no trailing property separator (comma) allowed';
+            }
+            $jsonObject[trim($name, '"')] = $this->parseProperty($property['property_value']);
+        }
+        return $jsonObject;
+    }
+
+    protected function _parseInputParseJsonObjectSet(
+        &$configString,
+        &$autoCorrectionWarnings,
+        &$missingEnquoteOfPropertyName
+    )
+    {
+        $objectRegexp = '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*'
+            . '(' . $propertyRegexp . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
+        preg_match_all('/(' . $objectRegexp . ')/is', $configString, $objectSet, PREG_SET_ORDER);
+        $json = array();
+        $objectsCount = count($objectSet);
+        $toIgnoreCounter = -1;
+        foreach ($objectSet as $i => $object) {
+            $pos = strpos($configString, $object[0]);
+            $toIgnore = trim(substr($configString, 0, $pos));
+            if ($toIgnore) {
+                $toIgnoreCounter++;
+                if ($toIgnoreCounter == 0) {
+                    $bracketPosition = strpos($toIgnore, '{');
+                    if ($bracketPosition !== false) {
+                        $toIgnore = explode('{', $toIgnore, 2);
+                    }
+                }
+                $this->_parseInputIgnore((array)$toIgnore, $json, $autoCorrectionWarnings);
+                $configString = substr($configString, $pos, strlen($configString));
+            }
+            $configString = str_replace($object[0], '', $configString);
+            $objectName = isset($object['object_name']) ? $object['object_name'] : null;
+            $objectSeparator = isset($object['object_separator']) ? $object['object_separator'] : null;
+            $isLastObject = ( $i == $objectsCount - 1 );
+            if (!$isLastObject && $objectSeparator != ',') {
+                $autoCorrectionWarnings[] = 'JSON: missing object separator (comma)';
+            } else if ($isLastObject && $objectSeparator == ',') {
+                $autoCorrectionWarnings[] = 'JSON: no trailing object separator (comma) allowed';
+            }
+            $jsonObject = $this->_parseInputParseJsonObject(
+                $object,
+                $autoCorrectionWarnings,
+                $missingEnquoteOfPropertyName
+            );
+            if ($objectName) {
+                $json[trim($objectName, '"')] = $jsonObject;
+            } elseif (isset($jsonObject['code'])) {
+                $code = $jsonObject['code'];
+                unset($jsonObject['code']);
+                $json[$code] = $jsonObject;
+            } else {
+                $json[] = $jsonObject;
+            }
+        }
+        return $json;
+    }
+
+    protected function _parseInputParseComments(&$configString, &$autoCorrectionWarnings)
+    {
+        if (preg_match_all('/((?:#+[^{\\n]*\\s+)+)\\s*{/s', $configString, $result, PREG_SET_ORDER)) {
+            $autoCorrectionWarnings[] = 'JSON: usage of incompatible comments';
+            foreach ($result as $set) {
+                $commentLines = explode("\n", $set[1]);
+                foreach ($commentLines as $i => $line) {
+                    $commentLines[$i] = preg_replace('/^#+\\s/', '', $line);
+                }
+                $comment = trim(implode("\n", $commentLines));
+                $configString = str_replace(
+                    $set[0],
+                    '{"about": "' . str_replace('"', '\\"', $comment) . '",',
+                    $configString
+                );
+            }
+        }
+    }
+
+    protected function _parseInput($autoCorrection)
+    {
+        $configString = $his->_parseInputPrepareInput($this->_input);
         $this->debug('parse config (auto correction = ' . self::esc(self::toString($autoCorrection)) . ')');
         $config = null;
         $lastJsonError = null;
@@ -1061,128 +1302,25 @@ class OwebiaShippingHelper
         } catch (Exception $e) {
             $lastJsonError = $e;
         }
+        if (!$this->_parseInputIsValidConfig($config)) {
+            $config = null;
+        }
         $autoCorrectionWarnings = array();
         $missingEnquoteOfPropertyName = array();
-        if ($config) {
-            foreach ($config as $code => $object) {
-                if (!is_object($object)) {
-                    $config = null;
-                    break;
-                }
-            }
-        }
         if ($autoCorrection && !$config && $configString != '[]') {
-            if (preg_match_all('/((?:#+[^{\\n]*\\s+)+)\\s*{/s', $configString, $result, PREG_SET_ORDER)) {
-                $autoCorrectionWarnings[] = 'JSON: usage of incompatible comments';
-                foreach ($result as $set) {
-                    $commentLines = explode("\n", $set[1]);
-                    foreach ($commentLines as $i => $line) {
-                        $commentLines[$i] = preg_replace('/^#+\\s/', '', $line);
-                    }
-                    $comment = trim(implode("\n", $commentLines));
-                    $configString = str_replace(
-                        $set[0],
-                        '{"about": "' . str_replace('"', '\\"', $comment) . '",',
-                        $configString
-                    );
-                }
-            }
-            $propertyRegexp = '\\s*(?<property_name>"?[a-z0-9_]+"?)\\s*:\\s*'
-                . '(?<property_value>"(?:(?:[^"]|\\\\")*[^\\\\])?"|' . self::FLOAT_REGEX . '|false|true|null)'
-                . '\\s*(?<property_separator>,)?\\s*(?:\\n)?';
-            $objectRegexp = '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*'
-                . '(' . $propertyRegexp . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
-            preg_match_all('/(' . $objectRegexp . ')/is', $configString, $objectSet, PREG_SET_ORDER);
-            $json = array();
-            $objectsCount = count($objectSet);
-            $toIgnoreCounter = -1;
-            foreach ($objectSet as $i => $object) {
-                $pos = strpos($configString, $object[0]);
-                $toIgnore = trim(substr($configString, 0, $pos));
-                if ($toIgnore) {
-                    $toIgnoreCounter++;
-                    if ($toIgnoreCounter == 0) {
-                        $bracketPosition = strpos($toIgnore, '{');
-                        if ($bracketPosition!==false) {
-                            $toIgnore = explode('{', $toIgnore, 2);
-                        }
-                    }
-                    $toIgnore = (array)$toIgnore;
-                    foreach ($toIgnore as $toIgnoreItem) {
-                        $toIgnoreItem = trim($toIgnoreItem);
-                        if (!$toIgnoreItem) continue;
-                        $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>'
-                            . self::toString($toIgnoreItem) . '</span>)';
-                        $n = 0;
-                        do {
-                            $key = 'meta' . $n;
-                            $n++;
-                        } while (isset($json[$key]));
-                        $json[$key] = array(
-                            'type' => 'meta',
-                            'ignored' => $toIgnoreItem,
-                        );
-                    }
-                    $configString = substr($configString, $pos, strlen($configString));
-                }
-                $configString = str_replace($object[0], '', $configString);
-                $objectName = isset($object['object_name']) ? $object['object_name'] : null;
-                $objectSeparator = isset($object['object_separator']) ? $object['object_separator'] : null;
-                $isLastObject = ( $i == $objectsCount - 1 );
-                if (!$isLastObject && $objectSeparator != ',') {
-                    $autoCorrectionWarnings[] = 'JSON: missing object separator (comma)';
-                } else if ($isLastObject && $objectSeparator == ',') {
-                    $autoCorrectionWarnings[] = 'JSON: no trailing object separator (comma) allowed';
-                }
-                $jsonObject = array();
-                preg_match_all('/' . $propertyRegexp . '/i', $object[0], $propertySet, PREG_SET_ORDER);
-                $propertiesCount = count($propertySet);
-                foreach ($propertySet as $j => $property) {
-                    $name = $property['property_name'];
-                    if ($name{0} != '"' || $name{strlen($name) - 1} != '"') {
-                        $autoCorrectionWarnings['missing_enquote_of_property_name'] =
-                            'JSON: missing enquote of property name: %s';
-                        $missingEnquoteOfPropertyName[] = self::toString(trim($name, '"'));
-                    }
-                    $propertySeparator = isset($property['property_separator'])
-                        ? $property['property_separator'] : null;
-                    $isLastProperty = ( $j == $propertiesCount - 1 );
-                    if (!$isLastProperty && $propertySeparator != ',') {
-                        $autoCorrectionWarnings[] = 'JSON: missing property separator (comma)';
-                    } else if ($isLastProperty && $propertySeparator == ',') {
-                        $autoCorrectionWarnings[] = 'JSON: no trailing property separator (comma) allowed';
-                    }
-                    $jsonObject[trim($name, '"')] = $this->parseProperty($property['property_value']);
-                }
-                if ($objectName) $json[trim($objectName, '"')] = $jsonObject;
-                else if (isset($jsonObject['code'])) {
-                    $code = $jsonObject['code'];
-                    unset($jsonObject['code']);
-                    $json[$code] = $jsonObject;
-                } else $json[] = $jsonObject;
-            }
+            $this->_parseInputParseComments($configString, $autoCorrectionWarnings);
+            $json = $this->_parseInputParseJsonObjectSet(
+                $configString,
+                $autoCorrectionWarnings,
+                $missingEnquoteOfPropertyName
+            );
             $toIgnore = trim($configString);
             if ($toIgnore) {
                 $bracketPosition = strpos($toIgnore, '}');
                 if ($bracketPosition !== false) {
                     $toIgnore = explode('}', $toIgnore, 2);
                 }
-                $toIgnore = (array)$toIgnore;
-                foreach ($toIgnore as $toIgnoreItem) {
-                    $toIgnoreItem = trim($toIgnoreItem);
-                    if (!$toIgnoreItem) continue;
-                    $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>'
-                        . self::toString($toIgnoreItem) . '</span>)';
-                    $n = 0;
-                    do {
-                        $key = 'meta' . $n;
-                        $n++;
-                    } while (isset($json[$key]));
-                    $json[$key] = array(
-                        'type' => 'meta',
-                        'ignored' => $toIgnoreItem,
-                    );
-                }
+                $this->_parseInputIgnore((array)$toIgnore, $json, $autoCorrectionWarnings);
             }
             $configString = $this->jsonEncode($json);
             $configString = str_replace(array("\n"), array("\\n"), $configString);
@@ -1215,12 +1353,39 @@ class OwebiaShippingHelper
         }
         $config = (array)$config;
 
-        $this->_config = array();
+        $this->_parseInputAddRows($config, $autoCorrection);
+    }
+
+    protected function _parseInputAddRowsDetectDeprecatedProperties($autoCorrection, &$object, &$deprecatedProperties)
+    {
+        if ($autoCorrection) {
+            if (isset($object['destination'])) {
+                if (!in_array('destination', $deprecatedProperties)) $deprecatedProperties[] = 'destination';
+                $object['shipto'] = $object['destination'];
+                unset($object['destination']);
+            }
+            if (isset($object['code'])) {
+                if (!in_array('code', $deprecatedProperties)) $deprecatedProperties[] = 'code';
+                $code = $object['code'];
+                unset($object['code']);
+            }
+        }
+    }
+
+    protected function _parseInputAddRowsPrepareRow(
+        $autoCorrection,
+        $object,
+        &$deprecatedProperties,
+        &$unknownProperties
+    )
+    {
+        $this->_parseInputAddRowsDetectDeprecatedProperties($autoCorrection, $object, $deprecatedProperties);
+
+        $reservedKeys = array('*id');
         $availableKeys = array(
             'type', 'about', 'label', 'enabled', 'description', 'fees', 'conditions',
             'shipto', 'billto', 'origin', 'customer_groups', 'tracking_url',
         );
-        $reservedKeys = array('*id');
         if ($autoCorrection) {
             $availableKeys = array_merge(
                 $availableKeys,
@@ -1228,43 +1393,42 @@ class OwebiaShippingHelper
             );
         }
 
+        $row = array();
+        $i = 1;
+        foreach ($object as $propertyName => $propertyValue) {
+            if (in_array($propertyName, $reservedKeys)) {
+                continue;
+            }
+            if (in_array($propertyName, $availableKeys)
+                || substr($propertyName, 0, 1) == '_'
+                || in_array($object['type'], array('data', 'meta'))
+            ) {
+                if (isset($propertyValue)) {
+                    $row[$propertyName] = array('value' => $propertyValue, 'original_value' => $propertyValue);
+                    if ($autoCorrection) $this->cleanProperty($row, $propertyName);
+                }
+            } else {
+                if (!in_array($propertyName, $unknownProperties)) $unknownProperties[] = $propertyName;
+            }
+            $i++;
+        }
+        return $row;
+    }
+
+    protected function _parseInputAddRows($config, $autoCorrection)
+    {
+        $this->_config = array();
+
         $deprecatedProperties = array();
         $unknownProperties = array();
 
         foreach ($config as $code => $object) {
-            $object = (array)$object;
-            if ($autoCorrection) {
-                if (isset($object['destination'])) {
-                    if (!in_array('destination', $deprecatedProperties)) $deprecatedProperties[] = 'destination';
-                    $object['shipto'] = $object['destination'];
-                    unset($object['destination']);
-                }
-                if (isset($object['code'])) {
-                    if (!in_array('code', $deprecatedProperties)) $deprecatedProperties[] = 'code';
-                    $code = $object['code'];
-                    unset($object['code']);
-                }
-            }
-
-            $row = array();
-            $i = 1;
-            foreach ($object as $propertyName => $propertyValue) {
-                if (in_array($propertyName, $reservedKeys)) {
-                    continue;
-                }
-                if (in_array($propertyName, $availableKeys)
-                    || substr($propertyName, 0, 1) == '_'
-                    || in_array($object['type'], array('data', 'meta'))
-                ) {
-                    if (isset($propertyValue)) {
-                        $row[$propertyName] = array('value' => $propertyValue, 'original_value' => $propertyValue);
-                        if ($autoCorrection) $this->cleanProperty($row, $propertyName);
-                    }
-                } else {
-                    if (!in_array($propertyName, $unknownProperties)) $unknownProperties[] = $propertyName;
-                }
-                $i++;
-            }
+            $row = $this->_parseInputAddRowsPrepareRow(
+                $autoCorrection,
+                (array)$object,
+                $deprecatedProperties,
+                $unknownProperties
+            );
             $this->addRow($code, $row);
         }
         $row = null;
@@ -1394,31 +1558,81 @@ class OwebiaShippingHelper
         }
     }
 
+    protected function _processProductGetConditions($operation, $regexpResult)
+    {
+        if ($operation == 'sum'
+            || $operation == 'min'
+            || $operation == 'max'
+            || $operation == 'count distinct'
+        ) {
+            return isset($regexpResult[3]) ? $regexpResult[3] : null;
+        } elseif ($operation == 'count') {
+            return isset($regexpResult[2]) ? $regexpResult[2] : null;
+        }
+        return null;
+    }
+
+    protected function _processProductGetReference($operation, $regexpResult)
+    {
+        if ($operation == 'sum'
+            || $operation == 'min'
+            || $operation == 'max'
+            || $operation == 'count distinct'
+        ) {
+            return $regexpResult[2];
+        } elseif ($operation == 'count') {
+            return 'items';
+        }
+        return null;
+    }
+
+    protected function _processProductGetInitialReturnValue($operation)
+    {
+        if ($operation == 'sum'
+            || $operation == 'count distinct'
+            || $operation == 'count'
+        ) {
+            return 0;
+        }
+        return null;
+    }
+
+    protected function _processProductGetReturnValue($operation, $returnValue, $value, $item, &$distinctValues)
+    {
+        switch ($operation) {
+            case 'min':
+                if (!isset($returnValue) || $value < $returnValue) {
+                    $returnValue = $value;
+                }
+                break;
+            case 'max':
+                if (!isset($returnValue) || $value > $returnValue) {
+                    $returnValue = $value;
+                }
+                break;
+            case 'sum':
+                $returnValue = (isset($returnValue) ? $returnValue : 0) + $value * $item->qty;
+                break;
+            case 'count distinct':
+                if (!isset($returnValue)) {
+                    $returnValue = 0;
+                }
+                if (!in_array($value, $distinctValues)) {
+                    $distinctValues[] = $value;
+                    $returnValue++;
+                }
+                break;
+        }
+        return $returnValue;
+    }
+
     protected function _processProduct($items, $regexpResult, &$row, $propertyName, $isChecking)
     {
         // count, sum, min, max, count distinct
         $operation = strtolower($regexpResult[1]);
-        $returnValue = null;
-        $reference = 'items';
-        switch ($operation) {
-            case 'sum':
-            case 'min':
-            case 'max':
-            case 'count distinct':
-                $reference = $regexpResult[2];
-                $conditions = isset($regexpResult[3]) ? $regexpResult[3] : null;
-                break;
-            case 'count':
-                $conditions = isset($regexpResult[2]) ? $regexpResult[2] : null;
-                break;
-        }
-        switch ($operation) {
-            case 'sum':
-            case 'count distinct':
-            case 'count':
-                $returnValue = 0;
-                break;
-        }
+        $returnValue = $this->_processProductGetInitialReturnValue($operation);
+        $reference = $this->_processProductGetReference($operation, $regexpResult);
+        $conditions = $this->_processProductGetConditions($operation, $regexpResult);
 
         $this->debug(
             '      <span class=osh-loop>start <span class=osh-replacement>' . self::esc($operation) . '</span> '
@@ -1438,6 +1652,7 @@ class OwebiaShippingHelper
         krsort($properties); // To avoid shorter replace
 
         if ($items) {
+            $distinctValues = array();
             foreach ($items as $item) {
                 $this->debug(
                     '     <span class=osh-loop>&bull; item</span>'
@@ -1474,33 +1689,13 @@ class OwebiaShippingHelper
                             . ' = <span class=osh-formula>' . self::esc($value) . '</span>'
                             . ($operation == 'sum' ? ' x <span class=osh-formula>' . $item->qty . '</span>' : '')
                         );
-                        switch ($operation) {
-                            case 'min':
-                                if (!isset($returnValue) || $value < $returnValue) {
-                                    $returnValue = $value;
-                                }
-                                break;
-                            case 'max':
-                                if (!isset($returnValue) || $value > $returnValue) {
-                                    $returnValue = $value;
-                                }
-                                break;
-                            case 'sum':
-                                $returnValue = (isset($returnValue) ? $returnValue : 0) + $value * $item->qty;
-                                break;
-                            case 'count distinct':
-                                if (!isset($returnValue)) {
-                                    $returnValue = 0;
-                                }
-                                if (!isset($distinctValues)) {
-                                    $distinctValues = array();
-                                }
-                                if (!in_array($value, $distinctValues)) {
-                                    $distinctValues[] = $value;
-                                    $returnValue++;
-                                }
-                                break;
-                        }
+                        $returnValue = $this->_processProductGetReturnValue(
+                            $operation,
+                            $returnValue,
+                            $value,
+                            $item,
+                            $distinctValues
+                        );
                     }
                 }
                 $this->debug(
@@ -1522,134 +1717,170 @@ class OwebiaShippingHelper
         return gettype($variable);
     }
 
+    protected function cleanPropertyReplaceDeprecatedCustomVarSyntax($context)
+    {
+        $input = &$context->input;
+        while (preg_match('/{{customVar code=([a-zA-Z0-9_-]+)}}/', $input, $resi)) {
+            $input = $this->replace(
+                $resi[0],
+                '{customvar.' . $resi[1] . '}',
+                $input,
+                'warning',
+                'replace deprecated'
+            );
+        }
+        return $input;
+    }
+
+    protected function cleanPropertyReplaceDeprecatedVariables($context)
+    {
+        $input = &$context->input;
+        $regex = "{(weight|products_quantity|price_including_tax|price_excluding_tax|country)}";
+        if (preg_match('/' . $regex . '/', $input, $resi)) {
+            $this->addMessage(
+                'warning',
+                $context->row,
+                $context->key,
+                'Usage of deprecated syntax %s',
+                '<span class=osh-formula>' . $resi[0] . '</span>'
+            );
+            while (preg_match('/' . $regex . '/', $input, $resi)) {
+                switch ($resi[1]) {
+                    case 'price_including_tax':
+                        $to = "{cart.price+tax+discount}";
+                        break;
+                    case 'price_excluding_tax':
+                        $to = "{cart.price-tax+discount}";
+                        break;
+                    case 'weight':
+                        $to = "{cart.{$resi[1]}}";
+                        break;
+                    case 'products_quantity':
+                        $to = "{cart.qty}";
+                        break;
+                    case 'country':
+                        $to = "{shipto.country_name}";
+                        break;
+                }
+                $input = str_replace($resi[0], $to, $input);
+            }
+        }
+    }
+
+    protected function cleanPropertyReplaceDeprecatedCopySyntax($context)
+    {
+        $input = &$context->input;
+        $copyRegexp = "{copy '([a-zA-Z0-9_]+)'\.'([a-zA-Z0-9_]+)'}";
+        if (preg_match('/' . $copyRegexp . '/', $input, $resi)) {
+            $this->addMessage(
+                'warning',
+                $context->row,
+                $context->key,
+                'Usage of deprecated syntax %s',
+                '<span class=osh-formula>' . $resi[0] . '</span>'
+            );
+            while (preg_match('/' . $copyRegexp . '/', $input, $resi)) {
+                $input = str_replace($resi[0], '{' . $resi[1] . '.' . $resi[2] . '}', $input);
+            }
+        }
+    }
+
+    protected function cleanPropertyReplaceDeprecatedFunctionsSyntax($context)
+    {
+        $input = &$context->input;
+        $countAllAnyRegexp = "{(count|all|any) (attribute|option) '([^'\)]+)'"
+            . " ?((?:==|<=|>=|<|>|!=) ?(?:" . self::FLOAT_REGEX . "|true|false|'[^'\)]*'))}";
+        $sumRegexp = "{(sum) (attribute|option) '([^'\)]+)'}";
+        if (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
+            || preg_match('/' . $sumRegexp . '/', $input, $resi)
+        ) {
+            $this->addMessage(
+                'warning',
+                $context->row,
+                $context->key,
+                'Usage of deprecated syntax %s',
+                '<span class=osh-formula>' . $resi[0] . '</span>'
+            );
+            while (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
+                || preg_match('/' . $sumRegexp . '/', $input, $resi)
+            ) {
+                switch ($resi[1]) {
+                    case 'count':
+                        $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}";
+                        break;
+                    case 'all':
+                        $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}=={cart.qty}";
+                        break;
+                    case 'any':
+                        $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}>0";
+                        break;
+                    case 'sum':
+                        $to = "{sum product.{$resi[2]}.{$resi[3]}}";
+                        break;
+                }
+                $input = str_replace($resi[0], $to, $input);
+            }
+        }
+    }
+
+    protected function cleanPropertyReplaceDeprecatedProductSyntax($context)
+    {
+        $input = &$context->input;
+        $regex = "((?:{| )product.(?:attribute|option))s.";
+        if (preg_match('/' . $regex . '/', $input, $resi)) {
+            $this->addMessage(
+                'warning',
+                $context->row,
+                $context->key,
+                'Usage of deprecated syntax %s',
+                '<span class=osh-formula>' . $resi[0] . '</span>'
+            );
+            while (preg_match('/' . $regex . '/', $input, $resi)) {
+                $input = str_replace($resi[0], $resi[1] . '.', $input);
+            }
+        }
+    }
+
+    protected function cleanPropertyReplaceDeprecatedTableSyntax($context)
+    {
+        $input = &$context->input;
+        $regex = "{table '([^']+)' (" . self::COUPLE_REGEX . "(?:, *" . self::COUPLE_REGEX . ")*)}";
+        if (preg_match('/' . $regex . '/', $input, $resi)) {
+            $this->addMessage(
+                'warning',
+                $context->row,
+                $context->key,
+                'Usage of deprecated syntax %s',
+                '<span class=osh-formula>' . $resi[0] . '</span>'
+            );
+            while (preg_match('/' . $regex . '/', $input, $resi)) {
+                switch ($resi[1]) {
+                    case 'products_quantity':
+                        $input = str_replace($resi[0], "{table {cart.weight} in {$resi[2]}}*{cart.qty}", $input);
+                        break;
+                    default:
+                        $input = str_replace($resi[0], "{table {cart.{$resi[1]}} in {$resi[2]}}", $input);
+                        break;
+                }
+            }
+        }
+    }
+
     /* For auto correction */
     public function cleanProperty(&$row, $key)
     {
         $input = $row[$key]['value'];
         if (is_string($input)) {
-            while (preg_match('/{{customVar code=([a-zA-Z0-9_-]+)}}/', $input, $resi)) {
-                $input = $this->replace(
-                    $resi[0],
-                    '{customvar.' . $resi[1] . '}',
-                    $input,
-                    'warning',
-                    'replace deprecated'
-                );
-            }
-
-            $regex = "{(weight|products_quantity|price_including_tax|price_excluding_tax|country)}";
-            if (preg_match('/' . $regex . '/', $input, $resi)) {
-                $this->addMessage(
-                    'warning',
-                    $row,
-                    $key,
-                    'Usage of deprecated syntax %s',
-                    '<span class=osh-formula>' . $resi[0] . '</span>'
-                );
-                while (preg_match('/' . $regex . '/', $input, $resi)) {
-                    switch ($resi[1]) {
-                        case 'price_including_tax':
-                            $to = "{cart.price+tax+discount}";
-                            break;
-                        case 'price_excluding_tax':
-                            $to = "{cart.price-tax+discount}";
-                            break;
-                        case 'weight':
-                            $to = "{cart.{$resi[1]}}";
-                            break;
-                        case 'products_quantity':
-                            $to = "{cart.qty}";
-                            break;
-                        case 'country':
-                            $to = "{shipto.country_name}";
-                            break;
-                    }
-                    $input = str_replace($resi[0], $to, $input);
-                }
-            }
-
-            $copyRegexp = "{copy '([a-zA-Z0-9_]+)'\.'([a-zA-Z0-9_]+)'}";
-            if (preg_match('/' . $copyRegexp . '/', $input, $resi)) {
-                $this->addMessage(
-                    'warning',
-                    $row,
-                    $key,
-                    'Usage of deprecated syntax %s',
-                    '<span class=osh-formula>' . $resi[0] . '</span>'
-                );
-                while (preg_match('/' . $copyRegexp . '/', $input, $resi)) {
-                    $input = str_replace($resi[0], '{' . $resi[1] . '.' . $resi[2] . '}', $input);
-                }
-            }
-
-            $countAllAnyRegexp = "{(count|all|any) (attribute|option) '([^'\)]+)'"
-                . " ?((?:==|<=|>=|<|>|!=) ?(?:" . self::FLOAT_REGEX . "|true|false|'[^'\)]*'))}";
-            $sumRegexp = "{(sum) (attribute|option) '([^'\)]+)'}";
-            if (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
-                || preg_match('/' . $sumRegexp . '/', $input, $resi)
-            ) {
-                $this->addMessage(
-                    'warning',
-                    $row,
-                    $key,
-                    'Usage of deprecated syntax %s',
-                    '<span class=osh-formula>' . $resi[0] . '</span>'
-                );
-                while (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
-                    || preg_match('/' . $sumRegexp . '/', $input, $resi)
-                ) {
-                    switch ($resi[1]) {
-                        case 'count':
-                            $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}";
-                            break;
-                        case 'all':
-                            $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}=={cart.qty}";
-                            break;
-                        case 'any':
-                            $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}>0";
-                            break;
-                        case 'sum':
-                            $to = "{sum product.{$resi[2]}.{$resi[3]}}";
-                            break;
-                    }
-                    $input = str_replace($resi[0], $to, $input);
-                }
-            }
-
-            $regex = "((?:{| )product.(?:attribute|option))s.";
-            if (preg_match('/' . $regex . '/', $input, $resi)) {
-                $this->addMessage(
-                    'warning',
-                    $row,
-                    $key,
-                    'Usage of deprecated syntax %s',
-                    '<span class=osh-formula>' . $resi[0] . '</span>'
-                );
-                while (preg_match('/' . $regex . '/', $input, $resi)) {
-                    $input = str_replace($resi[0], $resi[1] . '.', $input);
-                }
-            }
-
-            $regex = "{table '([^']+)' (" . self::COUPLE_REGEX . "(?:, *" . self::COUPLE_REGEX . ")*)}";
-            if (preg_match('/' . $regex . '/', $input, $resi)) {
-                $this->addMessage(
-                    'warning',
-                    $row,
-                    $key,
-                    'Usage of deprecated syntax %s',
-                    '<span class=osh-formula>' . $resi[0] . '</span>'
-                );
-                while (preg_match('/' . $regex . '/', $input, $resi)) {
-                    switch ($resi[1]) {
-                        case 'products_quantity':
-                            $input = str_replace($resi[0], "{table {cart.weight} in {$resi[2]}}*{cart.qty}", $input);
-                            break;
-                        default:
-                            $input = str_replace($resi[0], "{table {cart.{$resi[1]}} in {$resi[2]}}", $input);
-                            break;
-                    }
-                }
-            }
+            $context = new stdClass();
+            $context->row = &$row;
+            $context->key = &$key;
+            $context->input = &$input;
+            $this->cleanPropertyReplaceDeprecatedCustomVarSyntax($context);
+            $this->cleanPropertyReplaceDeprecatedVariables($context);
+            $this->cleanPropertyReplaceDeprecatedCopySyntax($context);
+            $this->cleanPropertyReplaceDeprecatedFunctionsSyntax($context);
+            $this->cleanPropertyReplaceDeprecatedProductSyntax($context);
+            $this->cleanPropertyReplaceDeprecatedTableSyntax($context);
 
             $aliases = array(
                 '{destination.country.code}' => '{shipto.country_id}',

@@ -9,6 +9,8 @@ class OS2_AddressFilterParser
     protected $_input = null;
     protected $_position = null;
     protected $_bufferStart = null;
+    protected $_char = null;
+    protected $_join = null;
 
     protected $_output = '';
     protected $_level = null;
@@ -16,6 +18,16 @@ class OS2_AddressFilterParser
     protected $_regexp = false;
     protected $_litteral = false;
     protected $_litteralQuote = null;
+    protected $_callbackMap = array(
+        '(' => 'openingParenthesisCallback',
+        ')' => 'closingParenthesisCallback',
+        '"' => 'quoteCallback',
+        "'" => 'quoteCallback',
+        ' ' => 'spaceCallback',
+        '-' => 'hyphenCallback',
+        ',' => 'commaCallback',
+        '/' => 'slashCallback',
+    );
 
     public function parse($input)
     {
@@ -24,62 +36,88 @@ class OS2_AddressFilterParser
         $this->_input = $input;
         $this->length = strlen($this->_input);
         // look at each character
-        $join = ' && ';
+        $this->_join = ' && ';
         for ($this->_position = 0; $this->_position < $this->length; $this->_position++) {
-            $char = $this->_input[$this->_position];
-            switch ($char) {
-                case ')':
-                    if ($this->_regexp) break;
-                    if ($this->_litteral) break;
-                    $this->push($this->buffer() . ')');
-                    $this->_parentLevel = null;
-                    break;
-                case ' ':
-                    if ($this->_regexp) break;
-                    if ($this->_litteral) break;
-                    $this->push($this->buffer());
-                    break;
-                case '-':
-                    if ($this->_regexp) break;
-                    if ($this->_litteral) break;
-                    $this->push($this->buffer());
-                    $join = ' && !';
-                    break;
-                case ',':
-                    if ($this->_regexp) break;
-                    if ($this->_litteral) break;
-                    $this->push($this->buffer());
-                    $this->push(' || ');
-                    break;
-                case '(':
-                    if ($this->_regexp) break;
-                    if ($this->_litteral) break;
-                    $this->push($this->buffer());
-                    $this->push($join, $onlyIfNotEmpty = true);
-                    $this->push('(');
-                    $this->_parentLevel = $this->_level;
-                    $join = ' && ';
-                    break;
-                case "'":
-                case '"':
-                    if (!$this->_litteral || $this->_litteralQuote == $char) {
-                        $this->_litteral = !$this->_litteral;
-                        $this->_litteralQuote = $char;
-                    }
-                    if ($this->_bufferStart === null) {
-                        $this->_bufferStart = $this->_position;
-                    }
-                    break;
-                case '/':
-                    $this->_regexp = !$this->_regexp;
-                default:
-                    if ($this->_bufferStart === null) {
-                        $this->_bufferStart = $this->_position;
-                    }
+            $this->_char = $this->_input[$this->_position];
+            if (isset($this->_callbackMap[$this->_char])) {
+                $this->{$this->_callbackMap[$this->_char]}();
+            } else {
+                $this->defaultCallback();
             }
         }
         $this->push($this->buffer());
         return $this->_output;
+    }
+
+    protected function closingParenthesisCallback()
+    {
+        if ($this->_regexp || $this->_litteral) {
+            return;
+        }
+        $this->push($this->buffer() . ')');
+        $this->_parentLevel = null;
+    }
+
+    protected function openingParenthesisCallback()
+    {
+        if ($this->_regexp || $this->_litteral) {
+            return;
+        }
+        $this->push($this->buffer());
+        $this->push($this->_join, $onlyIfNotEmpty = true);
+        $this->push('(');
+        $this->_parentLevel = $this->_level;
+        $this->_join = ' && ';
+    }
+
+    protected function quoteCallback()
+    {
+        if (!$this->_litteral || $this->_litteralQuote == $this->_char) {
+            $this->_litteral = !$this->_litteral;
+            $this->_litteralQuote = $this->_char;
+        }
+        if ($this->_bufferStart === null) {
+            $this->_bufferStart = $this->_position;
+        }
+    }
+
+    protected function spaceCallback()
+    {
+        if ($this->_regexp || $this->_litteral) {
+            return;
+        }
+        $this->push($this->buffer());
+    }
+
+    protected function hyphenCallback()
+    {
+        if ($this->_regexp || $this->_litteral) {
+            return;
+        }
+        $this->push($this->buffer());
+        $this->_join = ' && !';
+    }
+
+    protected function commaCallback()
+    {
+        if ($this->_regexp || $this->_litteral) {
+            return;
+        }
+        $this->push($this->buffer());
+        $this->push(' || ');
+    }
+
+    protected function slashCallback()
+    {
+        $this->_regexp = !$this->_regexp;
+        $this->defaultCallback();
+    }
+
+    protected function defaultCallback()
+    {
+        if ($this->_bufferStart === null) {
+            $this->_bufferStart = $this->_position;
+        }
     }
 
     protected function escapeString($input)

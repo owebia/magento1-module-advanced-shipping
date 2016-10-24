@@ -15,20 +15,26 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
         return Mage::getModel('catalog/product')->load($this->getData('id'));
     }
 
+    protected function _loadSubdata($elems)
+    {
+        switch ($elems[0]) {
+            case 'attribute_set':
+                return $this->getAttributeSet()->getData($elems[1]);
+            case 'stock':
+                return $this->_getStockItem()->getData($elems[1]);
+            case 'category':
+                $category = $this->_getCategory();
+                return $category ? $category->getData($elems[1]) : null;
+        }
+        return null;
+    }
+
     protected function _load($name)
     {
         $elems = explode('.', $name, $limit = 2);
         $count = count($elems);
         if ($count == 2) {
-            switch ($elems[0]) {
-                case 'attribute_set':
-                    return $this->getAttributeSet()->{$elems[1]};
-                case 'stock':
-                    return $this->_getStockItem()->{$elems[1]};
-                case 'category':
-                    $category = $this->_getCategory();
-                    return $category ? $category->{$elems[1]} : null;
-            }
+            return $this->_loadSubdata($elems);
         }
         switch ($name) {
             case 'attribute_set':

@@ -38,10 +38,8 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
         $elems = explode('.', $name, $limit = 2);
         $count = count($elems);
         if ($count == 2) {
-            switch ($elems[0]) {
-                case 'o':
-                case 'option':
-                    return $this->_getOption($elems[1]);
+            if ($elems[0] == 'o' || $elems[0] == 'option') {
+                return $this->_getOption($elems[1]);
             }
         }
         switch ($name) {
