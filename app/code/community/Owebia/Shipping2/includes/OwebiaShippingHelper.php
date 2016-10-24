@@ -395,7 +395,7 @@ class OwebiaShippingHelper
 
     public function checkConfig()
     {
-        $timestamp = time();
+        $timestamp = (int)Mage::getModel('core/date')->timestamp();
         $process = array(
             'config' => $this->_config,
             'data' => self::getDefaultProcessData(),

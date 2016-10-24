@@ -145,7 +145,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
             'label' => array('value' => $this->__('New shipping method')),
             'fees' => array('value' => 0),
         ); // By reference
-        $helper->addRow('new' . time(), $row);
+        $helper->addRow('new' . uniqid(), $row);
         return $this->json(
             array(
                 'source' => $helper->formatConfig(
