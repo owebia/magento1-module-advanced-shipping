@@ -10,11 +10,22 @@ class Owebia_Shipping2_Model_Os2_Result
     public $success;
     public $result;
 
-    public function __construct($configParser, $success, $result = null)
+    public function setConfigParser($configParser)
     {
         $this->_configParser = $configParser;
+        return $this;
+    }
+
+    public function setSuccess($success)
+    {
         $this->success = $success;
+        return $this;
+    }
+
+    public function setResult($result)
+    {
         $this->result = $result;
+        return $this;
     }
 
     public function __toString()

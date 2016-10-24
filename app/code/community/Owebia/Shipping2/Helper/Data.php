@@ -15,7 +15,7 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
             $args = $args[0];
         }
         $message = array_shift($args);
-        if ($message instanceof OS_Message) {
+        if ($message instanceof Owebia_Shipping2_Model_Os2_Message) {
             $args = $message->args;
             $message = $message->message;
         }

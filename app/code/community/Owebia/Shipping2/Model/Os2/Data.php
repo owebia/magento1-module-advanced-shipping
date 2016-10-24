@@ -10,7 +10,13 @@ class Owebia_Shipping2_Model_Os2_Data
 
     public function __construct($data = null)
     {
+        $this->setData($data);
+    }
+
+    public function setData($data)
+    {
         $this->_data = (array)$data;
+        return $this;
     }
 
     public function __sleep()

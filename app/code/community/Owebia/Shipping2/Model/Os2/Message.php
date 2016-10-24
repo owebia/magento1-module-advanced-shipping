@@ -10,11 +10,22 @@ class Owebia_Shipping2_Model_Os2_Message
     public $message;
     public $args;
 
-    public function __construct($type, $args)
+    public function setType($type)
     {
         $this->type = $type;
-        $this->message = array_shift($args);
+        return $this;
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    public function setArgs($args)
+    {
         $this->args = $args;
+        return $this;
     }
 
     public function __toString()

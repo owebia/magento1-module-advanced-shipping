@@ -8,11 +8,8 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
 {
     protected function getParser($config, $autocorrection = true)
     {
-        $parser = Mage::getModel(
-            'owebia_shipping2/ConfigParser',
-            $config,
-            $autocorrection
-        );
+        $parser = Mage::getModel('owebia_shipping2/ConfigParser')
+            ->init($config, $autocorrection);
         return $parser;
     }
 

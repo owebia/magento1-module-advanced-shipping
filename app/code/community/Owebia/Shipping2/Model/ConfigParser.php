@@ -62,7 +62,7 @@ class Owebia_Shipping2_Model_ConfigParser
     public static function getDefaultProcessData()
     {
         return array(
-            'info'              => Mage::getModel('owebia_shipping2/Os2_Data', self::getInfos()),
+            'info'              => Mage::getModel('owebia_shipping2/Os2_Data')->setData(self::getInfos()),
             'cart'              => Mage::getModel('owebia_shipping2/Os2_Data'),
             'quote'             => Mage::getModel('owebia_shipping2/Os2_Data'),
             'selection'         => Mage::getModel('owebia_shipping2/Os2_Data'),
@@ -202,19 +202,25 @@ class Owebia_Shipping2_Model_ConfigParser
     }
 
     protected $_input;
-    protected $_config = array();
-    protected $_messages = array();
-    protected $_formulaCache = array();
-    protected $_expressionCache = array();
-    protected $_debugPrefix = '';
+    protected $_config;
+    protected $_messages;
+    protected $_formulaCache;
+    protected $_expressionCache;
+    protected $_debugPrefix;
     public $debugCode = null;
     public $debugOutput = '';
     public $debugHeader = null;
 
-    public function __construct($input, $autoCorrection)
+    public function init($input, $autoCorrection)
     {
+        $this->_config = array();
+        $this->_messages = array();
+        $this->_formulaCache = array();
+        $this->_expressionCache = array();
+        $this->_debugPrefix = '';
         $this->_input = $input;
         $this->_parseInput($autoCorrection);
+        return $this;
     }
 
     public function addDebugIndent()
@@ -395,9 +401,10 @@ class Owebia_Shipping2_Model_ConfigParser
         }
     }
 
-    protected function createResult($success, $result = null)
+    protected function createResult()
     {
-        return Mage::getModel('owebia_shipping2/Os2_Result', $this, $success, $result);
+        return Mage::getModel('owebia_shipping2/Os2_Result')
+            ->setConfigParser($this);
     }
 
     protected function processRowType(&$row)
@@ -413,10 +420,12 @@ class Owebia_Shipping2_Model_ConfigParser
                     . ' (' . self::getType($value) . ')'
                 );
             }
-            return new $this->createResult(false);
+            return $this->createResult()
+                ->setSuccess(false);
         }
         if (isset($type) && $type != 'method') {
-            return $this->createResult(false);
+            return $this->createResult()
+                ->setSuccess(false);
         }
         return null;
     }
@@ -427,7 +436,8 @@ class Owebia_Shipping2_Model_ConfigParser
         if (isset($enabled)) {
             if (!$isChecking && !$enabled) {
                 $this->addMessage('info', $row, 'enabled', 'Configuration disabled');
-                return $this->createResult(false);
+                return $this->createResult()
+                    ->setSuccess(false);
             }
         }
         return null;
@@ -442,7 +452,8 @@ class Owebia_Shipping2_Model_ConfigParser
                 if (!$result->success) return $result;
                 if (!$result->result) {
                     $this->addMessage('info', $row, 'conditions', "The cart doesn't match conditions");
-                    return $this->createResult(false);
+                    return $this->createResult()
+                        ->setSuccess(false);
                 }
             }
         }
@@ -478,7 +489,8 @@ class Owebia_Shipping2_Model_ConfigParser
                     "Customer group not allowed (%s)",
                     $customerGroup->code
                 );
-                return $this->createResult(false);
+                return $this->createResult()
+                    ->setSuccess(false);
             }
         }
         return null;
@@ -503,7 +515,8 @@ class Owebia_Shipping2_Model_ConfigParser
                 );
                 if (!$isChecking && !$match) {
                     $this->addMessage('info', $row, $propertyName, $failureMessage);
-                    return $this->createResult(false);
+                    return $this->createResult()
+                        ->setSuccess(false);
                 }
             }
         }
@@ -520,7 +533,9 @@ class Owebia_Shipping2_Model_ConfigParser
                 '    &raquo; <span class=osh-info>result</span>'
                 . ' = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>'
             );
-            return $this->createResult(true, (float)$result->result);
+            return $this->createResult()
+                ->setSuccess(true)
+                ->setResult((float)$result->result);
         }
         return null;
     }
@@ -529,7 +544,8 @@ class Owebia_Shipping2_Model_ConfigParser
     {
         if (!isset($row['*id'])) {
             $this->debug('skip row with unknown id');
-            return $this->createResult(false);
+            return $this->createResult()
+                ->setSuccess(false);
         }
         $this->debug('process row <span class=osh-key>' . self::esc($row['*id']) . '</span>');
 
@@ -570,7 +586,8 @@ class Owebia_Shipping2_Model_ConfigParser
         if (isset($result)) {
             return $result;
         }
-        return $this->createResult(false);
+        return $this->createResult()
+            ->setSuccess(false);
     }
 
     public function getRowProperty(&$row, $key, $originalRow = null, $originalKey = null)
@@ -725,11 +742,14 @@ class Owebia_Shipping2_Model_ConfigParser
         $evalResult = $this->_evalFormula($result->result, $row, $propertyName, $isChecking);
         if (!$isChecking && !isset($evalResult)) {
             $this->addMessage('error', $row, $propertyName, 'Empty result');
-            $result = $this->createResult(false);
+            $result = $this->createResult()
+                ->setSuccess(false);
             if ($useCache) $this->_setCache($formulaString, $result);
             return $result;
         }
-        $result = $this->createResult(true, $evalResult);
+        $result = $this->createResult()
+            ->setSuccess(true)
+            ->setResult($evalResult);
         if ($useCache) $this->_setCache($formulaString, $result);
         return $result;
     }
@@ -905,7 +925,8 @@ class Owebia_Shipping2_Model_ConfigParser
                         'Error in switch %s',
                         '<span class=osh-formula>' . self::esc($result[0]) . '</span>'
                     );
-                    $result = $this->createResult(false);
+                    $result = $this->createResult()
+                        ->setSuccess(false);
                     if ($useCache) $this->_setCache($formulaString, $result);
                     return $result;
                 }
@@ -972,7 +993,8 @@ class Owebia_Shipping2_Model_ConfigParser
                             'Error in table %s',
                             '<span class=osh-formula>' . self::esc($result[0]) . '</span>'
                         );
-                        $result = $this->createResult(false);
+                        $result = $this->createResult()
+                            ->setSuccess(false);
                         if ($useCache) $this->_setCache($formulaString, $result);
                         return $result;
                     }
@@ -1063,7 +1085,9 @@ class Owebia_Shipping2_Model_ConfigParser
         $formula = $this->_prepareFormulaSwitch($row, $propertyName, $formula, $isChecking, $useCache);
         $formula = $this->_prepareFormulaTable($row, $propertyName, $formula, $isChecking, $useCache);
 
-        $result = $this->createResult(true, $formula);
+        $result = $this->createResult()
+            ->setSuccess(true)
+            ->setResult($formula);
         return $result;
     }
 
@@ -1442,7 +1466,11 @@ class Owebia_Shipping2_Model_ConfigParser
         array_shift($args);
         array_shift($args);
         array_shift($args);
-        $message = Mage::getModel('owebia_shipping2/Os2_Message', $type, $args);
+        $message = array_shift($args);
+        $message = Mage::getModel('owebia_shipping2/Os2_Message')
+            ->setType($type)
+            ->setMessage($message)
+            ->setArgs($args);
         if (isset($row)) {
             if (isset($property)) {
                 $row[$property]['messages'][] = $message;

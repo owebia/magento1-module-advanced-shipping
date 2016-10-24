@@ -123,13 +123,11 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
     protected function getParser()
     {
         if (!isset($this->_parser)) {
-            $this->_parser = Mage::getModel(
-                'owebia_shipping2/ConfigParser',
-                array(
+            $this->_parser = Mage::getModel('owebia_shipping2/ConfigParser')
+                ->init(
                     $this->__getConfigData('config'),
                     (boolean)$this->__getConfigData('auto_correction')
-                )
-            );
+                );
         }
         return $this->_parser;
     }
