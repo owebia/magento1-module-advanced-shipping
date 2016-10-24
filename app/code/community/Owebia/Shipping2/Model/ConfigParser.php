@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-class OwebiaShippingHelper
+class Owebia_Shipping2_Model_ConfigParser
 {
     const FLOAT_REGEX = '[-]?\d+(?:[.]\d+)?';
     const COUPLE_REGEX = '(?:[0-9.]+|\*) *(?:\[|\])? *\: *[0-9.]+';
@@ -296,7 +296,7 @@ class OwebiaShippingHelper
 
     public function initDebug($code, $process)
     {
-        $header = 'DEBUG OwebiaShippingHelper.php<br/>';
+        $header = 'DEBUG ConfigParser.php<br/>';
         foreach ($process as $index => $processOption) {
             if (in_array($index, array('data', 'options'))) {
                 $header .= '   <span class=osh-key>'
@@ -1468,8 +1468,8 @@ class OwebiaShippingHelper
     protected function _addressMatch(&$process, &$row, $propertyName, $addressFilter, $address)
     {
         $addressFilter = $this->_replaceData($process, $addressFilter);
-        $parser = new OS2_AddressFilterParser();
-        $addressFilter = $parser->parse($addressFilter);
+        $addressFilterParser = Mage::getModel('owebia_shipping2/AddressFilterParser', array($this));
+        $addressFilter = $addressFilterParser->parse($addressFilter);
 
         $this->debug('      address filter = <span class=osh-formula>' . self::esc($addressFilter) . '</span>');
         $data = array(
@@ -1941,6 +1941,6 @@ class OS_Result
 
     public function __toString()
     {
-        return OwebiaShippingHelper::toString($this->result);
+        return Owebia_Shipping2_Model_ConfigParser::toString($this->result);
     }
 }

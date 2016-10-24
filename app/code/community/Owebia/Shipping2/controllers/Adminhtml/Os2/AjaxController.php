@@ -6,19 +6,20 @@
 
 class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Controller_Abstract
 {
-    protected function _getOs2Helper($config, $autocorrection = true)
+    protected function getParser($config, $autocorrection = true)
     {
-        include_once $this->getModulePath('includes/OS2_AddressFilterParser.php');
-        include_once $this->getModulePath('includes/OwebiaShippingHelper.php');
-        $helper = new OwebiaShippingHelper($config, $autocorrection);
-        return $helper;
+        $parser = Mage::getModel(
+            'owebia_shipping2/ConfigParser',
+            array($config, $autocorrection)
+        );
+        return $parser;
     }
 
     protected function _getEditor($data)
     {
-        $helper = $this->_getOs2Helper($data['source'], $autocorrection = true);
-        $helper->checkConfig();
-        $config = $helper->getConfig();
+        $parser = $this->getParser($data['source'], $autocorrection = true);
+        $parser->checkConfig();
+        $config = $parser->getConfig();
         $block = $this->getLayout()->createBlock(
             'owebia_shipping2/adminhtml_os2_editor',
             'os2_editor',
@@ -29,8 +30,8 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
 
     protected function _getCorrection($config, $compress = false, $html = false)
     {
-        $helper = $this->_getOs2Helper($config);
-        return $helper->formatConfig($compress, $keysToRemove = array('*id'), $html);
+        $parser = $this->getParser($config);
+        return $parser->formatConfig($compress, $keysToRemove = array('*id'), $html);
     }
 
     protected function _processHelp($helpId, $content)
@@ -42,7 +43,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 'controller' => $this,
                 'help_id' => $helpId,
                 'content' => $content,
-                'helper' => $this->_getOs2Helper(''),
+                'helper' => $this->getParser(''),
             )
         );
         return $block->getHtml();
@@ -88,16 +89,16 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function ajaxCorrection()
     {
         $request = $this->getRequest();
-        $helper = $this->_getOs2Helper($request->getPost('source'));
-        $helper->checkConfig();
+        $parser = $this->getParser($request->getPost('source'));
+        $parser->checkConfig();
         return $this->json(
             array(
-                'correction' => $helper->formatConfig(
+                'correction' => $parser->formatConfig(
                     $compress = false,
                     $keysToRemove = array('*id'),
                     $html = true
                 ),
-                'debug' => $helper->getDebug(),
+                'debug' => $parser->getDebug(),
                 'editor' => $this->_getEditor($request->getPost()),
             )
         );
@@ -106,8 +107,8 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function ajaxUpdateProperty()
     {
         $request = $this->getRequest();
-        $helper = $this->_getOs2Helper($request->getPost('source'));
-        $config = $helper->getConfig();
+        $parser = $this->getParser($request->getPost('source'));
+        $config = $parser->getConfig();
         $rowId = $request->getPost('row');
         $property = $request->getPost('property');
         $value = $request->getPost('value');
@@ -125,10 +126,10 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
             $config[$value] = $config[$rowId];
             unset($config[$rowId]);
         }
-        $helper->setConfig($config);
+        $parser->setConfig($config);
         return $this->json(
             array(
-                'source' => $helper->formatConfig(
+                'source' => $parser->formatConfig(
                     $compress = false,
                     $keysToRemove = array('*id'),
                     $html = false
@@ -140,15 +141,15 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function ajaxAddRow()
     {
         $request = $this->getRequest();
-        $helper = $this->_getOs2Helper($request->getPost('source'));
+        $parser = $this->getParser($request->getPost('source'));
         $row = array(
             'label' => array('value' => $this->__('New shipping method')),
             'fees' => array('value' => 0),
         ); // By reference
-        $helper->addRow('new' . uniqid(), $row);
+        $parser->addRow('new' . uniqid(), $row);
         return $this->json(
             array(
-                'source' => $helper->formatConfig(
+                'source' => $parser->formatConfig(
                     $compress = false,
                     $keysToRemove = array('*id'),
                     $html = false
@@ -160,13 +161,13 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function ajaxRemoveRow()
     {
         $request = $this->getRequest();
-        $helper = $this->_getOs2Helper($request->getPost('source'));
-        $config = $helper->getConfig();
+        $parser = $this->getParser($request->getPost('source'));
+        $config = $parser->getConfig();
         unset($config[$request->getPost('id')]);
-        $helper->setConfig($config);
+        $parser->setConfig($config);
         return $this->json(
             array(
-                'source' => $helper->formatConfig(
+                'source' => $parser->formatConfig(
                     $compress = false,
                     $keysToRemove = array('*id'),
                     $html = false
@@ -215,8 +216,8 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function ajaxRowUi()
     {
         $request = $this->getRequest();
-        $helper = $this->_getOs2Helper($request->getPost('source'));
-        $row = $helper->getConfigRow($request->getPost('id'));
+        $parser = $this->getParser($request->getPost('source'));
+        $row = $parser->getConfigRow($request->getPost('id'));
         $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor');
         return $this->outputContent(
             $block->getRowUI($row, true)

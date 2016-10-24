@@ -97,7 +97,7 @@
     "Item data on","Item data on"
     "Product data on","Product data on"
 
-# app/code/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php
+# app/code/community/Owebia/Shipping2/Model/ConfigParser.php
     "Configuration disabled","Configuration disabled"
     "The cart doesn't match conditions","The cart doesn't match conditions"
     "Infinite loop %s","Infinite loop %s"

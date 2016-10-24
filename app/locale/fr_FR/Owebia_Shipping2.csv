@@ -97,7 +97,7 @@
     "Item data on","Données de l'article sur"
     "Product data on","Données du produit sur"
 
-# app/code/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php
+# app/code/community/Owebia/Shipping2/Model/ConfigParser.php
     "Configuration disabled","Configuration désactivée"
     "The cart doesn't match conditions","Le panier ne correspond pas aux conditions"
     "Infinite loop %s","Boucle infinie %s"

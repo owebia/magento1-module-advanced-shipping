@@ -4,8 +4,9 @@
  * See COPYING.txt for license details.
  */
 
-class OS2_AddressFilterParser
+class Owebia_Shipping2_Model_AddressFilterParser
 {
+    protected $_configParser;
     protected $_input = null;
     protected $_position = null;
     protected $_bufferStart = null;
@@ -28,6 +29,11 @@ class OS2_AddressFilterParser
         ',' => 'commaCallback',
         '/' => 'slashCallback',
     );
+
+    public function __construct($configParser)
+    {
+        $this->_configParser = $configParser;
+    }
 
     public function parse($input)
     {
@@ -122,7 +128,7 @@ class OS2_AddressFilterParser
 
     protected function escapeString($input)
     {
-        return OwebiaShippingHelper::escapeString($input);
+        return $this->_configParser->escapeString($input);
     }
 
     protected function buffer()

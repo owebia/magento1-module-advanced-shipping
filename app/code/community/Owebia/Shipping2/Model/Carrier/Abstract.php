@@ -4,15 +4,6 @@
  * See COPYING.txt for license details.
  */
 
-// if compilation
-if (file_exists(dirname(__FILE__) . '/Owebia_Shipping2_includes_OwebiaShippingHelper.php')) {
-    include_once 'Owebia_Shipping2_includes_OS2_AddressFilterParser.php';
-    include_once 'Owebia_Shipping2_includes_OwebiaShippingHelper.php';
-} else {
-    include_once Mage::getBaseDir('code') . '/community/Owebia/Shipping2/includes/OS2_AddressFilterParser.php';
-    include_once Mage::getBaseDir('code') . '/community/Owebia/Shipping2/includes/OwebiaShippingHelper.php';
-}
-
 abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
 {
     protected $_config;
@@ -123,9 +114,12 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
     protected function _getConfig()
     {
         if (!isset($this->_config)) {
-            $this->_helper = new OwebiaShippingHelper(
-                $this->__getConfigData('config'),
-                (boolean)$this->__getConfigData('auto_correction')
+            $this->_helper = Mage::getModel(
+                'owebia_shipping2/ConfigParser',
+                array(
+                    $this->__getConfigData('config'),
+                    (boolean)$this->__getConfigData('auto_correction')
+                )
             );
             $this->_config = $this->_helper->getConfig();
         }
