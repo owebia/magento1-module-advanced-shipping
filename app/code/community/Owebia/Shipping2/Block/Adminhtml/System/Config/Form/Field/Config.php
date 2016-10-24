@@ -7,7 +7,7 @@
 class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    private static $isJsIncluded = false;
+    private static $_isJsIncluded = false;
 
     public function __()
     {
@@ -39,7 +39,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $output = '';
-        if (!self::$isJsIncluded) {
+        if (!self::$_isJsIncluded) {
             $output = "<script type=\"text/javascript\">\n"
                 . "//<![CDATA[\n"
                 . "jQuery.noConflict();\n"
@@ -60,7 +60,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
                 . "//]]>\n"
                 . "</script>\n"
             ;
-            self::$isJsIncluded = true;
+            self::$_isJsIncluded = true;
         }
 
         $shippingCode = preg_replace('/^groups\[([^\]]*)\].*$/', '\1', $element->getName());

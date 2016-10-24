@@ -6,7 +6,7 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    protected $additionalAttributes = array();
+    protected $_additionalAttributes = array();
     protected $_attributes;
     protected $_loadedObject = false;
     protected $_data;
@@ -37,7 +37,7 @@ class Owebia_Shipping2_Model_Os2_Data_Abstract
     public function __sleep()
     {
         if (isset($this->_attributes)) return $this->_attributes; 
-        $this->_attributes = array_unique(array_merge(array_keys($this->_data), $this->additionalAttributes));
+        $this->_attributes = array_unique(array_merge(array_keys($this->_data), $this->_additionalAttributes));
         return $this->_attributes;
     }
 

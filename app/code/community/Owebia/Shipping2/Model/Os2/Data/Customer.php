@@ -6,7 +6,7 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Customer extends Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes
 {
-    protected $additionalAttributes = array('*');
+    protected $_additionalAttributes = array('*');
 
     public function __construct($arguments = null)
     {

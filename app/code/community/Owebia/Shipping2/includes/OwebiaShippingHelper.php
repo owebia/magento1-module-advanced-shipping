@@ -210,10 +210,10 @@ class OwebiaShippingHelper
     protected $_messages = array();
     protected $_formulaCache = array();
     protected $_expressionCache = array();
+    protected $_debugPrefix = '';
     public $debugCode = null;
     public $debugOutput = '';
     public $debugHeader = null;
-    protected $debugPrefix = '';
 
     public function __construct($input, $autoCorrection)
     {
@@ -223,17 +223,17 @@ class OwebiaShippingHelper
 
     public function addDebugIndent()
     {
-        $this->debugPrefix .= '   ';
+        $this->_debugPrefix .= '   ';
     }
 
     public function removeDebugIndent()
     {
-        $this->debugPrefix = substr($this->debugPrefix, 0, strlen($this->debugPrefix)-3);
+        $this->_debugPrefix = substr($this->_debugPrefix, 0, strlen($this->_debugPrefix) - 3);
     }
 
     public function debug($text)
     {
-        $this->debugOutput .= "<p>{$this->debugPrefix}{$text}</p>";
+        $this->debugOutput .= "<p>{$this->_debugPrefix}{$text}</p>";
     }
 
     public function getDebug()

@@ -6,7 +6,7 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Address extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    protected $additionalAttributes = array('country_id', 'country_name', 'postcode');
+    protected $_additionalAttributes = array('country_id', 'country_name', 'postcode');
 
     protected function _load($name)
     {

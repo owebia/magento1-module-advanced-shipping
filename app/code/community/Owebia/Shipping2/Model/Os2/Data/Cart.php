@@ -6,8 +6,8 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    protected $additionalAttributes = array('coupon_code', 'weight_unit', 'weight_for_charge', 'free_shipping');
-    protected $freeShipping;
+    protected $_additionalAttributes = array('coupon_code', 'weight_unit', 'weight_for_charge', 'free_shipping');
+    protected $_freeShipping;
     protected $_items;
     protected $_quote;
     protected $_options;
@@ -124,7 +124,7 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
             case 'items':
                 return $this->_items;
             case 'free_shipping':
-                if (isset($this->freeShipping)) return $this->freeShipping;
+                if (isset($this->_freeShipping)) return $this->_freeShipping;
                 $freeShipping = parent::getData('free_shipping');
                 if (!$freeShipping) {
                     foreach ($this->_items as $item) {
@@ -132,7 +132,7 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                         if (!$freeShipping) break;
                     }
                 }
-                return $this->freeShipping = $freeShipping;
+                return $this->_freeShipping = $freeShipping;
         }
         return parent::getData($name);
     }

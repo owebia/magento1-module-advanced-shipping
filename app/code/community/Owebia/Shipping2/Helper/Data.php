@@ -6,7 +6,7 @@
 
 class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
 {
-    protected $isTranslateInlineEnabled;
+    protected $_isTranslateInlineEnabled;
 
     public function __()
     {
@@ -25,11 +25,11 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
         if (count($args)==0) {
             $result = $output;
         } else {
-            if (!isset($this->isTranslateInlineEnabled)) {
-                $this->isTranslateInlineEnabled = Mage::getSingleton('core/translate')
+            if (!isset($this->_isTranslateInlineEnabled)) {
+                $this->_isTranslateInlineEnabled = Mage::getSingleton('core/translate')
                     ->getTranslateInline();
             }
-            if ($this->isTranslateInlineEnabled) {
+            if ($this->_isTranslateInlineEnabled) {
                 $parts = explode('}}{{', $output);
                 $parts[0] = vsprintf($parts[0], $args);
                 $result = implode('}}{{', $parts);

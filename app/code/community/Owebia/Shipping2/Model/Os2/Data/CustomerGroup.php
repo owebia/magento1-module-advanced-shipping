@@ -6,19 +6,19 @@
 
 class Owebia_Shipping2_Model_Os2_Data_CustomerGroup extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    protected static $customerGroups = null;
+    protected static $_customerGroups = null;
 
     public static function getCollection()
     {
-        if (!self::$customerGroups) {
+        if (!self::$_customerGroups) {
             $collection = Mage::getModel('customer/group')->getCollection();
             $customerGroups = array();
             foreach ($collection as $customerGroup) {
                 $customerGroups[$customerGroup->getId()] = $customerGroup->getCustomerGroupCode();
             }
-            self::$customerGroups = $customerGroups;
+            self::$_customerGroups = $customerGroups;
         }
-        return self::$customerGroups;
+        return self::$_customerGroups;
     }
 
     public static function readable($input)
@@ -32,7 +32,7 @@ class Owebia_Shipping2_Model_Os2_Data_CustomerGroup extends Owebia_Shipping2_Mod
         return $output;
     }
 
-    protected $additionalAttributes = array('*');
+    protected $_additionalAttributes = array('*');
 
     public function __construct($arguments = null)
     {
