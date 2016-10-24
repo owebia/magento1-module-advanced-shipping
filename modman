@@ -3,3 +3,5 @@ app/etc/modules/Owebia_Shipping2.xml app/etc/modules/Owebia_Shipping2.xml
 app/locale/en_US/Owebia_Shipping2.csv app/locale/en_US/Owebia_Shipping2.csv
 app/locale/fr_FR/Owebia_Shipping2.csv app/locale/fr_FR/Owebia_Shipping2.csv
 js/owebia/shipping2 js/owebia/shipping2
+COPYING.txt app/code/community/Owebia/Shipping2/COPYING.txt
+LICENSE.txt app/code/community/Owebia/Shipping2/LICENSE.txt
