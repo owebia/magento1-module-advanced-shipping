@@ -35,7 +35,6 @@
             <owebia_shipping2_setup>
                 <setup>
                     <module>Owebia_Shipping2</module>
-                    <class>Owebia_Shipping2_Model_Mysql4_Setup</class>
                 </setup>
             </owebia_shipping2_setup>
             <sales>
