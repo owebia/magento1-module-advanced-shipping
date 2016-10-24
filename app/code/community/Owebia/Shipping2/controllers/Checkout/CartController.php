@@ -4,6 +4,12 @@
  * See COPYING.txt for license details.
  */
 
+if (file_exists(dirname(__FILE__) . DS . 'Mage_Checkout_CartController.php')) {
+    require_once 'Mage_Checkout_CartController.php';
+} else {
+    require_once Mage::getModuleDir('controllers', 'Mage_Checkout') . DS . 'CartController.php';
+}
+
 class Owebia_Shipping2_Checkout_CartController extends Mage_Checkout_CartController
 {
     /**
