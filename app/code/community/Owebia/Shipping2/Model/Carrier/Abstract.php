@@ -91,7 +91,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
     protected function _process(&$process)
     {
-        $debug = (bool)(isset($_GET['debug']) ? $_GET['debug'] : $this->__getConfigData('debug'));
+        $debug = (bool)$this->__getConfigData('debug');
         if ($debug) $this->_helper->initDebug($this->_code, $process);
 
         $valueFound = false;
