@@ -21,9 +21,9 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    protected $additional_attributes = array();
+    protected $additionalAttributes = array();
     protected $_attributes;
-    protected $_loaded_object = false;
+    protected $_loadedObject = false;
     protected $_data;
 
     public function __construct($arguments = null)
@@ -39,9 +39,9 @@ class Owebia_Shipping2_Model_Os2_Data_Abstract
 
     protected function _getObject()
     {
-        if ($this->_loaded_object===false) $this->_loaded_object = $this->_loadObject();
-        //foreach ($this->_loaded_object->getData() as $index => $value) echo "$index = $value<br/>";
-        return $this->_loaded_object;
+        if ($this->_loadedObject===false) $this->_loadedObject = $this->_loadObject();
+        //foreach ($this->_loadedObject->getData() as $index => $value) echo "$index = $value<br/>";
+        return $this->_loadedObject;
     }
 
     protected function _load($name)
@@ -56,7 +56,7 @@ class Owebia_Shipping2_Model_Os2_Data_Abstract
     public function __sleep()
     {
         if (isset($this->_attributes)) return $this->_attributes; 
-        $this->_attributes = array_unique(array_merge(array_keys($this->_data), $this->additional_attributes));
+        $this->_attributes = array_unique(array_merge(array_keys($this->_data), $this->additionalAttributes));
         /*usort($this->_attributes, function($v1, $v2){
             if ($v1=='id') return -1;
             if ($v2=='id') return 1;
@@ -67,15 +67,20 @@ class Owebia_Shipping2_Model_Os2_Data_Abstract
         return $this->_attributes;
     }
 
-    public function __get($name)
+    public function getData($name)
     {
         /*$name2 = str_replace('.', '_', $name);
         if (isset($this->_data[$name2])) return $this->_data[$name2];*/
         //if (isset($this->_data[$name])) return $this->_data[$name]; // pb if id is null
         if (!is_array($this->_data)) $this->_data = array();
         if (array_key_exists($name, $this->_data)) return $this->_data[$name];
-        //if (in_array($name, $this->additional_attributes)) $this->_data[$name] = $this->_load($name);
+        //if (in_array($name, $this->additionalAttributes)) $this->_data[$name] = $this->_load($name);
         $this->_data[$name] = $this->_load($name);
         return $this->_data[$name];
+    }
+
+    public function __get($name)
+    {
+        return $this->getData($name);
     }
 }

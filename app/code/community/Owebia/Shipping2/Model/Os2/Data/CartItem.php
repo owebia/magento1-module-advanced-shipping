@@ -21,28 +21,28 @@
 
 class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
-    private $parent_cart_item;
-    private $cart_product;
-    private $loaded_product;
+    private $parentCartItem;
+    private $cartProduct;
+    private $loadedProduct;
     private $quantity;
     private $categories;
     
     protected $_product;
     protected $_item;
-    protected $_parent_item;
+    protected $_parentItem;
     protected $_type;
     protected $_options;
-    protected $_get_options;
+    protected $_getOptions;
 
     public function __construct($arguments)
     {
         parent::__construct();
         $this->_item = $item = $arguments['item'];
-        $this->_parent_item = $parent_item = $arguments['parent_item'];
-        $this->_get_options = $options = $arguments['options'];
+        $this->_parentItem = $parentItem = $arguments['parent_item'];
+        $this->_getOptions = $options = $arguments['options'];
         $this->_product = null;
-        $this->_type = $parent_item ? $parent_item->getProduct()->getTypeId() : $item->getProduct()->getTypeId();
-        $this->_loaded_object = $this->_getItem('load_item_data_on_parent');
+        $this->_type = $parentItem ? $parentItem->getProduct()->getTypeId() : $item->getProduct()->getTypeId();
+        $this->_loadedObject = $this->_getItem('load_item_data_on_parent');
 
         if (false) {
             echo '---------------------------------<br/>';
@@ -50,21 +50,21 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
                 $value = is_object($value) ? get_class($value) : (is_array($value) ? 'array' : $value);
                 echo "$index = $value<br/>";
             }
-            if ($parent_item) {
+            if ($parentItem) {
                 echo '----- parent -----<br/>';
-                foreach ($parent_item->getData() as $index => $value) echo "$index = $value<br/>";
+                foreach ($parentItem->getData() as $index => $value) echo "$index = $value<br/>";
             }
             echo 'type:'.$this->_type.'<br/>';
-            echo 'sku:'.$this->sku.'<br/>';
+            echo 'sku:'.$this->getData('sku').'<br/>';
         }
     }
 
     public function getProduct()
     {
         if (!isset($this->_product)) {
-            //echo $this->_loaded_object->getData('product_id').', '.$this->_getItem('load_product_data_on_parent')->getData('product_id').'<br/>';
-            $product_id = $this->_getItem('load_product_data_on_parent')->getData('product_id');
-            $this->_product = Mage::getModel('owebia_shipping2/Os2_Data_Product', array('id' => $product_id));
+            //echo $this->_loadedObject->getData('product_id').', '.$this->_getItem('load_product_data_on_parent')->getData('product_id').'<br/>';
+            $productId = $this->_getItem('load_product_data_on_parent')->getData('product_id');
+            $this->_product = Mage::getModel('owebia_shipping2/Os2_Data_Product', array('id' => $productId));
         }
         return $this->_product;
     }
@@ -73,7 +73,6 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
     {
         $elems = explode('.', $name, $limit=2);
         $count = count($elems);
-        $last_index = $count-1;
         if ($count==2) {
             switch ($elems[0]) {
                 case 'o':
@@ -82,21 +81,21 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
             }
         }
         switch ($name) {
-            case 'price-tax+discount': return (double)$this->base_original_price-$this->discount_amount/$this->qty;
-            case 'price-tax-discount': return (double)$this->base_original_price;
+            case 'price-tax+discount': return (double)$this->getData('base_original_price')-$this->getData('discount_amount')/$this->getData('qty');
+            case 'price-tax-discount': return (double)$this->getData('base_original_price');
             case 'price+tax+discount':
-                /*echo 'base_original_price '.$this->base_original_price.'';
-                echo ' + (tax_amount '.$this->tax_amount.'';
-                echo ' - discount_amount '.$this->discount_amount.')';
-                echo '/ '.$this->qty.'<br>';
-                echo ' ::: = '.($this->base_original_price+($this->tax_amount-$this->discount_amount)/$this->qty).'<br>';*/
-                return (double)$this->base_original_price+($this->tax_amount-$this->discount_amount)/$this->qty;
-            case 'price+tax-discount': return (double)$this->price_incl_tax;
+                /*echo 'base_original_price '.$this->getData('base_original_price').'';
+                echo ' + (tax_amount '.$this->getData('tax_amount').'';
+                echo ' - discount_amount '.$this->getData('discount_amount').')';
+                echo '/ '.$this->getData('qty').'<br>';
+                echo ' ::: = '.($this->getData('base_original_price')+($this->getData('tax_amount')-$this->getData('discount_amount'))/$this->getData('qty')).'<br>';*/
+                return (double)$this->getData('base_original_price')+($this->getData('tax_amount')-$this->getData('discount_amount'))/$this->getData('qty');
+            case 'price+tax-discount': return (double)$this->getData('price_incl_tax');
             case 'weight':
-                if ($this->_type=='bundle' && $this->getProduct()->weight_type==0) {
+                if ($this->_type=='bundle' && $this->getProduct()->getData('weight_type')==0) {
                     return (double)parent::_load($name);
                 }
-                return $this->qty*$this->getProduct()->weight;
+                return $this->getData('qty')*$this->getProduct()->getData('weight');
             default: 
                 return parent::_load($name);
         }
@@ -104,22 +103,22 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
 
     public function __toString()
     {
-        return $this->name.' (id:'.$this->product_id.', sku:'.$this->sku.')';
+        return $this->getData('name').' (id:'.$this->getData('product_id').', sku:'.$this->getData('sku').')';
     }
 
-    protected function _getOption($option_name, $get_by_id = false)
+    protected function _getOption($optionName, $getById = false)
     {
         $options = $this->_getOptions();
-        if (isset($options[$option_name])) return $get_by_id ? $options[$option_name]['value_id'] : $options[$option_name]['value'];
+        if (isset($options[$optionName])) return $getById ? $options[$optionName]['value_id'] : $options[$optionName]['value'];
         else return null;
     }
 
     protected function _getItem($what)
     {
-        $get_parent = isset($this->_get_options[$this->_type][$what]) && $this->_get_options[$this->_type][$what]==true;
-        /*echo 'getItem('.$what.')['.$this->_type.'] = '.($get_parent ? 'parent' : 'self').'<br/>';
-        print_r($this->_get_options[$this->_type]);*/
-        return $get_parent ? $this->_parent_item : $this->_item;
+        $getParent = isset($this->_getOptions[$this->_type][$what]) && $this->_getOptions[$this->_type][$what]==true;
+        /*echo 'getItem('.$what.')['.$this->_type.'] = '.($getParent ? 'parent' : 'self').'<br/>';
+        print_r($this->_getOptions[$this->_type]);*/
+        return $getParent ? $this->_parentItem : $this->_item;
     }
 
     protected function _getOptions()

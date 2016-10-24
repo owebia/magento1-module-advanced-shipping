@@ -21,7 +21,7 @@
 
 class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
 {
-    protected $_translate_inline;
+    protected $isTranslateInlineEnabled;
 
     public function __()
     {
@@ -65,8 +65,8 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
         if (count($args)==0) {
             $result = $output;
         } else {
-            if (!isset($this->_translate_inline)) $this->_translate_inline = Mage::getSingleton('core/translate')->getTranslateInline();
-            if ($this->_translate_inline) {
+            if (!isset($this->isTranslateInlineEnabled)) $this->isTranslateInlineEnabled = Mage::getSingleton('core/translate')->getTranslateInline();
+            if ($this->isTranslateInlineEnabled) {
                 $parts = explode('}}{{', $output);
                 $parts[0] = vsprintf($parts[0], $args);
                 $result = implode('}}{{', $parts);
@@ -92,24 +92,24 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
                 '{cart.price+tax-discount}',
             ),
             array(
-                $cart->weight . $cart->weight_unit,
-                $this->currency($cart->{'price-tax+discount'}),
-                $this->currency($cart->{'price-tax-discount'}),
-                $this->currency($cart->{'price+tax+discount'}),
-                $this->currency($cart->{'price+tax-discount'}),
+                $cart->getData('weight') . $cart->getData('weight_unit'),
+                $this->currency($cart->getData('price-tax+discount')),
+                $this->currency($cart->getData('price-tax-discount')),
+                $this->currency($cart->getData('price+tax+discount')),
+                $this->currency($cart->getData('price+tax-discount')),
             ),
             $helper->getRowProperty($row, $property)
         ));
     }
     
-    public function getDataModelMap($helper, $carrier_code, $request)
+    public function getDataModelMap($helper, $carrierCode, $request)
     {
-        $mage_config = Mage::getConfig();
+        $mageConfig = Mage::getConfig();
         return array(
             'info' => Mage::getModel('owebia_shipping2/Os2_Data_Info', array_merge($helper->getInfos(), array(
                 'magento_version' => Mage::getVersion(),
-                'module_version' => (string)$mage_config->getNode('modules/Owebia_Shipping2/version'),
-                'carrier_code' => $carrier_code,
+                'module_version' => (string)$mageConfig->getNode('modules/Owebia_Shipping2/version'),
+                'carrier_code' => $carrierCode,
             ))),
             'cart' => Mage::getModel('owebia_shipping2/Os2_Data_Cart', array(
                 'request' => $request,

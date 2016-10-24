@@ -22,19 +22,18 @@
 class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes
 {
     protected $_categories;
-    protected $_attribute_set;
-    protected $_stock_item;
+    protected $_attributeSet;
+    protected $_stockItem;
     
     protected function _loadObject()
     {
-        return Mage::getModel('catalog/product')->load($this->id);
+        return Mage::getModel('catalog/product')->load($this->getData('id'));
     }
 
     protected function _load($name)
     {
         $elems = explode('.', $name, $limit=2);
         $count = count($elems);
-        $last_index = $count-1;
         if ($count==2) {
             switch ($elems[0]) {
                 case 'attribute_set':
@@ -47,22 +46,22 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
             }
         }
         switch ($name) {
-            case 'attribute_set': return $this->getAttributeSet()->name; // Compatibility
+            case 'attribute_set': return $this->getAttributeSet()->getData('name'); // Compatibility
             case 'category': // Compatibility
                 $category = $this->_getCategory();
-                return $category ? $category->name : null;
+                return $category ? $category->getData('name') : null;
             case 'categories': // Compatibility
                 $categories = $this->getCategories();
                 $output = array();
                 foreach ($categories as $category) {
-                    $output[] = $category->name;
+                    $output[] = $category->getData('name');
                 }
                 return $output;
             case 'categories.id': // Compatibility
                 $categories = $this->getCategories();
                 $output = array();
                 foreach ($categories as $category) {
-                    $output[] = $category->id;
+                    $output[] = $category->getData('id');
                 }
                 return $output;
             default: return parent::_load($name);
@@ -71,15 +70,15 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
 
     public function getAttributeSet()
     {
-        if (isset($this->_attribute_set)) return $this->_attribute_set;
-        return $this->_attribute_set = Mage::getModel('owebia_shipping2/Os2_Data_AttributeSet', array('id' => (int)$this->attribute_set_id));
+        if (isset($this->_attributeSet)) return $this->_attributeSet;
+        return $this->_attributeSet = Mage::getModel('owebia_shipping2/Os2_Data_AttributeSet', array('id' => (int)$this->getData('attribute_set_id')));
     }
 
     protected function _getStockItem()
     {
         //foreach ($this->_loaded_object->getData() as $index => $value) echo "$index = $value<br/>";
-        if (isset($this->_stock_item)) return $this->_stock_item;
-        return $this->_stock_item = Mage::getModel('owebia_shipping2/Os2_Data_StockItem', array('product_id' => (int)$this->id));
+        if (isset($this->_stockItem)) return $this->_stockItem;
+        return $this->_stockItem = Mage::getModel('owebia_shipping2/Os2_Data_StockItem', array('product_id' => (int)$this->getData('id')));
     }
 
     protected function _getCategory()
@@ -100,27 +99,27 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
         return $this->_categories;
     }
 
-    protected function _getAttribute($attribute_name)
+    protected function _getAttribute($attributeName)
     {
-        switch ($attribute_name) {
-            case 'weight': return (double)parent::_getAttribute($attribute_name);
-            default: return parent::_getAttribute($attribute_name);
+        switch ($attributeName) {
+            case 'weight': return (double)parent::_getAttribute($attributeName);
+            default: return parent::_getAttribute($attributeName);
         }
     }
 
-    /*public function _getAttribute($attribute_name)
+    /*public function _getAttribute($attributeName)
     {
-        return parent::_getAttribute($attribute_name);
+        return parent::_getAttribute($attributeName);
 
         // Dynamic weight for bundle product
-        if ($this->type=='bundle' && $attribute_name=='weight' && $product->getData('weight_type')==0) {
-            // !!! Use cart_product and not product
-            return $this->cart_product->getTypeInstance(true)->getWeight($this->cart_product);
+        if ($this->type=='bundle' && $attributeName=='weight' && $product->getData('weight_type')==0) {
+            // !!! Use cartProduct and not product
+            return $this->cartProduct->getTypeInstance(true)->getWeight($this->cartProduct);
         }
     }*/
 
     public function __toString()
     {
-        return $this->name.' (id:'.$this->id.', sku:'.$this->sku.')';
+        return $this->getData('name').' (id:'.$this->getData('id').', sku:'.$this->getData('sku').')';
     }
 }

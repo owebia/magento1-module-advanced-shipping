@@ -25,7 +25,6 @@ class Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes extends Owebia_Ship
     {
         $elems = explode('.', $name, $limit=2);
         $count = count($elems);
-        $last_index = $count-1;
         if ($count==2) {
             switch ($elems[0]) {
                 case 'a':
@@ -38,28 +37,28 @@ class Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes extends Owebia_Ship
         return $this->_getAttribute($name);
     }
 
-    protected function _getAttribute($attribute_name)
+    protected function _getAttribute($attributeName)
     {
-        $get_value = false;
-        if (substr($attribute_name, strlen($attribute_name)-6, 6)=='.value') {
-            $get_value = true;
-            $attribute_name = substr($attribute_name, 0, strlen($attribute_name)-6);
+        $getValue = false;
+        if (substr($attributeName, strlen($attributeName)-6, 6)=='.value') {
+            $getValue = true;
+            $attributeName = substr($attributeName, 0, strlen($attributeName)-6);
         }
 
         $object = $this->_getObject();
         if (!$object) return null;
-        $attribute = $object->getResource()->getAttribute($attribute_name);
+        $attribute = $object->getResource()->getAttribute($attributeName);
         if (!$attribute) return null;
 
-        $attribute_frontend = $attribute->getFrontend();
-        $input_type = $attribute_frontend->getInputType();
-        switch ($input_type) {
+        $attributeFrontend = $attribute->getFrontend();
+        $inputType = $attributeFrontend->getInputType();
+        switch ($inputType) {
             case 'select' :
-                //echo 'attribute_name:'.$object->getData($attribute_name).', '.$attribute_frontend->getValue($object).';<br/>';
-                $value = !$get_value ? $object->getData($attribute_name) : $attribute_frontend->getValue($object);
+                //echo 'attributeName:'.$object->getData($attributeName).', '.$attributeFrontend->getValue($object).';<br/>';
+                $value = !$getValue ? $object->getData($attributeName) : $attributeFrontend->getValue($object);
                 break;
             default :
-                $value = $object->getData($attribute_name);
+                $value = $object->getData($attributeName);
                 break;
         }
         return $value;

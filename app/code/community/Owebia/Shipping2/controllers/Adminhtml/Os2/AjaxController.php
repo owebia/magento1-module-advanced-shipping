@@ -41,14 +41,14 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     protected function _getCorrection($config, $compress = false, $html = false)
     {
         $helper = $this->_getOs2Helper($config);
-        return $helper->formatConfig($compress, $keys_to_remove = array('*id'), $html);
+        return $helper->formatConfig($compress, $keysToRemove = array('*id'), $html);
     }
     
-    protected function _processHelp($help_id, $content)
+    protected function _processHelp($helpId, $content)
     {
         $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_help', 'os2_help', array(
             'controller' => $this,
-            'help_id' => $help_id,
+            'help_id' => $helpId,
             'content' => $content,
             'helper' => $this->_getOs2Helper(''),
         ));
@@ -62,36 +62,36 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
         $request = $this->getRequest();
         switch ($request->getPost('what')) {
             case 'page':
-                $with_dialog = (bool)$request->getPost('with_dialog');
+                $withDialog = (bool)$request->getPost('with_dialog');
                 $page = $request->getPost('page');
-                $layout_content = array();
+                $layoutContent = array();
                 //$page_header_buttons = null;
                 switch ($page) {
                     case 'source':
-                        $layout_content['north'] = "<div class=\"os2-page-header ui-layout-center\">"
+                        $layoutContent['north'] = "<div class=\"os2-page-header ui-layout-center\">"
                             .$this->button__('Apply', "os2editor.save();", 'save')
                             .$this->button__('Export', "os2editor.saveToFile();", '')
                             .$this->button__('Add a shipping method',"os2editor.addRow();",'add')
                             ."</div>"
                         ;
-                        $layout_content['west'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Editor')}</h4></div><div id=os2-editor class=ui-layout-center></div>";
-                        $layout_content['center'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Source')}</h4></div><textarea id=os2-source class=ui-layout-center></textarea>";
-                        $layout_content['east'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Correction')}</h4></div><div id=os2-correction class=ui-layout-center></div>";
-                        $layout_content['south'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Debug')}</h4></div><div id=os2-debug class=ui-layout-center></div>";
+                        $layoutContent['west'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Editor')}</h4></div><div id=os2-editor class=ui-layout-center></div>";
+                        $layoutContent['center'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Source')}</h4></div><textarea id=os2-source class=ui-layout-center></textarea>";
+                        $layoutContent['east'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Correction')}</h4></div><div id=os2-correction class=ui-layout-center></div>";
+                        $layoutContent['south'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Debug')}</h4></div><div id=os2-debug class=ui-layout-center></div>";
                         break;
                     case 'help':
                         $output = $this->__('{os2editor.help.'.$request->getPost('input').'}');
-                        $layout_content['center'] = $this->_processHelp($request->getPost('input'), $output);
+                        $layoutContent['center'] = $this->_processHelp($request->getPost('input'), $output);
                         break;
                 }
                 return $this->outputContent(
-                    $this->page($page, $layout_content, $with_dialog)
+                    $this->page($page, $layoutContent, $withDialog)
                 );
             case 'correction':
                 $helper = $this->_getOs2Helper($request->getPost('source'));
                 $helper->checkConfig();
                 return $this->json(array(
-                    'correction' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = true),
+                    'correction' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = true),
                     'debug' => $helper->getDebug(),
                     'editor' => $this->_getEditor($request->getPost()),
                 ));
@@ -103,30 +103,30 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
             case 'update-property':
                 $helper = $this->_getOs2Helper($request->getPost('source'));
                 $config = $helper->getConfig();
-                $row_id = $request->getPost('row');
+                $rowId = $request->getPost('row');
                 $property = $request->getPost('property');
                 $value = $request->getPost('value');
                 if ($property==='type' && $value=='method' || $property==='enabled' && $value=='1' || $property!=='enabled' && empty($value)) {
-                    unset($config[$row_id][$property]);
+                    unset($config[$rowId][$property]);
                 } else if ($property==='enabled') {
-                    $config[$row_id][$property]['value'] = (bool)$value;
+                    $config[$rowId][$property]['value'] = (bool)$value;
                 } else {
-                    $config[$row_id][$property]['value'] = $value;
+                    $config[$rowId][$property]['value'] = $value;
                 }
-                if ($property=='*id' && $value!=$row_id) {
-                    $config[$value] = $config[$row_id];
-                    unset($config[$row_id]);
+                if ($property=='*id' && $value!=$rowId) {
+                    $config[$value] = $config[$rowId];
+                    unset($config[$rowId]);
                 }
                 $helper->setConfig($config);
                 return $this->json(array(
-                    'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
+                    'source' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = false),
                 ));
             case 'add-row':
                 $helper = $this->_getOs2Helper($request->getPost('source'));
                 $row = array('label' => array('value' => $this->__('New shipping method')), 'fees' => array('value' => 0)); // By reference
                 $helper->addRow('new'.time(), $row);
                 return $this->json(array(
-                    'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
+                    'source' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = false),
                 ));
             case 'remove-row':
                 $helper = $this->_getOs2Helper($request->getPost('source'));
@@ -134,7 +134,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 unset($config[$request->getPost('id']));
                 $helper->setConfig($config);
                 return $this->json(array(
-                    'source' => $helper->formatConfig($compress = false, $keys_to_remove = array('*id'), $html = false),
+                    'source' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = false),
                 ));
             case 'row-ui':
                 $helper = $this->_getOs2Helper($request->getPost('source'));
@@ -177,9 +177,9 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     {
         header('Content-Type: text/html; charset=UTF-8');
 
-        $file_handler = fopen(Mage::getBaseDir('locale').'/fr_FR/Owebia_Shipping2.csv', 'r');
+        $fileHandler = fopen(Mage::getBaseDir('locale').'/fr_FR/Owebia_Shipping2.csv', 'r');
         $output = "<style>.new{color:blue}strike,.deprecated{color:maroon}</style>";
-        while ($row = fgetcsv($file_handler,4096,',','"')) {
+        while ($row = fgetcsv($fileHandler,4096,',','"')) {
             if (isset($row[0])) {
                 $key = $row[0];
                 $data[$key] = isset($row[1]) ? $row[1] : null;

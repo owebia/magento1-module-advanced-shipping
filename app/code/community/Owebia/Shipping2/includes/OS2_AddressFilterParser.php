@@ -23,15 +23,15 @@ class OS2_AddressFilterParser
 {
     protected $input = null;
     protected $position = null;
-    protected $buffer_start = null;
+    protected $bufferStart = null;
 
     protected $output = '';
     protected $level = null;
-    protected $parent_level = null;
+    protected $parentLevel = null;
     protected $regexp = false;
     protected $litteral = false;
-    protected $litteral_quote = null;
-    protected $case_insensitive = false;
+    protected $litteralQuote = null;
+    protected $caseInsensitive = false;
 
     public function parse($input) {
         $this->current = array();
@@ -47,7 +47,7 @@ class OS2_AddressFilterParser
                     if ($this->regexp) break;
                     if ($this->litteral) break;
                     $this->push($this->buffer().')');
-                    $this->parent_level = null;
+                    $this->parentLevel = null;
                     break;
                 case ' ':
                     if ($this->regexp) break;
@@ -70,26 +70,26 @@ class OS2_AddressFilterParser
                     if ($this->regexp) break;
                     if ($this->litteral) break;
                     $this->push($this->buffer());
-                    $this->push($join, $only_if_not_empty = true);
+                    $this->push($join, $onlyIfNotEmpty = true);
                     $this->push('(');
-                    $this->parent_level = $this->level;
+                    $this->parentLevel = $this->level;
                     $join = ' && ';
                     break;
                 case "'":
                 case '"':
-                    if (!$this->litteral || $this->litteral_quote == $char) {
+                    if (!$this->litteral || $this->litteralQuote == $char) {
                         $this->litteral = !$this->litteral;
-                        $this->litteral_quote = $char;
+                        $this->litteralQuote = $char;
                     }
-                    if ($this->buffer_start === null) {
-                        $this->buffer_start = $this->position;
+                    if ($this->bufferStart === null) {
+                        $this->bufferStart = $this->position;
                     }
                     break;
                 case '/':
                     $this->regexp = !$this->regexp;
                 default:
-                    if ($this->buffer_start === null) {
-                        $this->buffer_start = $this->position;
+                    if ($this->bufferStart === null) {
+                        $this->bufferStart = $this->position;
                     }
             }
         }
@@ -103,21 +103,21 @@ class OS2_AddressFilterParser
     }
 
     protected function buffer() {
-        if ($this->buffer_start !== null) {
+        if ($this->bufferStart !== null) {
             // extract string from buffer start to current position
-            $buffer = substr($this->input, $this->buffer_start, $this->position - $this->buffer_start);
+            $buffer = substr($this->input, $this->bufferStart, $this->position - $this->bufferStart);
             // clean buffer
-            $this->buffer_start = null;
+            $this->bufferStart = null;
             // throw token into current scope
             //var_export($buffer);echo "\n";
             if ($buffer=='*') {
                 $buffer = 1;
-            } else if ($this->parent_level=='country') {
+            } else if ($this->parentLevel=='country') {
                 if (preg_match('/^[A-Z]{2}$/', $buffer)) {
                     $buffer = "{{c}}==={$this->escapeString($buffer)}";
                     $this->level = 'country';
                 } else if (substr($buffer, 0, 1)=='/' && (substr($buffer, strlen($buffer)-1, 1)=='/' || substr($buffer, strlen($buffer)-2, 2)=='/i')) {
-                    $case_insensitive = substr($buffer, strlen($buffer)-2, 2)=='/i';
+                    $caseInsensitive = substr($buffer, strlen($buffer)-2, 2)=='/i';
                     $buffer = "preg_match('".str_replace("'", "\\'", $buffer)."', (string)({{p}}))";
                 } else if (strpos($buffer, '*')!==false) {
                     $buffer = "preg_match('/^".str_replace(array("'", '*'), array("\\'", '(?:.*)'), $buffer)."$/', (string)({{p}}))";
@@ -139,9 +139,9 @@ class OS2_AddressFilterParser
         return null;
     }
 
-    protected function push($text, $only_if_not_empty = false) {
+    protected function push($text, $onlyIfNotEmpty = false) {
         if (isset($text)) {
-            if (!$only_if_not_empty || $this->output) $this->output .= $text;
+            if (!$onlyIfNotEmpty || $this->output) $this->output .= $text;
             //echo "\"$this->output\"<br/>";
         }
     }

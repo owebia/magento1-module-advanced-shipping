@@ -30,26 +30,26 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Help extends Mage_Adminhtml_Block_Abs
     public function getHtml()
     {
         $controller = $this->getData('controller');
-        $help_id = $this->getData('help_id');
+        $helpId = $this->getData('help_id');
         $content = $this->getData('content');
         $helper = $this->getData('helper');
 
-        $locale_code = Mage::app()->getLocale()->getLocaleCode();
-        $help_file = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2/doc_' . $locale_code . '.html';
-        if (!file_exists($help_file)) {
-            $help_file = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2/doc_en_US.html';
+        $localeCode = Mage::app()->getLocale()->getLocaleCode();
+        $helpFile = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2/doc_' . $localeCode . '.html';
+        if (!file_exists($helpFile)) {
+            $helpFile = Mage::getBaseDir('app') . '/code/community/Owebia/Shipping2/doc_en_US.html';
         }
-        $content = file_get_contents($help_file);
-        $doc_sidebar = preg_replace('#^.*<!-- doc sidebar start -->(.*)<!-- doc sidebar end -->.*$#s', '\1', $content);
-        $doc_content = preg_replace('#^.*<!-- doc content start -->(.*)<!-- doc content end -->.*$#s', '\1', $content);
-        $doc_scripts = preg_replace('#^.*<!-- doc scripts start -->(.*)<!-- doc scripts end -->.*$#s', '\1', $content);
-        $doc_scripts = str_replace('$(', "jQuery(", $doc_scripts);
-        $doc_scripts = str_replace('$.', "jQuery.", $doc_scripts);
-        $content = $doc_sidebar . $doc_content
-            //. "<script>jQuery.fn.scrollspy = function(){};" . $doc_scripts . "</script>"
+        $content = file_get_contents($helpFile);
+        $docSidebar = preg_replace('#^.*<!-- doc sidebar start -->(.*)<!-- doc sidebar end -->.*$#s', '\1', $content);
+        $docContent = preg_replace('#^.*<!-- doc content start -->(.*)<!-- doc content end -->.*$#s', '\1', $content);
+        $docScript = preg_replace('#^.*<!-- doc scripts start -->(.*)<!-- doc scripts end -->.*$#s', '\1', $content);
+        $docScript = str_replace('$(', "jQuery(", $docScript);
+        $docScript = str_replace('$.', "jQuery.", $docScript);
+        $content = $docSidebar . $docContent
+            //. "<script>jQuery.fn.scrollspy = function(){};" . $docScript . "</script>"
             . "<script>
 jQuery.fn.scrollspy = function(){};
-{$doc_scripts}
+{$docScript}
 function bjson() {
     var index = 0;
     jQuery('div.json').each(function(){
@@ -77,7 +77,7 @@ setTimeout(function(){
         return $content;
 
         $controller = $this->getData('controller');
-        $help_id = $this->getData('help_id');
+        $helpId = $this->getData('help_id');
         $content = $this->getData('content');
         $helper = $this->getData('helper');
         $content = str_replace(
@@ -87,7 +87,7 @@ setTimeout(function(){
         $header = null;
         $footer = null;
         $title = null;
-        if ($help_id=='changelog') {
+        if ($helpId=='changelog') {
             $changelog = @file_get_contents($controller->getModulePath('changelog'));
             if (!$changelog) $changelog = "Empty changelog";
             $changelog = mb_convert_encoding($changelog, 'UTF-8', 'ISO-8859-1');
@@ -107,7 +107,7 @@ setTimeout(function(){
             $title = $result[1];
             $content = str_replace($result[0], '', $content);
         }
-        $nav = "<div id=os2-help-nav><a href=\"#\" onclick=\"os2editor.refreshHelp();\">".$this->__('Refresh')."</a> | <a href=\"#\" onclick=\"os2editor.previousHelp();\">".$this->__('Previous page')."</a>".($help_id!='summary' ? " | <a href=\"#summary\">".$this->__('Summary')."</a>" : '')."</div>";
+        $nav = "<div id=os2-help-nav><a href=\"#\" onclick=\"os2editor.refreshHelp();\">".$this->__('Refresh')."</a> | <a href=\"#\" onclick=\"os2editor.previousHelp();\">".$this->__('Previous page')."</a>".($helpId!='summary' ? " | <a href=\"#summary\">".$this->__('Summary')."</a>" : '')."</div>";
         $header = "<div class=\"ui-layout-north os2-help-header\">{$nav}<h4>{$title}</h4></div>";
         $content = ($header ? "{$header}" : '')."<div id=os2-help class=ui-layout-center>{$content}</div>";
         $content = preg_replace('/ href="#([a-z0-9_\-\.]+)"/', ' href="#" onclick="os2editor.help(\'\1\');"', $content);

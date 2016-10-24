@@ -21,7 +21,7 @@
 
 class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    private static $JS_INCLUDED = false;
+    private static $isJsIncluded = false;
     
     public function __()
     {
@@ -57,7 +57,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends M
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $output = '';
-        if (!self::$JS_INCLUDED) {
+        if (!self::$isJsIncluded) {
             $output = "<script type=\"text/javascript\">\n"
                 ."//<![CDATA[\n"
                 ."jQuery.noConflict();\n"
@@ -78,15 +78,15 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends M
                 ."//]]>\n"
                 ."</script>\n"
             ;
-            self::$JS_INCLUDED = true;
+            self::$isJsIncluded = true;
         }
 
-        $shipping_code = preg_replace('/^groups\[([^\]]*)\].*$/','\1',$element->getName());
+        $shippingCode = preg_replace('/^groups\[([^\]]*)\].*$/','\1',$element->getName());
         return <<<EOD
 {$output}
 <div style="margin-bottom:1px;">
-    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shipping_code}').page('source');"><span>{$this->__('Source &amp; Correction')}</span></button>
-    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shipping_code}').help('summary');"><span>{$this->__('Help')}</span></button>
+    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shippingCode}').page('source');"><span>{$this->__('Source &amp; Correction')}</span></button>
+    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shippingCode}').help('summary');"><span>{$this->__('Help')}</span></button>
     <!--<a href="{$this->getUrl('adminhtml/os2_ajax/doc')}">doc</a>-->
 </div>
 {$element->getElementHtml()}<br/>

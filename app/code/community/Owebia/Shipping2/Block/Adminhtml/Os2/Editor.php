@@ -22,7 +22,7 @@
 class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_Abstract
 {
     protected $_config;
-    protected $_opened_row_ids;
+    protected $_openedRowIds;
 
     public function __construct($attributes)
     {
@@ -31,7 +31,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
             'opened_row_ids' => array(),
         );
         $this->_config = $attributes['config'];
-        $this->_opened_row_ids = $attributes['opened_row_ids'];
+        $this->_openedRowIds = $attributes['opened_row_ids'];
     }
 
     public function __()
@@ -40,7 +40,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
         return Mage::helper('owebia_shipping2')->__($args);
     }
 
-    private function _getPropertyInput($property_name, $property)
+    private function _getPropertyInput($propertyName, $property)
     {
         if (is_array($property)) { // Compatibility PHP 5.2
             $value = isset($property['original_value']) ? $property['original_value'] : (isset($property['value']) ? $property['value'] : (isset($property) ? $property : ''));
@@ -48,17 +48,17 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
             $value = $property;
         }
 
-        $toolbar = "<span class=\"os2-field-btn os2-field-help\" data-property=\"{$property_name}\"></span>";
-        switch ($property_name) {
+        $toolbar = "<span class=\"os2-field-btn os2-field-help\" data-property=\"{$propertyName}\"></span>";
+        switch ($propertyName) {
             case 'enabled':
                 $enabled = $value!==false;
-                $input = "<select class=field name=\"{$property_name}\">"
+                $input = "<select class=field name=\"{$propertyName}\">"
                         ."<option value=\"1\"".($enabled ? ' selected="selected"' : '').">".$this->__('Enabled (default)')."</option>"
                         ."<option value=\"0\"".($enabled ? '' : ' selected="selected"').">".$this->__('Disabled')."</option>"
                     ."</select>";
                 break;
             case 'type':
-                $input = "<select class=field name=\"{$property_name}\">"
+                $input = "<select class=field name=\"{$propertyName}\">"
                         ."<option value=method".($value=='method' || !$value ? '' : ' selected="selected"').">".$this->__('Shipping Method (default)')."</option>"
                         ."<option value=data".($value=='data' ? ' selected="selected"' : '').">".$this->__('Data')."</option>"
                         ."<option value=meta".($value=='meta' ? ' selected="selected"' : '').">".$this->__('Meta')."</option>"
@@ -69,16 +69,16 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
             case 'origin':
                 $toolbar = "<span class=\"os2-field-btn os2-field-edit\"></span>".$toolbar;
             default:
-                $input = "<input class=field name=\"{$property_name}\" value=\"".htmlspecialchars($value, ENT_COMPAT, 'UTF-8')."\"/>";
+                $input = "<input class=field name=\"{$propertyName}\" value=\"".htmlspecialchars($value, ENT_COMPAT, 'UTF-8')."\"/>";
                 break;
         }
         return $input;
     }
     
-    public function getPropertyTools($controller, $property_name)
+    public function getPropertyTools($controller, $propertyName)
     {
         $after = '';
-        switch ($property_name) {
+        switch ($propertyName) {
             case 'label':
             case 'description':
                 $after = "<fieldset class=buttons-set><legend>".$this->__('Insert')."</legend>"
@@ -153,8 +153,8 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
 
     public function sortProperties($k1, $k2)
     {
-        $i1 = isset($this->properties_sort[$k1]) ? $this->properties_sort[$k1] : 1000;
-        $i2 = isset($this->properties_sort[$k2]) ? $this->properties_sort[$k2] : 1000;
+        $i1 = isset($this->propertiesSort[$k1]) ? $this->propertiesSort[$k1] : 1000;
+        $i2 = isset($this->propertiesSort[$k2]) ? $this->propertiesSort[$k2] : 1000;
         return $i1==$i2 ? strcmp($k1, $k2) : $i1-$i2;
     }
 
@@ -164,20 +164,20 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
         $type = isset($row['type']['value']) ? $row['type']['value'] : null;
         switch ($type) {
             case 'meta':
-                $row_label = $this->__('[meta] %s', $row['*id']);
+                $rowLabel = $this->__('[meta] %s', $row['*id']);
                 break;
             case 'data':
-                $row_label = $this->__('[data] %s', $row['*id']);
+                $rowLabel = $this->__('[data] %s', $row['*id']);
                 break;
             default:
                 if (!isset($row['label'])) {
                     $row['label']['value'] = $this->__('New shipping method');
                 }
-                $row_label = $row['label']['value'];
+                $rowLabel = $row['label']['value'];
                 $properties = array_merge($properties, array('label', 'description', 'shipto', 'billto', 'origin', 'conditions', 'fees', 'customer_groups', 'tracking_url'));
         }
 
-        $properties_label = array(
+        $propertiesLabel = array(
             '*id' => 'ID',
             'type' => 'Type',
             'about' => 'About',
@@ -192,23 +192,23 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
             'customer_groups' => 'Customer groups',
             'tracking_url' => 'Tracking url',
         );
-        foreach ($properties as $property_name) {
-            if (!isset($row[$property_name])) $row[$property_name] = null;
+        foreach ($properties as $propertyName) {
+            if (!isset($row[$propertyName])) $row[$propertyName] = null;
         }
-        $this->properties_sort = array_flip($properties);
+        $this->propertiesSort = array_flip($properties);
         uksort($row, array($this, 'sortProperties'));
         $list = '';
         $content = '';
         $j = 0;
-        foreach ($row as $property_name => $property) {
-            $property_label = isset($properties_label[$property_name]) ? $properties_label[$property_name] : $property_name;
+        foreach ($row as $propertyName => $property) {
+            $propertyLabel = isset($propertiesLabel[$propertyName]) ? $propertiesLabel[$propertyName] : $propertyName;
             $error = array();
             if (isset($property['messages'])) {
                 foreach ($property['messages'] as $message) {
                     $error[] = $this->__($message);
                 }
             }
-            $content .= "<tr class=\"os2-p-container".($error ? ' os2-error' : '')."\"".($error ? ' title="'.$this->esc(implode(', ', $error)).'"' : '')."><th>".$this->__($property_label)."</th><td>".$this->_getPropertyInput($property_name, $property, $big = false)."</td></tr>";
+            $content .= "<tr class=\"os2-p-container".($error ? ' os2-error' : '')."\"".($error ? ' title="'.$this->esc(implode(', ', $error)).'"' : '')."><th>".$this->__($propertyLabel)."</th><td>".$this->_getPropertyInput($propertyName, $property, $big = false)."</td></tr>";
             $j++;
         }
         //$output = "<ul class=\"properties-list ui-layout-west\">{$list}</ul><div class=\"properties-container ui-layout-center\">{$content}</div>";
@@ -235,7 +235,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
             $content = $this->_getRowUI($row);
         }
         $error = false;
-        foreach ($row as $property_name => $property) {
+        foreach ($row as $propertyName => $property) {
             if (is_array($property) /*Compatibility*/ && isset($property['messages'])) {
                 $error = true;
                 break;
@@ -262,15 +262,15 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
     public function getHtml()
     {
         $config = $this->getData('config');
-        $opened_row_ids = $this->getData('opened_row_ids');
+        $openedRowIds = $this->getData('opened_row_ids');
         $output = /*"<pre>".print_r($config, true)."</pre>".*/"";
         $i = 0;
         if (!$config) {
             $output .= "<p style=\"padding:10px;\">Configuration vide</p>";
         } else {
             $output .= "<ul id=os2-editor-elems-container>";
-            foreach ($config as $row_id => &$row) {
-                $opened = in_array($row_id, $opened_row_ids) || !$opened_row_ids && $i==0;
+            foreach ($config as $rowId => &$row) {
+                $opened = in_array($rowId, $openedRowIds) || !$openedRowIds && $i==0;
                 $output .= $this->_getRowItem($row, $opened);
                 $i++;
             }

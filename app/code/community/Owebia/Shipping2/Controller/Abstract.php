@@ -52,7 +52,7 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
 
     protected function getMimeType($extension)
     {
-        $mime_type_array = array(
+        $mimeTypeArray = array(
             '.gz' => 'application/x-gzip',
             '.tgz' => 'application/x-gzip',
             '.zip' => 'application/zip',
@@ -67,7 +67,7 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
             '.mpg' => 'video/mpeg',
             '.avi' => 'video/x-msvideo',
         );
-        return isset($mime_type_array[$extension]) ? $mime_type_array[$extension] : 'application/octet-stream';
+        return isset($mimeTypeArray[$extension]) ? $mimeTypeArray[$extension] : 'application/octet-stream';
     }
     
     protected function forceDownload($filename, $content)
@@ -78,11 +78,11 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         }
 
         $extension = strrchr($filename,'.');
-        $mime_type = $this->getMimeType($extension);
+        $mimeType = $this->getMimeType($extension);
 
         header('Content-disposition: attachment; filename="'.$filename.'"');
         header('Content-Type: application/force-download');
-        header('Content-Transfer-Encoding: '.$mime_type."\n"); // Surtout ne pas enlever le \n
+        header('Content-Transfer-Encoding: '.$mimeType."\n"); // Surtout ne pas enlever le \n
         //header('Content-Length: '.filesize($filename));
         header('Pragma: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
@@ -95,10 +95,10 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         return preg_replace('/[^a-z0-9\-_]/i','_',$key);
     }
 
-    protected function page($page, $layout_content = array(), $with_dialog = true)
+    protected function page($page, $layoutContent = array(), $withDialog = true)
     {
-        if (!is_array($layout_content)) $layout_content = array('center' => $layout_content);
-        return ($with_dialog ? "<div id=os2-dialog>"
+        if (!is_array($layoutContent)) $layoutContent = array('center' => $layoutContent);
+        return ($withDialog ? "<div id=os2-dialog>"
                     . $this->pageHeader($this->__('Owebia Shipping 2 Editor'),
                         $this->button__('Source &amp; Correction',     "os2editor.page('source');",     'source')
                         . $this->button__('Help',       "os2editor.help('summary');",    'help')
@@ -106,13 +106,13 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
                     )
                     . "<div id=os2-page-container class=ui-layout-center>" : '')
                         . "<div id=os2-page-{$page} class=os2-page>"
-                            . (!isset($layout_content['north']) ? '' : "<div class=\"ui-layout-north inner-layout\">".$layout_content['north']."</div>")
-                            . "<div class=\"ui-layout-center inner-layout\">".$layout_content['center']."</div>"
-                            . (!isset($layout_content['south']) ? '' : "<div class=\"ui-layout-south inner-layout\">".$layout_content['south']."</div>")
-                            . (!isset($layout_content['west']) ? '' : "<div class=\"ui-layout-west inner-layout\">".$layout_content['west']."</div>")
-                            . (!isset($layout_content['east']) ? '' : "<div class=\"ui-layout-east inner-layout\">".$layout_content['east']."</div>")
+                            . (!isset($layoutContent['north']) ? '' : "<div class=\"ui-layout-north inner-layout\">".$layoutContent['north']."</div>")
+                            . "<div class=\"ui-layout-center inner-layout\">".$layoutContent['center']."</div>"
+                            . (!isset($layoutContent['south']) ? '' : "<div class=\"ui-layout-south inner-layout\">".$layoutContent['south']."</div>")
+                            . (!isset($layoutContent['west']) ? '' : "<div class=\"ui-layout-west inner-layout\">".$layoutContent['west']."</div>")
+                            . (!isset($layoutContent['east']) ? '' : "<div class=\"ui-layout-east inner-layout\">".$layoutContent['east']."</div>")
                         . "</div>"
-                    . ($with_dialog ? "</div>"
+                    . ($withDialog ? "</div>"
                 . "</div>" : '')
         ;
     }
@@ -128,14 +128,14 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         ;
     }
 
-    public function button($label, $onclick, $class_name='')
+    public function button($label, $onclick, $className='')
     {
-        $class_name = 'scalable'.($class_name!='' ? ' '.$class_name : '');
-        return "<button type=\"button\" class=\"".$class_name."\" onclick=\"".$onclick."\"><span>".$label."</span></button>";
+        $className = 'scalable'.($className!='' ? ' '.$className : '');
+        return "<button type=\"button\" class=\"".$className."\" onclick=\"".$onclick."\"><span>".$label."</span></button>";
     }
 
-    public function button__($label, $onclick, $class_name='')
+    public function button__($label, $onclick, $className='')
     {
-        return $this->button($this->__($label),$onclick,$class_name);
+        return $this->button($this->__($label),$onclick,$className);
     }
 }
