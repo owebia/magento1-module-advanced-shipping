@@ -34,7 +34,7 @@ class Owebia_Shipping2_Model_Os2_Data_CustomerGroup extends Owebia_Shipping2_Mod
 
     protected $_additionalAttributes = array('*');
 
-    public function __construct($arguments = null)
+    public function __construct()
     {
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         if ($customerGroupId == 0) { // Pour les commandes depuis Adminhtml

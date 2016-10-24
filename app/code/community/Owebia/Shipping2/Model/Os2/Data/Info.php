@@ -6,4 +6,5 @@
 
 class Owebia_Shipping2_Model_Os2_Data_Info extends Owebia_Shipping2_Model_Os2_Data_Abstract
 {
+    const INFO = true;
 }

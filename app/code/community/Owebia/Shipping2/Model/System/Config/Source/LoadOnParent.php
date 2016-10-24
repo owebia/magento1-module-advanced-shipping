@@ -7,6 +7,9 @@
 class Owebia_Shipping2_Model_System_Config_Source_LoadOnParent
     extends Mage_Adminhtml_Model_System_Config_Source_Category
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray($addEmpty = true)
     {
         $options = array(

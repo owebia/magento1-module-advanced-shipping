@@ -8,7 +8,7 @@ class Owebia_Shipping2_Model_Os2_Data_Customer extends Owebia_Shipping2_Model_Os
 {
     protected $_additionalAttributes = array('*');
 
-    public function __construct($arguments = null)
+    public function __construct()
     {
         parent::__construct(
             array(
