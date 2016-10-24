@@ -12,15 +12,6 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         return Mage::helper('owebia_shipping2')->__($args);
     }
 
-    public function getModulePath($path)
-    {
-        if (file_exists(dirname(__FILE__) . '/Owebia_Shipping2_' . str_replace('/', '_', $path))) {
-            return 'Owebia_Shipping2_' . str_replace('/', '_', $path);
-        } else {
-            return Mage::getBaseDir('code') . '/community/Owebia/Shipping2/' . $path;
-        }
-    }
-
     protected function outputContent($content)
     {
         return $this->getResponse()
