@@ -280,7 +280,7 @@ class Owebia_Shipping2_Block_Adminhtml_Os2_Editor extends Mage_Adminhtml_Block_A
     {
         $config = $this->getData('config');
         $openedRowIds = $this->getData('opened_row_ids');
-        $output = /*"<pre>" . print_r($config, true) . "</pre>" . */"";
+        $output = '';
         $i = 0;
         if (!$config) {
             $output .= "<p style=\"padding:10px;\">Configuration vide</p>";

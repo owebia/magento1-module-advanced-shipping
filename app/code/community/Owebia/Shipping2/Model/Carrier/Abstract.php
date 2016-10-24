@@ -27,22 +27,9 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        //setlocale(LC_NUMERIC, 'fr_FR');
         if (!$this->__getConfigData('active')) return false; // skip if not enabled
-        //$this->display($request->_data);
         $process = $this->__getProcess($request);
         return $this->getRates($process);
-    }
-
-    public function display($var)
-    {
-        $i = 0;
-        foreach ($var as $name => $value) {
-            //if ($i>20)
-                echo "{$name} => {$value}<br/>";
-                //$this->_helper->debug($name.' => '.$value.'<br/>');
-            $i++;
-        }
     }
 
     public function getRates($process)
@@ -111,8 +98,6 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         return false;
     }
 
-    /***********************************************************************************************************/
-
     protected function _process(&$process)
     {
         $debug = (bool)(isset($_GET['debug']) ? $_GET['debug'] : $this->__getConfigData('debug'));
@@ -146,8 +131,6 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         }
         return $this->_config;
     }
-
-    /*****************************************************************************************************************/
 
     protected function __checkRequest($httpRequest, $path)
     {

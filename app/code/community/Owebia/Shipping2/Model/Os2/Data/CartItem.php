@@ -28,27 +28,11 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
         $this->_product = null;
         $this->_type = $parentItem ? $parentItem->getProduct()->getTypeId() : $item->getProduct()->getTypeId();
         $this->_loadedObject = $this->_getItem('load_item_data_on_parent');
-
-        if (false) {
-            echo '---------------------------------<br/>';
-            foreach ($this->_item->getData() as $index => $value) {
-                $value = is_object($value) ? get_class($value) : (is_array($value) ? 'array' : $value);
-                echo "$index = $value<br/>";
-            }
-            if ($parentItem) {
-                echo '----- parent -----<br/>';
-                foreach ($parentItem->getData() as $index => $value) echo "$index = $value<br/>";
-            }
-            echo 'type:' . $this->_type . '<br/>';
-            echo 'sku:' . $this->getData('sku') . '<br/>';
-        }
     }
 
     public function getProduct()
     {
         if (!isset($this->_product)) {
-            //echo $this->_loadedObject->getData('product_id') . ', '
-            //. $this->_getItem('load_product_data_on_parent')->getData('product_id') . '<br/>';
             $productId = $this->_getItem('load_product_data_on_parent')->getData('product_id');
             $this->_product = Mage::getModel('owebia_shipping2/Os2_Data_Product', array('id' => $productId));
         }
@@ -73,12 +57,6 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
             case 'price-tax-discount':
                 return (double) $this->getData('base_original_price');
             case 'price+tax+discount':
-                /*echo 'base_original_price '.$this->getData('base_original_price').'';
-                echo ' + (tax_amount '.$this->getData('tax_amount').'';
-                echo ' - discount_amount '.$this->getData('discount_amount').')';
-                echo '/ '.$this->getData('qty').'<br>';
-                echo ' ::: = '.($this->getData('base_original_price')
-                //+($this->getData('tax_amount')-$this->getData('discount_amount'))/$this->getData('qty')).'<br>';*/
                 return (double) $this->getData('base_original_price')
                     + ( $this->getData('tax_amount') - $this->getData('discount_amount') ) / $this->getData('qty');
             case 'price+tax-discount':
@@ -110,8 +88,6 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
     protected function _getItem($what)
     {
         $getParent = isset($this->_getOptions[$this->_type][$what]) && $this->_getOptions[$this->_type][$what] == true;
-        /*echo 'getItem(' . $what . ')[' . $this->_type . '] = ' . ($getParent ? 'parent' : 'self') . '<br/>';
-        print_r($this->_getOptions[$this->_type]);*/
         return $getParent ? $this->_parentItem : $this->_item;
     }
 

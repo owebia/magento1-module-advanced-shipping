@@ -26,15 +26,8 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
         $head->addJs('owebia/shipping2/colorbox/jquery.colorbox-min.js');
         $head->addJs('owebia/shipping2/jquery.caret.1.02.min.js');
         $head->addJs('owebia/shipping2/os2editor.js');
-        /*$head->addItem(
-            'js_css',
-            'owebia/shipping2/jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css'
-        );*/
         $head->addItem('js_css', 'owebia/shipping2/colorbox/colorbox.css', 'media="all"');
         $head->addItem('js_css', 'owebia/shipping2/os2editor.css', 'media="all"');
-        //$head->addItem('other', 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js');
-        //$head->append($block);
-
         parent::_prepareLayout();
     }
 

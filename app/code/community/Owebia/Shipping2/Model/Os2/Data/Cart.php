@@ -56,7 +56,6 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
         $this->_items = array();
         foreach ($cartItems as $item) {
             $type = $item->getProduct()->getTypeId();
-            //echo $item->getProduct()->getTypeId().', '.$item->getQty().'<br/>';
             $parentItemId = $item->getData('parent_item_id');
             $parentItem = isset($cartItems[$parentItemId]) ? $cartItems[$parentItemId] : null;
             $parentType = isset($parentItem) ? $parentItem->getProduct()->getTypeId() : null;
@@ -74,7 +73,6 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                     array('item' => $item, 'parent_item' => $parentItem, 'options' => $this->_options)
                 );
             }
-            //foreach ($item->getData() as $index => $value) echo "$index = $value<br/>\n";
             $totalExclTaxWithoutDiscount += $item->getData('base_row_total');
             $totalExclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount');
             $totalInclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount')
@@ -85,10 +83,6 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
         $this->_data['price-tax-discount'] = $totalExclTaxWithoutDiscount;
         $this->_data['price+tax+discount'] = $totalInclTaxWithDiscount;
         $this->_data['price+tax-discount'] = $totalInclTaxWithoutDiscount;
-
-        //echo '<pre>Owebia_Shipping2_Model_Os2_Data_Abstract::__construct<br/>';
-        //foreach ($this->_data as $n => $v){echo "\t$n => "
-        //.(is_object($v) ? get_class($v) : (is_array($v) ? 'array' : $v))."<br/>";}echo '</pre>';
     }
 
     protected function _getQuote()

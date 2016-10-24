@@ -22,31 +22,6 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
 
         $output = parent::__($message);
 
-        /*if (true) {
-            $translations = @file_get_contents('translations.os2');
-            $translations = eval('return ' . $translations . ';');
-            if (!is_array($translations)) $translations = array();
-
-            $file = 'NC';
-            $line = 'NC';
-            $backtrace = debug_backtrace();
-            foreach ($backtrace as $trace) {
-                if (!isset($trace['function'])) continue;
-                if (substr($trace['function'], strlen($trace['function'])-2, strlen($trace['function']))=='__') {
-                    $file = ltrim(str_replace(Mage::getBaseDir(), '', $trace['file']), '/');
-                    $line = $trace['line'];
-                    continue;
-                }
-                //$file = ltrim(str_replace(Mage::getBaseDir(), '', $trace['file']), '/');
-                //echo $file . ', ' . $trace['function'] . '(), ' . $line . ', ' . $message . '<br/>';
-                break;
-            }
-
-            $translations[Mage::app()->getLocale()->getLocaleCode()][$file][$message] = $output;
-            ksort($translations[Mage::app()->getLocale()->getLocaleCode()]);
-            file_put_contents('translations.os2', var_export($translations, true));
-        }*/
-
         if (count($args)==0) {
             $result = $output;
         } else {

@@ -4,9 +4,6 @@
  * See COPYING.txt for license details.
  */
 
-// moved in app/code/community/Owebia/Shipping2/Model/Carrier/Abstract.php
-//require_once dirname(__FILE__) . '/OS2_AddressFilterParser.php';
-
 class OwebiaShippingHelper
 {
     const FLOAT_REGEX = '[-]?\d+(?:[.]\d+)?';
@@ -100,8 +97,7 @@ class OwebiaShippingHelper
 
     public static function jsonEncode($data, $beautify = false, $html = false, $level = 0, $currentIndent = '')
     {
-        //$html = true;
-        $indent = "\t";//$html ? '&nbsp;&nbsp;&nbsp;&nbsp;' : "\t";//
+        $indent = "\t";
         $lineBreak = $html ? '<br/>' : "\n";
         $newIndent = $currentIndent . $indent;
         switch ($type = gettype($data)) {
@@ -164,7 +160,6 @@ class OwebiaShippingHelper
                         .($beautify ? "{$lineBreak}{$currentIndent}" : '')
                         .'}'
                         .($html && $classes ? '</span>' : '');
-                    //echo $output;
                     return $output;
                 } else {
                     return '[' . implode(',' . ($beautify ? ' ' : ''), $output) . ']';
@@ -560,7 +555,6 @@ class OwebiaShippingHelper
                     $replacement = $original;
                     $output = $this->replace($original, $replacement, $output);
                 }
-                //$this->addMessage('error', $row, $key, $original . ' => ' . $replacement . ' = ' . $output);
             }
         } else {
             $this->debug(
@@ -701,7 +695,7 @@ class OwebiaShippingHelper
                 . ' (' . gettype($value->result) . ')'
             );
         } else {
-            $this->_expressionCache[$expression] = $value; //self::toString($value); // In order to make isset work
+            $this->_expressionCache[$expression] = $value; // Do not use self::toString to make isset work
             $this->debug(
                 '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
                 . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
@@ -774,7 +768,6 @@ class OwebiaShippingHelper
         }
 
         $formula = $formulaString;
-        //$this->debug('      formula = <span class=osh-formula>' . self::esc($formula) . '</span>');
 
         // foreach
         $foreachRegexp = "#{foreach ((?:item|product|p)\.[a-z0-9_\+\-\.]+)}(.*){/foreach}#iU";
@@ -871,11 +864,6 @@ class OwebiaShippingHelper
         $formula = $this->_replaceData($process, $formula, 'item|product|p|c|s', $aliases);
 
         // count, sum, min, max
-        //while ($this->_preg_match("/{(count) products(?: where ([^}]+))?}/i", $formula, $result)
-        //    || $this->_preg_match("/{(sum|min|max|count distinct) {PRODUCT_REGEX}\."
-        // . "({ATTRIBUTE_REGEX}|{OPTION_REGEX}|stock)\.([a-z0-9_+-]+)(?: where ([^}]+))?}/i", $formula, $result)
-        //    || $this->_preg_match("/{(sum|min|max|count distinct) {PRODUCT_REGEX}\."
-        // . "(quantity)()(?: where ([^}]+))?}/i", $formula, $result)
         $countRegexp = "/{(count)\s+items\s*(?:\s+where\s+((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
         $sumMinMaxCountRegexp = "/{(sum|min|max|count distinct) ((?:item|product|p)\.[a-z0-9_\+\-\.]+)"
             . "(?: where ((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
@@ -945,7 +933,6 @@ class OwebiaShippingHelper
                         . ' != <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($value)) . '</span>'
                     );
                 }
-                //$replacement = self::toString($replacement);
                 if ($useCache) $this->_setCache($original, $replacement);
             }
             $formula = $this->replace($original, $replacement, $formula);
@@ -997,7 +984,6 @@ class OwebiaShippingHelper
                         }
                     }
                 }
-                //$replacement = self::toString($replacement);
                 if ($useCache) $this->_setCache($original, $replacement);
             }
             $formula = $this->replace($original, $replacement, $formula);
@@ -1042,7 +1028,6 @@ class OwebiaShippingHelper
         }
         $formula = preg_replace('@\b(min|max|range|array_match_any|array_match_all)\(@', '\$this->_\1(', $formula);
         $evalResult = null;
-        //echo $formula . '<br/>';
         @eval('$evalResult = (' . $formula . ');');
         $this->debug(
             '      evaluate <span class=osh-formula>' . self::esc($formula) . '</span>'
@@ -1064,9 +1049,6 @@ class OwebiaShippingHelper
         if (substr($configString, 0, 2) == '$$') {
             $configString = $this->uncompress(substr($configString, 2, strlen($configString)));
         }
-
-        //echo ini_get('pcre.backtrack_limit');
-        //exit;
 
         $this->debug('parse config (auto correction = ' . self::esc(self::toString($autoCorrection)) . ')');
         $config = null;
@@ -1108,7 +1090,6 @@ class OwebiaShippingHelper
             $objectRegexp = '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*'
                 . '(' . $propertyRegexp . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
             preg_match_all('/(' . $objectRegexp . ')/is', $configString, $objectSet, PREG_SET_ORDER);
-            //print_r($objectSet);
             $json = array();
             $objectsCount = count($objectSet);
             $toIgnoreCounter = -1;
@@ -1200,9 +1181,8 @@ class OwebiaShippingHelper
                     );
                 }
             }
-            $configString = $this->jsonEncode($json);//'[' . $configString2 . ']';
+            $configString = $this->jsonEncode($json);
             $configString = str_replace(array("\n"), array("\\n"), $configString);
-            //echo $configString;
 
             $lastJsonError = null;
             try {
@@ -1368,8 +1348,6 @@ class OwebiaShippingHelper
 
     protected function _addressMatch(&$process, &$row, $propertyName, $addressFilter, $address)
     {
-        //$addressFilter = '(* - ( europe (FR-(25,26),DE(40,42) ))';
-        //echo '<pre>';
         $addressFilter = $this->_replaceData($process, $addressFilter);
         $parser = new OS2_AddressFilterParser();
         $addressFilter = $parser->parse($addressFilter);
@@ -1408,7 +1386,7 @@ class OwebiaShippingHelper
             }
             return 'array(' . join(',', $items) . ')';
         } else {
-            return isset($input) && (is_string($input)/* || empty($input)*/)
+            return isset($input) && (is_string($input))
                 ? self::escapeString($input) : self::toString($input);
         }
     }
@@ -1505,10 +1483,6 @@ class OwebiaShippingHelper
                                 }
                                 break;
                             case 'sum':
-                                /*$this->debug(
-                                    self::esc($item->getProduct()->sku) . '.' . self::esc($reference)
-                                    . ' = "' . self::esc($value) . '" x ' . self::esc($item->qty)
-                                );*/
                                 $returnValue = (isset($returnValue) ? $returnValue : 0) + $value * $item->qty;
                                 break;
                             case 'count distinct':

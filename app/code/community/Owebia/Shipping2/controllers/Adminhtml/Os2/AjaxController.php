@@ -24,7 +24,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
             'os2_editor',
             array('config' => $config, 'opened_row_ids' => isset($data['row_ids']) ? $data['row_ids'] : array())
         );
-        return /*"<pre>" . print_r($config, true) . "</pre>" . */$block->getHtml();
+        return $block->getHtml();
     }
 
     protected function _getCorrection($config, $compress = false, $html = false)
@@ -58,7 +58,6 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $withDialog = (bool)$request->getPost('with_dialog');
                 $page = $request->getPost('page');
                 $layoutContent = array();
-                //$page_header_buttons = null;
                 switch ($page) {
                     case 'source':
                         $layoutContent['north'] = "<div class=\"os2-page-header ui-layout-center\">"
@@ -195,7 +194,6 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $compress = (bool)Mage::getStoreConfig('carriers/' . $shippingCode . '/compression');
                 $source = $request->getPost('source');
                 $config = $compress ? $this->_getCorrection($source, $compress) : $source;
-                //Mage::getConfig()->saveConfig('carriers/' . $request->getPost('shipping_code') . '/config', $output);
                 return $this->outputContent($config);
             case 'save-to-file':
                 $config = $request->getPost('source');

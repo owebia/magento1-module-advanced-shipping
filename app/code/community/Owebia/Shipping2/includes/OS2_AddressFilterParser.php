@@ -96,7 +96,6 @@ class OS2_AddressFilterParser
             // clean buffer
             $this->bufferStart = null;
             // throw token into current scope
-            //var_export($buffer);echo "\n";
             if ($buffer == '*') {
                 $buffer = 1;
             } else if ($this->parentLevel == 'country') {

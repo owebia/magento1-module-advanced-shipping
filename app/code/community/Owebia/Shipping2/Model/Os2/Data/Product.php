@@ -68,7 +68,6 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
 
     protected function _getStockItem()
     {
-        //foreach ($this->_loaded_object->getData() as $index => $value) echo "$index = $value<br/>";
         if (isset($this->_stockItem)) {
             return $this->_stockItem;
         }
@@ -105,17 +104,6 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
                 return parent::_getAttribute($attributeName);
         }
     }
-
-    /*public function _getAttribute($attributeName)
-    {
-        return parent::_getAttribute($attributeName);
-
-        // Dynamic weight for bundle product
-        if ($this->type=='bundle' && $attributeName=='weight' && $product->getData('weight_type')==0) {
-            // !!! Use cartProduct and not product
-            return $this->cartProduct->getTypeInstance(true)->getWeight($this->cartProduct);
-        }
-    }*/
 
     public function __toString()
     {
