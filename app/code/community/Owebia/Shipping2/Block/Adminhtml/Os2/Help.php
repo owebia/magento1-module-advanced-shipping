@@ -118,6 +118,5 @@ setTimeout(function(){
         $content = ($header ? "{$header}" : '') . "<div id=os2-help class=ui-layout-center>{$content}</div>";
         $content = preg_replace('/ href="#([a-z0-9_\-\.]+)"/', ' href="#" onclick="os2editor.help(\'\1\');"', $content);
         return $content;
-        
     }
 }

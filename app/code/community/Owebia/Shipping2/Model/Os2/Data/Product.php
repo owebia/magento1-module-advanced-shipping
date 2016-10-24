@@ -9,7 +9,7 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
     protected $_categories;
     protected $_attributeSet;
     protected $_stockItem;
-    
+
     protected function _loadObject()
     {
         return Mage::getModel('catalog/product')->load($this->getData('id'));

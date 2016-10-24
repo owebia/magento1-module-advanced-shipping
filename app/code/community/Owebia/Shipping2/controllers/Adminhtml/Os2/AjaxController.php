@@ -13,7 +13,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
         $helper = new OwebiaShippingHelper($config, $autocorrection);
         return $helper;
     }
-    
+
     protected function _getEditor($data)
     {
         $helper = $this->_getOs2Helper($data['source'], $autocorrection = true);
@@ -32,7 +32,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
         $helper = $this->_getOs2Helper($config);
         return $helper->formatConfig($compress, $keysToRemove = array('*id'), $html);
     }
-    
+
     protected function _processHelp($helpId, $content)
     {
         $block = $this->getLayout()->createBlock(

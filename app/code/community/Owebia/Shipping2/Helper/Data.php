@@ -19,9 +19,9 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
             $args = $message->args;
             $message = $message->message;
         }
-        
+
         $output = parent::__($message);
-        
+
         /*if (true) {
             $translations = @file_get_contents('translations.os2');
             $translations = eval('return ' . $translations . ';');
@@ -94,7 +94,7 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
             )
         );
     }
-    
+
     protected function getBoolean($path)
     {
         return (boolean) Mage::getStoreConfig('owebia_shipping2/' . $path);

@@ -8,7 +8,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     private static $isJsIncluded = false;
-    
+
     public function __()
     {
         $args = func_get_args();
@@ -34,7 +34,7 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
         $head->addItem('js_css', 'owebia/shipping2/os2editor.css', 'media="all"');
         //$head->addItem('other', 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js');
         //$head->append($block);
-        
+
         parent::_prepareLayout();
     }
 

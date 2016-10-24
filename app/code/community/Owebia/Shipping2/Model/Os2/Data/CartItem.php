@@ -11,7 +11,7 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
     private $loadedProduct;
     private $quantity;
     private $categories;
-    
+
     protected $_product;
     protected $_item;
     protected $_parentItem;

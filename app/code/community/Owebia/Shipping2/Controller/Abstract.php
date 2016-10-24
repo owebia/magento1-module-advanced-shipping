@@ -54,7 +54,7 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         );
         return isset($mimeTypeArray[$extension]) ? $mimeTypeArray[$extension] : 'application/octet-stream';
     }
-    
+
     protected function forceDownload($filename, $content)
     {
         if (headers_sent()) {

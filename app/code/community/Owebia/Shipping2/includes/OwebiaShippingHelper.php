@@ -77,7 +77,7 @@ class OwebiaShippingHelper
         );
         return $properties;
     }
-    
+
     public static function getDefaultProcessData()
     {
         return array(
@@ -318,17 +318,17 @@ class OwebiaShippingHelper
     {
         return $this->_config;
     }
-    
+
     public function getConfigRow($id)
     {
         return isset($this->_config[$id]) ? $this->_config[$id] : null;
     }
-    
+
     public function setConfig($config)
     {
         return $this->_config = $config;
     }
-    
+
     public function getMessages()
     {
         $messages = $this->_messages;
@@ -405,7 +405,7 @@ class OwebiaShippingHelper
         if (isset($row['about'])) { // Display on debug
             $about = $this->getRowProperty($row, 'about');
         }
-        
+
         $type = $this->getRowProperty($row, 'type');
         if ($type == 'data') {
             foreach ($row as $key => $data) {
@@ -422,7 +422,7 @@ class OwebiaShippingHelper
         if (isset($type) && $type != 'method') return new OS_Result(false);
 
         if (!isset($row['label']['value'])) $row['label']['value'] = '***';
-        
+
         $enabled = $this->getRowProperty($row, 'enabled');
         if (isset($enabled)) {
             if (!$isChecking && !$enabled) {
@@ -571,7 +571,7 @@ class OwebiaShippingHelper
         }
         return $output;
     }
-    
+
     public function evalInput($process, $row, $propertyName, $input)
     {
         $result = $this->_prepareFormula($process, $row, $propertyName, $input, $isChecking = false, $useCache = true);
@@ -590,7 +590,7 @@ class OwebiaShippingHelper
         }
         return '$$' . $input;
     }
-    
+
     public function uncompress($input)
     {
         if (substr($input, 0, 4) == 'gz64' && function_exists('gzuncompress') && function_exists('base64_decode')) {
@@ -746,7 +746,7 @@ class OwebiaShippingHelper
         if ($debug) $this->debug('      preg_match_all <span class=osh-replacement>' . self::esc($regexp) . '</span>');
         $return = preg_match_all($regexp, $input, $result, PREG_SET_ORDER);
     }
-    
+
     protected function _loadValue($process, $objectName, $attribute)
     {
         switch ($objectName) {
@@ -772,7 +772,7 @@ class OwebiaShippingHelper
             );
             return $result;
         }
-    
+
         $formula = $formulaString;
         //$this->debug('      formula = <span class=osh-formula>' . self::esc($formula) . '</span>');
 
@@ -897,7 +897,7 @@ class OwebiaShippingHelper
             }
             $formula = $this->replace($original, $replacement, $formula);
         }
-        
+
         // switch
         while (preg_match("/{switch ([^}]+) in ([^}]+)}/i", $formula, $result)) {
             $original = $result[0];
@@ -906,7 +906,7 @@ class OwebiaShippingHelper
             } else {
                 $referenceValue = $this->_evalFormula($result[1], $row, $propertyName, $isChecking);
                 $feesTableString = $result[2];
-                
+
                 $coupleRegexp = '[^}:]+ *\: *[0-9.]+ *';
                 if (!preg_match('#^ *' . $coupleRegexp . '(?:, *' . $coupleRegexp . ')*$#', $feesTableString)) {
                     $this->addMessage(
@@ -921,7 +921,7 @@ class OwebiaShippingHelper
                     return $result;
                 }
                 $feesTable = explode(',', $feesTableString);
-                
+
                 $replacement = null;
                 foreach ($feesTable as $item) {
                     $feeData = explode(':', $item);
@@ -1060,11 +1060,11 @@ class OwebiaShippingHelper
             array('>', '<', '"', '"', '"', '"', '"', '"', "\n", ' '),
             $this->_input
         );
-        
+
         if (substr($configString, 0, 2) == '$$') {
             $configString = $this->uncompress(substr($configString, 2, strlen($configString)));
         }
-        
+
         //echo ini_get('pcre.backtrack_limit');
         //exit;
 
@@ -1231,7 +1231,7 @@ class OwebiaShippingHelper
             $this->addMessage('warning', $row, null, $warning);
         }
         $config = (array)$config;
-        
+
         $this->_config = array();
         $availableKeys = array(
             'type', 'about', 'label', 'enabled', 'description', 'fees', 'conditions',
@@ -1304,7 +1304,7 @@ class OwebiaShippingHelper
             );
         }
     }
-    
+
     public function addRow($code, &$row)
     {
         if ($code) {
@@ -1318,7 +1318,7 @@ class OwebiaShippingHelper
         $row['*id'] = $code;
         $this->_config[$code] = $row;
     }
-    
+
     public function addMessage($type, &$row, $property)
     {
         $args = func_get_args();
@@ -1373,7 +1373,7 @@ class OwebiaShippingHelper
         $addressFilter = $this->_replaceData($process, $addressFilter);
         $parser = new OS2_AddressFilterParser();
         $addressFilter = $parser->parse($addressFilter);
-        
+
         $this->debug('      address filter = <span class=osh-formula>' . self::esc($addressFilter) . '</span>');
         $data = array(
             '{c}' => $address->getData('country_id'),
@@ -1438,7 +1438,7 @@ class OwebiaShippingHelper
                 $returnValue = 0;
                 break;
         }
-        
+
         $this->debug(
             '      <span class=osh-loop>start <span class=osh-replacement>' . self::esc($operation) . '</span> '
             . '<span class=osh-key>' . self::esc($reference) . '</span>'
@@ -1539,7 +1539,7 @@ class OwebiaShippingHelper
 
         return $returnValue;
     }
-    
+
     /* For auto correction */
     public function cleanProperty(&$row, $key)
     {
@@ -1756,7 +1756,7 @@ class OS_Message
         $this->message = array_shift($args);
         $this->args = $args;
     }
-    
+
     public function __toString()
     {
         return vsprintf($this->message, $this->args);

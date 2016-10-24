@@ -33,7 +33,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         $process = $this->__getProcess($request);
         return $this->getRates($process);
     }
-    
+
     public function display($var)
     {
         $i = 0;
@@ -80,7 +80,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
             $process = array();
             $config = $this->_getConfig();
-            
+
             if (isset($config[$parts[0]]['tracking_url'])) {
                 $row = $config[$parts[0]];
                 $tmpTrackingUrl = $this->_helper->getRowProperty($row, 'tracking_url');
@@ -110,7 +110,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         if ($trackings = $trackingResult->getAllTrackings()) return $trackings[0];
         return false;
     }
-    
+
     /***********************************************************************************************************/
 
     protected function _process(&$process)
@@ -127,7 +127,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
                 if ($process['options']->stop_to_first_match) break;
             }
         }
-        
+
         $httpRequest = Mage::app()->getFrontController()->getRequest();
         if ($debug && $this->__checkRequest($httpRequest, 'checkout/cart/index')) {
             Mage::getSingleton('core/session')

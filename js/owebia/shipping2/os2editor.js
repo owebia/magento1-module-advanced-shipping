@@ -612,4 +612,3 @@ OS2Editor.prototype = {
 		}, refresh);
 	}
 }
-

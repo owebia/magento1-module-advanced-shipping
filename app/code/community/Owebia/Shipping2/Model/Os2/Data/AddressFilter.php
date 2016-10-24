@@ -70,7 +70,7 @@ class Owebia_Shipping2_Model_Os2_Data_AddressFilter extends Owebia_Shipping2_Mod
             }
             self::$_countries = $countries;
         }
-    
+
         $elems = preg_split('/\b/', $input);
         $output = '';
         foreach ($elems as $elem) {
