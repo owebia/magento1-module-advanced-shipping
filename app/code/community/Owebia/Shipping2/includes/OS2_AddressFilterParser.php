@@ -103,11 +103,21 @@ class OS2_AddressFilterParser
                 if (preg_match('/^[A-Z]{2}$/', $buffer)) {
                     $buffer = "{{c}}==={$this->escapeString($buffer)}";
                     $this->level = 'country';
-                } else if (substr($buffer, 0, 1) == '/' && (substr($buffer, strlen($buffer)-1, 1) == '/' || substr($buffer, strlen($buffer) - 2, 2) == '/i')) {
+                } else if (substr($buffer, 0, 1) == '/'
+                    && (substr($buffer, strlen($buffer) - 1, 1) == '/'
+                        || substr($buffer, strlen($buffer) - 2, 2) == '/i'
+                    )
+                ) {
                     $caseInsensitive = substr($buffer, strlen($buffer) - 2, 2) == '/i';
                     $buffer = "preg_match('" . str_replace("'", "\\'", $buffer) . "', (string)({{p}}))";
                 } else if (strpos($buffer, '*') !== false) {
-                    $buffer = "preg_match('/^" . str_replace(array("'", '*'), array("\\'", '(?:.*)'), $buffer) . "$/', (string)({{p}}))";
+                    $buffer = "preg_match('/^"
+                        . str_replace(
+                            array("'", '*'),
+                            array("\\'", '(?:.*)'),
+                            $buffer
+                        )
+                        . "$/', (string)({{p}}))";
                 } else if (preg_match('/^"[^"]+"$/', $buffer)) {
                     $buffer = trim($buffer, '"');
                     $buffer = "({{p}}==={$this->escapeString($buffer)} || {{r}}==={$this->escapeString($buffer)})";

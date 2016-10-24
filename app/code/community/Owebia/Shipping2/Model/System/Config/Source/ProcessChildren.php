@@ -4,7 +4,8 @@
  * See COPYING.txt for license details.
  */
 
-class Owebia_Shipping2_Model_System_Config_Source_ProcessChildren extends Mage_Adminhtml_Model_System_Config_Source_Category
+class Owebia_Shipping2_Model_System_Config_Source_ProcessChildren
+    extends Mage_Adminhtml_Model_System_Config_Source_Category
 {
     public function toOptionArray($addEmpty = true)
     {

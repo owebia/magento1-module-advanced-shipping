@@ -4,7 +4,8 @@
  * See COPYING.txt for license details.
  */
 
-class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config
+    extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     private static $isJsIncluded = false;
     
@@ -25,7 +26,10 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends M
         $head->addJs('owebia/shipping2/colorbox/jquery.colorbox-min.js');
         $head->addJs('owebia/shipping2/jquery.caret.1.02.min.js');
         $head->addJs('owebia/shipping2/os2editor.js');
-        //$head->addItem('js_css', 'owebia/shipping2/jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css');
+        /*$head->addItem(
+            'js_css',
+            'owebia/shipping2/jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css'
+        );*/
         $head->addItem('js_css', 'owebia/shipping2/colorbox/colorbox.css', 'media="all"');
         $head->addItem('js_css', 'owebia/shipping2/os2editor.css', 'media="all"');
         //$head->addItem('other', 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js');
@@ -70,12 +74,15 @@ class Owebia_Shipping2_Block_Adminhtml_System_Config_Form_Field_Config extends M
         return <<<EOD
 {$output}
 <div style="margin-bottom:1px;">
-    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shippingCode}').page('source');"><span>{$this->__('Source &amp; Correction')}</span></button>
-    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shippingCode}').help('summary');"><span>{$this->__('Help')}</span></button>
+    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shippingCode}').page('source');"
+        ><span>{$this->__('Source &amp; Correction')}</span></button>
+    <button type="button" class="scalable" onclick="os2editor.init(this, '{$shippingCode}').help('summary');"
+        ><span>{$this->__('Help')}</span></button>
     <!--<a href="{$this->getUrl('adminhtml/os2_ajax/doc')}">doc</a>-->
 </div>
 {$element->getElementHtml()}<br/>
-<a href="http://www.owebia.com/contributions/magento/owebia-shipping/fr/modeles-de-configuration" target="_blank">{$this->__('Download configuration templates')}</a>
+<a href="http://www.owebia.com/contributions/magento/owebia-shipping/fr/modeles-de-configuration" target="_blank"
+    >{$this->__('Download configuration templates')}</a>
 EOD;
     }
 }

@@ -57,7 +57,9 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         $config = $this->_getConfig();
         $allowedMethods = array();
         if (count($config)>0) {
-            foreach ($config as $row) $allowedMethods[$row['*id']] = isset($row['label']) ? $row['label']['value'] : 'No label';
+            foreach ($config as $row) {
+                $allowedMethods[$row['*id']] = isset($row['label']) ? $row['label']['value'] : 'No label';
+            }
         }
         return $allowedMethods;
     }
@@ -92,7 +94,14 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
             ->setTracking($trackingNumber)
             ->addData(
                 array(
-                    'status'=> $trackingUrl ? '<a target="_blank" href="' . str_replace('{tracking_number}', $trackingNumber, $trackingUrl) . '">' . $this->__('track the package') . '</a>' : "suivi non disponible pour le colis {$trackingNumber} (originalTrackingNumber='{$originalTrackingNumber}', globalTrackingUrl='{$globalTrackingUrl}'" . (isset($row) ? ", tmpTrackingUrl='{$tmpTrackingUrl}'" : '') . ")"
+                    'status'=> $trackingUrl
+                        ? '<a target="_blank" href="' . str_replace('{tracking_number}', $trackingNumber, $trackingUrl)
+                            . '">' . $this->__('track the package') . '</a>'
+                        : "suivi non disponible pour le colis {$trackingNumber}"
+                            . " (originalTrackingNumber='{$originalTrackingNumber}',"
+                            . " globalTrackingUrl='{$globalTrackingUrl}'"
+                            . (isset($row) ? ", tmpTrackingUrl='{$tmpTrackingUrl}'" : '')
+                            . ")"
                 )
             );
         $trackingResult = Mage::getModel('shipping/tracking_result')
@@ -102,7 +111,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         return false;
     }
     
-    /***************************************************************************************************************************/
+    /***********************************************************************************************************/
 
     protected function _process(&$process)
     {
@@ -138,12 +147,14 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         return $this->_config;
     }
 
-    /***************************************************************************************************************************/
+    /*****************************************************************************************************************/
 
     protected function __checkRequest($httpRequest, $path)
     {
         list($router, $controller, $action) = explode('/', $path);
-        return $httpRequest->getRouteName() == $router && $httpRequest->getControllerName() == $controller && $httpRequest->getActionName() == $action;
+        return $httpRequest->getRouteName() == $router
+            && $httpRequest->getControllerName() == $controller
+            && $httpRequest->getActionName() == $action;
     }
 
     protected function __getProcess($request)
@@ -195,4 +206,3 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         return Mage::helper('owebia_shipping2')->__($args);
     }
 }
-

@@ -20,7 +20,8 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
 
         $this->_data = array(
             // Do not use quote to retrieve values, totals are not available
-            'price-tax+discount' => null,//(double)$request->getData('package_value_with_discount'), // Bad value in backoffice orders
+            // package_value_with_discount : Bad value in backoffice orders
+            'price-tax+discount' => null,//(double)$request->getData('package_value_with_discount'),
             'price-tax-discount' => null,//(double)$request->getData('package_value'),
             'price+tax+discount' => null,
             'price+tax-discount' => null,
@@ -32,7 +33,8 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
         $cartItems = array();
         $items = $request->getAllItems();
         $quoteTotalCollected = false;
-        $bundleProcessChildren = isset($this->_options['bundle']['process_children']) && $this->_options['bundle']['process_children'];
+        $bundleProcessChildren = isset($this->_options['bundle']['process_children'])
+            && $this->_options['bundle']['process_children'];
         foreach ($items as $item) {
             $product = $item->getProduct();
             if ($product instanceof Mage_Catalog_Model_Product) {
@@ -67,12 +69,16 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                     if (!$bundleProcessChildren) continue;
                     else $this->_data['qty'] += $item->getQty();
                 }
-                $this->_items[] = Mage::getModel('owebia_shipping2/Os2_Data_CartItem', array('item' => $item, 'parent_item' => $parentItem, 'options' => $this->_options));
+                $this->_items[] = Mage::getModel(
+                    'owebia_shipping2/Os2_Data_CartItem',
+                    array('item' => $item, 'parent_item' => $parentItem, 'options' => $this->_options)
+                );
             }
             //foreach ($item->getData() as $index => $value) echo "$index = $value<br/>\n";
             $totalExclTaxWithoutDiscount += $item->getData('base_row_total');
             $totalExclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount');
-            $totalInclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount') + $item->getData('tax_amount');
+            $totalInclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount')
+                + $item->getData('tax_amount');
             $totalInclTaxWithoutDiscount += $item->getData('base_row_total_incl_tax');
         }
         $this->_data['price-tax+discount'] = $totalExclTaxWithDiscount;
@@ -80,7 +86,9 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
         $this->_data['price+tax+discount'] = $totalInclTaxWithDiscount;
         $this->_data['price+tax-discount'] = $totalInclTaxWithoutDiscount;
 
-        //echo '<pre>Owebia_Shipping2_Model_Os2_Data_Abstract::__construct<br/>';foreach ($this->_data as $n => $v){echo "\t$n => ".(is_object($v) ? get_class($v) : (is_array($v) ? 'array' : $v))."<br/>";}echo '</pre>';
+        //echo '<pre>Owebia_Shipping2_Model_Os2_Data_Abstract::__construct<br/>';
+        //foreach ($this->_data as $n => $v){echo "\t$n => "
+        //.(is_object($v) ? get_class($v) : (is_array($v) ? 'array' : $v))."<br/>";}echo '</pre>';
     }
 
     protected function _getQuote()

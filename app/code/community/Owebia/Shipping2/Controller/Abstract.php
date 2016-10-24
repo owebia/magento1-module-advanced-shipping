@@ -92,11 +92,23 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
                     )
                     . "<div id=os2-page-container class=ui-layout-center>" : '')
                         . "<div id=os2-page-{$page} class=os2-page>"
-                            . (!isset($layoutContent['north']) ? '' : "<div class=\"ui-layout-north inner-layout\">" . $layoutContent['north'] . "</div>")
+                            . (!isset($layoutContent['north'])
+                                ? ''
+                                : "<div class=\"ui-layout-north inner-layout\">" . $layoutContent['north'] . "</div>"
+                            )
                             . "<div class=\"ui-layout-center inner-layout\">" . $layoutContent['center'] . "</div>"
-                            . (!isset($layoutContent['south']) ? '' : "<div class=\"ui-layout-south inner-layout\">" . $layoutContent['south'] . "</div>")
-                            . (!isset($layoutContent['west']) ? '' : "<div class=\"ui-layout-west inner-layout\">" . $layoutContent['west'] . "</div>")
-                            . (!isset($layoutContent['east']) ? '' : "<div class=\"ui-layout-east inner-layout\">" . $layoutContent['east'] . "</div>")
+                            . (!isset($layoutContent['south'])
+                                ? ''
+                                : "<div class=\"ui-layout-south inner-layout\">" . $layoutContent['south'] . "</div>"
+                            )
+                            . (!isset($layoutContent['west'])
+                                ? ''
+                                : "<div class=\"ui-layout-west inner-layout\">" . $layoutContent['west'] . "</div>"
+                            )
+                            . (!isset($layoutContent['east'])
+                                ? ''
+                                : "<div class=\"ui-layout-east inner-layout\">" . $layoutContent['east'] . "</div>"
+                            )
                         . "</div>"
                     . ($withDialog ? "</div>"
                 . "</div>" : '')
@@ -117,7 +129,8 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
     public function button($label, $onclick, $className = '')
     {
         $className = 'scalable' . ($className != '' ? ' ' . $className : '');
-        return "<button type=\"button\" class=\"" . $className . "\" onclick=\"" . $onclick . "\"><span>" . $label . "</span></button>";
+        return "<button type=\"button\" class=\"" . $className . "\" onclick=\"" . $onclick . "\">"
+            . "<span>" . $label . "</span></button>";
     }
 
     public function button__($label, $onclick, $className = '')

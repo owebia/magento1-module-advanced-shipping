@@ -39,7 +39,8 @@ class Owebia_Shipping2_Model_Os2_Data_AbstractWithAttributes extends Owebia_Ship
         $inputType = $attributeFrontend->getInputType();
         switch ($inputType) {
             case 'select' :
-                //echo 'attributeName:'.$object->getData($attributeName).', '.$attributeFrontend->getValue($object).';<br/>';
+                //echo 'attributeName:'.$object->getData($attributeName).', '
+                //.$attributeFrontend->getValue($object).';<br/>';
                 $value = !$getValue ? $object->getData($attributeName) : $attributeFrontend->getValue($object);
                 break;
             default :

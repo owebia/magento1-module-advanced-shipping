@@ -19,7 +19,11 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
         $helper = $this->_getOs2Helper($data['source'], $autocorrection = true);
         $helper->checkConfig();
         $config = $helper->getConfig();
-        $block = $this->getLayout()->createBlock('owebia_shipping2/adminhtml_os2_editor', 'os2_editor', array('config' => $config, 'opened_row_ids' => isset($data['row_ids']) ? $data['row_ids'] : array()));
+        $block = $this->getLayout()->createBlock(
+            'owebia_shipping2/adminhtml_os2_editor',
+            'os2_editor',
+            array('config' => $config, 'opened_row_ids' => isset($data['row_ids']) ? $data['row_ids'] : array())
+        );
         return /*"<pre>" . print_r($config, true) . "</pre>" . */$block->getHtml();
     }
 
@@ -63,10 +67,18 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                             . $this->button__('Add a shipping method', "os2editor.addRow();", 'add')
                             . "</div>"
                         ;
-                        $layoutContent['west'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Editor')}</h4></div><div id=os2-editor class=ui-layout-center></div>";
-                        $layoutContent['center'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Source')}</h4></div><textarea id=os2-source class=ui-layout-center></textarea>";
-                        $layoutContent['east'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Correction')}</h4></div><div id=os2-correction class=ui-layout-center></div>";
-                        $layoutContent['south'] = "<div class=ui-layout-north><h4 class=os2-section-title>{$this->__('Debug')}</h4></div><div id=os2-debug class=ui-layout-center></div>";
+                        $layoutContent['west'] = "<div class=ui-layout-north>"
+                            . "<h4 class=os2-section-title>{$this->__('Editor')}</h4>"
+                            . "</div><div id=os2-editor class=ui-layout-center></div>";
+                        $layoutContent['center'] = "<div class=ui-layout-north>"
+                            . "<h4 class=os2-section-title>{$this->__('Source')}</h4>"
+                            . "</div><textarea id=os2-source class=ui-layout-center></textarea>";
+                        $layoutContent['east'] = "<div class=ui-layout-north>"
+                            . "<h4 class=os2-section-title>{$this->__('Correction')}</h4>"
+                            . "</div><div id=os2-correction class=ui-layout-center></div>";
+                        $layoutContent['south'] = "<div class=ui-layout-north>"
+                            . "<h4 class=os2-section-title>{$this->__('Debug')}</h4>"
+                            . "</div><div id=os2-debug class=ui-layout-center></div>";
                         break;
                     case 'help':
                         $output = $this->__('{os2editor.help.' . $request->getPost('input') . '}');
@@ -81,7 +93,11 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $helper->checkConfig();
                 return $this->json(
                     array(
-                        'correction' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = true),
+                        'correction' => $helper->formatConfig(
+                            $compress = false,
+                            $keysToRemove = array('*id'),
+                            $html = true
+                        ),
                         'debug' => $helper->getDebug(),
                         'editor' => $this->_getEditor($request->getPost()),
                     )
@@ -97,7 +113,10 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $rowId = $request->getPost('row');
                 $property = $request->getPost('property');
                 $value = $request->getPost('value');
-                if ($property === 'type' && $value == 'method' || $property === 'enabled' && $value == '1' || $property !== 'enabled' && empty($value)) {
+                if ($property === 'type' && $value == 'method'
+                    || $property === 'enabled' && $value == '1'
+                    || $property !== 'enabled' && empty($value)
+                ) {
                     unset($config[$rowId][$property]);
                 } else if ($property === 'enabled') {
                     $config[$rowId][$property]['value'] = (bool)$value;
@@ -111,16 +130,27 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $helper->setConfig($config);
                 return $this->json(
                     array(
-                        'source' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = false),
+                        'source' => $helper->formatConfig(
+                            $compress = false,
+                            $keysToRemove = array('*id'),
+                            $html = false
+                        ),
                     )
                 );
             case 'add-row':
                 $helper = $this->_getOs2Helper($request->getPost('source'));
-                $row = array('label' => array('value' => $this->__('New shipping method')), 'fees' => array('value' => 0)); // By reference
+                $row = array(
+                    'label' => array('value' => $this->__('New shipping method')),
+                    'fees' => array('value' => 0),
+                ); // By reference
                 $helper->addRow('new' . time(), $row);
                 return $this->json(
                     array(
-                        'source' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = false),
+                        'source' => $helper->formatConfig(
+                            $compress = false,
+                            $keysToRemove = array('*id'),
+                            $html = false
+                        ),
                     )
                 );
             case 'remove-row':
@@ -130,7 +160,11 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                 $helper->setConfig($config);
                 return $this->json(
                     array(
-                        'source' => $helper->formatConfig($compress = false, $keysToRemove = array('*id'), $html = false),
+                        'source' => $helper->formatConfig(
+                            $compress = false,
+                            $keysToRemove = array('*id'),
+                            $html = false
+                        ),
                     )
                 );
             case 'row-ui':
@@ -146,16 +180,19 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
                     case 'billto':
                     case 'origin':
                         return $this->outputContent(
-                            Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')->readable($request->getPost('input'))
+                            Mage::getModel('owebia_shipping2/Os2_Data_AddressFilter')
+                                ->readable($request->getPost('input'))
                         );
                     case 'customer_groups':
                         return $this->outputContent(
-                            Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')->readable($request->getPost('input'))
+                            Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup')
+                                ->readable($request->getPost('input'))
                         );
                 }
                 break;
             case 'save-config':
-                $compress = (bool)Mage::getStoreConfig('carriers/' . $request->getPost('shipping_code') . '/compression');
+                $shippingCode = $request->getPost('shipping_code')
+                $compress = (bool)Mage::getStoreConfig('carriers/' . $shippingCode . '/compression');
                 $source = $request->getPost('source');
                 $config = $compress ? $this->_getCorrection($source, $compress) : $source;
                 //Mage::getConfig()->saveConfig('carriers/' . $request->getPost('shipping_code') . '/config', $output);

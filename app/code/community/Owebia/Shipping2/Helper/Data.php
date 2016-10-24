@@ -50,7 +50,10 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
         if (count($args)==0) {
             $result = $output;
         } else {
-            if (!isset($this->isTranslateInlineEnabled)) $this->isTranslateInlineEnabled = Mage::getSingleton('core/translate')->getTranslateInline();
+            if (!isset($this->isTranslateInlineEnabled)) {
+                $this->isTranslateInlineEnabled = Mage::getSingleton('core/translate')
+                    ->getTranslateInline();
+            }
             if ($this->isTranslateInlineEnabled) {
                 $parts = explode('}}{{', $output);
                 $parts[0] = vsprintf($parts[0], $args);
@@ -92,9 +95,27 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
         );
     }
     
+    protected function getBoolean($path)
+    {
+        return (boolean) Mage::getStoreConfig('owebia_shipping2/' . $path);
+    }
+
     public function getDataModelMap($helper, $carrierCode, $request)
     {
         $mageConfig = Mage::getConfig();
+        $cartOptions = array(
+            'bundle' => array(
+                'process_children' => $this->getBoolean('bundle_product/process_children'),
+                'load_item_options_on_parent' => $this->getBoolean('bundle_product/load_item_options_on_parent'),
+                'load_item_data_on_parent' => $this->getBoolean('bundle_product/load_item_data_on_parent'),
+                'load_product_data_on_parent' => $this->getBoolean('bundle_product/load_product_data_on_parent'),
+            ),
+            'configurable' => array(
+                'load_item_options_on_parent' => $this->getBoolean('configurable_product/load_item_options_on_parent'),
+                'load_item_data_on_parent' => $this->getBoolean('configurable_product/load_item_data_on_parent'),
+                'load_product_data_on_parent' => $this->getBoolean('configurable_product/load_product_data_on_parent'),
+            ),
+        );
         return array(
             'info' => Mage::getModel(
                 'owebia_shipping2/Os2_Data_Info',
@@ -111,19 +132,7 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
                 'owebia_shipping2/Os2_Data_Cart',
                 array(
                     'request' => $request,
-                    'options' => array(
-                        'bundle' => array(
-                            'process_children' => (boolean)Mage::getStoreConfig('owebia_shipping2/bundle_product/process_children'),
-                            'load_item_options_on_parent' => (boolean)Mage::getStoreConfig('owebia_shipping2/bundle_product/load_item_options_on_parent'),
-                            'load_item_data_on_parent' => (boolean)Mage::getStoreConfig('owebia_shipping2/bundle_product/load_item_data_on_parent'),
-                            'load_product_data_on_parent' => (boolean)Mage::getStoreConfig('owebia_shipping2/bundle_product/load_product_data_on_parent'),
-                        ),
-                        'configurable' => array(
-                            'load_item_options_on_parent' => (boolean)Mage::getStoreConfig('owebia_shipping2/configurable_product/load_item_options_on_parent'),
-                            'load_item_data_on_parent' => (boolean)Mage::getStoreConfig('owebia_shipping2/configurable_product/load_item_data_on_parent'),
-                            'load_product_data_on_parent' => (boolean)Mage::getStoreConfig('owebia_shipping2/configurable_product/load_product_data_on_parent'),
-                        ),
-                    ),
+                    'options' => $cartOptions,
                 )
             ),
             'quote' => Mage::getModel('owebia_shipping2/Os2_Data_Quote'),

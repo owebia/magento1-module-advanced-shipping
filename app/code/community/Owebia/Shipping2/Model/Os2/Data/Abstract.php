@@ -14,7 +14,8 @@ class Owebia_Shipping2_Model_Os2_Data_Abstract
     public function __construct($arguments = null)
     {
         $this->_data = (array)$arguments;
-        //echo '<pre>Owebia_Shipping2_Model_Os2_Data_Abstract::__construct<br/>';foreach ($this->_data as $n => $v){echo "\t$n => ".(is_object($v) ? get_class($v) : (is_array($v) ? 'array' : $v))."<br/>";}
+        //echo '<pre>Owebia_Shipping2_Model_Os2_Data_Abstract::__construct<br/>';foreach ($this->_data as $n => $v)
+        //{echo "\t$n => ".(is_object($v) ? get_class($v) : (is_array($v) ? 'array' : $v))."<br/>";}
     }
 
     protected function _loadObject()

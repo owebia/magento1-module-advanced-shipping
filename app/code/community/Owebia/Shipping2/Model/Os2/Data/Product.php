@@ -60,7 +60,10 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
         if (isset($this->_attributeSet)) {
             return $this->_attributeSet;
         }
-        return $this->_attributeSet = Mage::getModel('owebia_shipping2/Os2_Data_AttributeSet', array('id' => (int)$this->getData('attribute_set_id')));
+        return $this->_attributeSet = Mage::getModel(
+            'owebia_shipping2/Os2_Data_AttributeSet',
+            array('id' => (int)$this->getData('attribute_set_id'))
+        );
     }
 
     protected function _getStockItem()
@@ -69,7 +72,10 @@ class Owebia_Shipping2_Model_Os2_Data_Product extends Owebia_Shipping2_Model_Os2
         if (isset($this->_stockItem)) {
             return $this->_stockItem;
         }
-        return $this->_stockItem = Mage::getModel('owebia_shipping2/Os2_Data_StockItem', array('product_id' => (int)$this->getData('id')));
+        return $this->_stockItem = Mage::getModel(
+            'owebia_shipping2/Os2_Data_StockItem',
+            array('product_id' => (int)$this->getData('id'))
+        );
     }
 
     protected function _getCategory()

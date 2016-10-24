@@ -108,13 +108,23 @@ class OwebiaShippingHelper
             case 'NULL':
                 return ($html ? '<span class=json-reserved>' : '') . 'null' . ($html ? '</span>' : '');
             case 'boolean':
-                return ($html ? '<span class=json-reserved>' : '') . ($data ? 'true' : 'false') . ($html ? '</span>' : '');
+                return ($html ? '<span class=json-reserved>' : '')
+                    . ($data ? 'true' : 'false')
+                    . ($html ? '</span>' : '');
             case 'integer':
             case 'double':
             case 'float':
                 return ($html ? '<span class=json-numeric>' : '') . $data . ($html ? '</span>' : '');
             case 'string':
-                return ($html ? '<span class=json-string>' : '') . '"' . str_replace(array("\\", '"', "\n", "\r"), array("\\\\", '\"', "\\n", "\\r"), $html ? htmlspecialchars($data, ENT_COMPAT, 'UTF-8') : $data) . '"' . ($html ? '</span>' : '');
+                return ($html ? '<span class=json-string>' : '')
+                    . '"'
+                    . str_replace(
+                        array("\\", '"', "\n", "\r"),
+                        array("\\\\", '\"', "\\n", "\\r"),
+                        $html ? htmlspecialchars($data, ENT_COMPAT, 'UTF-8') : $data
+                    )
+                    . '"'
+                    . ($html ? '</span>' : '');
             case 'object':
                 $data = (array)$data;
             case 'array':
@@ -235,14 +245,19 @@ class OwebiaShippingHelper
     {
         $index = $this->debugCode . '-' . self::$debugIndexCounter++;
         $output = "<style rel=stylesheet type=\"text/css\">"
-            . ".osh-debug{background:#000;color:#bbb;-webkit-opacity:0.9;-moz-opacity:0.9;opacity:0.9;text-align:left;white-space:pre-wrap;overflow:auto;}"
+            . ".osh-debug{background:#000;color:#bbb;-webkit-opacity:0.9;-moz-opacity:0.9;opacity:0.9;"
+                . "text-align:left;white-space:pre-wrap;overflow:auto;}"
             . ".osh-debug p{margin:2px 0;}"
             . ".osh-formula{color:#f90;} .osh-key{color:#0099f7;} .osh-loop{color:#ff0;}"
             . ".osh-error{color:#f00;} .osh-warning{color:#ff0;} .osh-info{color:#7bf700;}"
             . ".osh-debug-content{padding:10px;font-family:monospace}"
             . ".osh-replacement{color:#ff3000;}"
             . "</style>"
-            . "<div id=osh-debug-{$index} class=osh-debug><div class=osh-debug-content><span class=osh-close style=\"float:right;cursor:pointer;\" onclick=\"document.getElementById('osh-debug-{$index}').style.display = 'none';\">[<span style=\"padding:0 5px;color:#f00;\">X</span>]</span>"
+            . "<div id=osh-debug-{$index} class=osh-debug>"
+                . "<div class=osh-debug-content>"
+                    . "<span class=osh-close style=\"float:right;cursor:pointer;\""
+                        . " onclick=\"document.getElementById('osh-debug-{$index}').style.display = 'none';\""
+                        . ">[<span style=\"padding:0 5px;color:#f00;\">X</span>]</span>"
             . "<p>{$this->debugHeader}</p>{$this->debugOutput}</div></div>";
         return $output;
     }
@@ -252,29 +267,47 @@ class OwebiaShippingHelper
         $header = 'DEBUG OwebiaShippingHelper.php<br/>';
         foreach ($process as $index => $processOption) {
             if (in_array($index, array('data', 'options'))) {
-                $header .= '   <span class=osh-key>' . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index)) . '</span> &gt;&gt;<br/>';
+                $header .= '   <span class=osh-key>'
+                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index))
+                    . '</span> &gt;&gt;<br/>';
                 foreach ($processOption as $objectName => $data) {
                     if (is_object($data) || is_array($data)) {
-                        $header .= '      <span class=osh-key>' . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName)) . '</span> &gt;&gt;<br/>';
+                        $header .= '      <span class=osh-key>'
+                            . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName))
+                            . '</span> &gt;&gt;<br/>';
                         $children = array();
                         if (is_object($data)) $children = $data->__sleep();
                         else if (is_array($data)) $children = array_keys($data);
                         foreach ($children as $name) {
                             $key = $name;
                             if ($key == '*') {
-                                $header .= '         .<span class=osh-key>' . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key)) . '</span> = …<br/>';
+                                $header .= '         .<span class=osh-key>'
+                                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key))
+                                    . '</span> = …<br/>';
                             } else {
                                 if (is_object($data)) $value = $data->{$name};
                                 else if (is_array($data)) $children = $data[$name];
-                                $header .= '         .<span class=osh-key>' . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key)) . '</span> = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span> (' . gettype($value) . ')<br/>';
+                                $header .= '         .<span class=osh-key>'
+                                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $key))
+                                    . '</span> = <span class=osh-formula>'
+                                    . self::esc(self::toString($value))
+                                    . '</span> (' . gettype($value) . ')<br/>';
                             }
                         }
                     } else {
-                        $header .= '      .<span class=osh-key>' . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName)) . '</span> = <span class=osh-formula>' . self::esc(self::toString($data)) . '</span> (' . gettype($data) . ')<br/>';
+                        $header .= '      .<span class=osh-key>'
+                            . self::esc(str_replace('.', '</span>.<span class=osh-key>', $objectName))
+                            . '</span> = <span class=osh-formula>'
+                            . self::esc(self::toString($data))
+                            . '</span> (' . gettype($data) . ')<br/>';
                     }
                 }
             } else {
-                $header .= '   <span class=osh-key>' . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index)) . '</span> = <span class=osh-formula>' . self::esc(self::toString($processOption)) . '</span> (' . gettype($processOption) . ')<br/>';
+                $header .= '   <span class=osh-key>'
+                    . self::esc(str_replace('.', '</span>.<span class=osh-key>', $index))
+                    . '</span> = <span class=osh-formula>'
+                    . self::esc(self::toString($processOption))
+                    . '</span> (' . gettype($processOption) . ')<br/>';
             }
         }
         $this->debugCode = $code;
@@ -378,7 +411,11 @@ class OwebiaShippingHelper
             foreach ($row as $key => $data) {
                 if (in_array($key, array('*id', 'code', 'type'))) continue;
                 $value = isset($data['value']) ? $data['value'] : $data;
-                $this->debug('         .<span class=osh-key>' . self::esc($key) . '</span> = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span> (' . gettype($value) . ')');
+                $this->debug(
+                    '         .<span class=osh-key>' . self::esc($key) . '</span>'
+                    . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
+                    . ' (' . gettype($value) . ')'
+                );
             }
             return new OS_Result(false);
         }
@@ -414,7 +451,13 @@ class OwebiaShippingHelper
         foreach ($addressProperties as $propertyName => $failureMessage) {
             $propertyValue = $this->getRowProperty($row, $propertyName);
             if (isset($propertyValue)) {
-                $match = $this->_addressMatch($process, $row, $propertyName, $propertyValue, $process['data'][$propertyName]);
+                $match = $this->_addressMatch(
+                    $process,
+                    $row,
+                    $propertyName,
+                    $propertyValue,
+                    $process['data'][$propertyName]
+                );
                 if (!$isChecking && !$match) {
                     $this->addMessage('info', $row, $propertyName, $failureMessage);
                     return new OS_Result(false);
@@ -429,14 +472,26 @@ class OwebiaShippingHelper
             $customerGroup = $process['data']['customer_group'];
             foreach ($groups as $group) {
                 $group = trim($group);
-                if ($group == '*' || $group == $customerGroup->code || ctype_digit($group) && $group == $customerGroup->id) {
-                    $this->debug('      group <span class=osh-replacement>' . self::esc($customerGroup->code) . '</span> (id:<span class=osh-replacement>' . self::esc($customerGroup->id) . '</span>) matches');
+                if ($group == '*'
+                    || $group == $customerGroup->code
+                    || ctype_digit($group) && $group == $customerGroup->id
+                ) {
+                    $this->debug(
+                        '      group <span class=osh-replacement>' . self::esc($customerGroup->code) . '</span>'
+                        . ' (id:<span class=osh-replacement>' . self::esc($customerGroup->id) . '</span>) matches'
+                    );
                     $groupMatch = true;
                     break;
                 }
             }
             if (!$isChecking && !$groupMatch) {
-                $this->addMessage('info', $row, 'customer_groups', "Customer group not allowed (%s)", $customerGroup->code);
+                $this->addMessage(
+                    'info',
+                    $row,
+                    'customer_groups',
+                    "Customer group not allowed (%s)",
+                    $customerGroup->code
+                );
                 return new OS_Result(false);
             }
         }
@@ -445,7 +500,10 @@ class OwebiaShippingHelper
         if (isset($fees)) {
             $result = $this->processFormula($process, $row, 'fees', $fees, $isChecking);
             if (!$result->success) return $result;
-            $this->debug('    &raquo; <span class=osh-info>result</span> = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>');
+            $this->debug(
+                '    &raquo; <span class=osh-info>result</span>'
+                . ' = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>'
+            );
             return new OS_Result(true, (float)$result->result);
         }
         return new OS_Result(false);
@@ -456,18 +514,34 @@ class OwebiaShippingHelper
         $property = null;
         $output = null;
         if (isset($originalRow) && isset($originalKey) && $originalRow['*id'] == $row['*id'] && $originalKey == $key) {
-            $this->addMessage('error', $row, $key, 'Infinite loop %s', "<span class=\"code\">{{$row['*id']}.{$key}}</span>");
+            $this->addMessage(
+                'error',
+                $row,
+                $key,
+                'Infinite loop %s',
+                "<span class=\"code\">{{$row['*id']}.{$key}}</span>"
+            );
             return array('error' => 'Infinite loop');
         }
         if (isset($row[$key]['value'])) {
             $property = $row[$key]['value'];
             $output = $property;
-            $this->debug('   get <span class=osh-key>' . self::esc($row['*id']) . '</span>.<span class=osh-key>' . self::esc($key) . '</span> = <span class=osh-formula>' . self::esc(self::toString($property)) . '</span>');
+            $this->debug(
+                '   get <span class=osh-key>' . self::esc($row['*id']) . '</span>'
+                . '.<span class=osh-key>' . self::esc($key) . '</span>'
+                . ' = <span class=osh-formula>' . self::esc(self::toString($property)) . '</span>'
+            );
             preg_match_all('/{([a-z0-9_]+)\.([a-z0-9_]+)}/i', $output, $resultSet, PREG_SET_ORDER);
             foreach ($resultSet as $result) {
                 list($original, $refCode, $refKey) = $result;
                 if ($refCode == $row['*id'] && $refKey == $key) {
-                    $this->addMessage('error', $row, $key, 'Infinite loop %s', "<span class=\"code\">{$original}</span>");
+                    $this->addMessage(
+                        'error',
+                        $row,
+                        $key,
+                        'Infinite loop %s',
+                        "<span class=\"code\">{$original}</span>"
+                    );
                     return null;
                 }
                 if (isset($this->_config[$refCode][$refKey]['value'])) {
@@ -489,7 +563,11 @@ class OwebiaShippingHelper
                 //$this->addMessage('error', $row, $key, $original . ' => ' . $replacement . ' = ' . $output);
             }
         } else {
-            $this->debug('   get <span class=osh-key>' . self::esc($row['*id']) . '</span>.<span class=osh-key>' . self::esc($key) . '</span> = <span class=osh-formula>null</span>');
+            $this->debug(
+                '   get <span class=osh-key>' . self::esc($row['*id']) . '</span>'
+                . '.<span class=osh-key>' . self::esc($key) . '</span>'
+                . ' = <span class=osh-formula>null</span>'
+            );
         }
         return $output;
     }
@@ -544,8 +622,12 @@ class OwebiaShippingHelper
         $this->debug(
             '      '
             . ($className ? '<span class="osh-' . $className . '">' : '')
-            . $message . ' <span class=osh-replacement>' . self::esc(self::toString($from)) . '</span> by <span class=osh-replacement>' . self::esc($to) . '</span>'
-            . ' =&gt; <span class=osh-formula>' . self::esc(str_replace($from, '<span class=osh-replacement>' . $to . '</span>', $input)) . '</span>'
+            . $message
+            . ' <span class=osh-replacement>' . self::esc(self::toString($from)) . '</span>'
+            . ' by <span class=osh-replacement>' . self::esc($to) . '</span>'
+            . ' =&gt; <span class=osh-formula>' . self::esc(
+                str_replace($from, '<span class=osh-replacement>' . $to . '</span>', $input)
+            ) . '</span>'
             . ($className ? '</span>' : '')
         );
         return str_replace($from, $to, $input);
@@ -571,9 +653,10 @@ class OwebiaShippingHelper
         return $max;
     }
 
-    protected function _range($value = -1, $minValue = 0, $maxValue = 1, $includeMinValue = true, $includeMaxValue = true)
+    protected function _range($value = -1, $minValue = 0, $maxValue = 1, $includeMin = true, $includeMax = true)
     {
-        return ($value > $minValue || $includeMinValue && $value == $minValue) && ($value < $maxValue || $includeMaxValue && $value == $maxValue);
+        return ($value > $minValue || $includeMin && $value == $minValue)
+            && ($value < $maxValue || $includeMax && $value == $maxValue);
     }
 
     protected function _array_match_any()
@@ -612,17 +695,29 @@ class OwebiaShippingHelper
     {
         if ($value instanceof OS_Result) {
             $this->_formulaCache[$expression] = $value;
-            $this->debug('      cache <span class=osh-replacement>' . self::esc($expression) . '</span> = <span class=osh-formula>' . self::esc(self::toString($value->result)) . '</span> (' . gettype($value->result) . ')');
+            $this->debug(
+                '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
+                . ' = <span class=osh-formula>' . self::esc(self::toString($value->result)) . '</span>'
+                . ' (' . gettype($value->result) . ')'
+            );
         } else {
             $this->_expressionCache[$expression] = $value; //self::toString($value); // In order to make isset work
-            $this->debug('      cache <span class=osh-replacement>' . self::esc($expression) . '</span> = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span> (' . gettype($value) . ')');
+            $this->debug(
+                '      cache <span class=osh-replacement>' . self::esc($expression) . '</span>'
+                . ' = <span class=osh-formula>' . self::esc(self::toString($value)) . '</span>'
+                . ' (' . gettype($value) . ')'
+            );
         }
     }
 
     protected function _getCachedExpression($original)
     {
         $replacement = $this->_expressionCache[$original];
-        $this->debug('      get cached expression <span class=osh-replacement>' . self::esc($original) . '</span> = <span class=osh-formula>' . self::esc(self::toString($replacement)) . '</span> (' . gettype($replacement) . ')');
+        $this->debug(
+            '      get cached expression <span class=osh-replacement>' . self::esc($original) . '</span>'
+            . ' = <span class=osh-formula>' . self::esc(self::toString($replacement)) . '</span>'
+            . ' (' . gettype($replacement) . ')'
+        );
         return $replacement;
     }
 
@@ -656,11 +751,14 @@ class OwebiaShippingHelper
     {
         switch ($objectName) {
             case 'item':
-                return isset($process['data']['cart']->items[0]) ? $process['data']['cart']->items[0]->{$attribute} : null;
+                return isset($process['data']['cart']->items[0])
+                    ? $process['data']['cart']->items[0]->{$attribute} : null;
             case 'product':
-                return isset($process['data']['cart']->items[0]) ? $process['data']['cart']->items[0]->getProduct()->{$attribute} : null;
+                return isset($process['data']['cart']->items[0])
+                    ? $process['data']['cart']->items[0]->getProduct()->{$attribute} : null;
             default:
-                return isset($process['data'][$objectName]) ? $process['data'][$objectName]->{$attribute} : null;
+                return isset($process['data'][$objectName])
+                    ? $process['data'][$objectName]->{$attribute} : null;
         }
     }
 
@@ -668,7 +766,10 @@ class OwebiaShippingHelper
     {
         if ($useCache && isset($this->_formulaCache[$formulaString])) {
             $result = $this->_formulaCache[$formulaString];
-            $this->debug('      get cached formula <span class=osh-replacement>' . self::esc($formulaString) . '</span> = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>');
+            $this->debug(
+                '      get cached formula <span class=osh-replacement>' . self::esc($formulaString) . '</span>'
+                . ' = <span class=osh-formula>' . self::esc(self::toString($result->result)) . '</span>'
+            );
             return $result;
         }
     
@@ -676,7 +777,8 @@ class OwebiaShippingHelper
         //$this->debug('      formula = <span class=osh-formula>' . self::esc($formula) . '</span>');
 
         // foreach
-        while ($this->_preg_match("#{foreach ((?:item|product|p)\.[a-z0-9_\+\-\.]+)}(.*){/foreach}#iU", $formula, $result)) { // ungreedy
+        $foreachRegexp = "#{foreach ((?:item|product|p)\.[a-z0-9_\+\-\.]+)}(.*){/foreach}#iU";
+        while ($this->_preg_match($foreachRegexp, $formula, $result)) { // ungreedy
             $original = $result[0];
             if ($useCache && array_key_exists($original, $this->_expressionCache)) {
                 $replacement = $this->_getCachedExpression($original);
@@ -696,18 +798,28 @@ class OwebiaShippingHelper
                             $sel = isset($selections[$key]) ? $selections[$key] : null;
                             $selections[$key]['items'][] = $item;
                         }
-                        $this->debug('      items[<span class=osh-formula>' . self::esc((string)$item) . '</span>].<span class=osh-key>' . self::esc($loopVar) . '</span> = [<span class=osh-formula>' . self::esc(implode('</span>, <span class=osh-formula>', $values)) . '</span>]');
+                        $this->debug(
+                            '      items[<span class=osh-formula>' . self::esc((string)$item) . '</span>]'
+                            . '.<span class=osh-key>' . self::esc($loopVar) . '</span>'
+                            . ' = [<span class=osh-formula>' . self::esc(
+                                implode('</span>, <span class=osh-formula>', $values)
+                            ) . '</span>]'
+                        );
                     }
                 }
                 $this->removeDebugIndent();
                 $this->debug('      <span class=osh-loop>start foreach</span>');
                 $this->addDebugIndent();
                 foreach ($selections as $key => $selection) {
-                    $this->debug('     <span class=osh-loop>&bull; value</span> = <span class=osh-formula>' . self::esc($key) . '</span>');
+                    $this->debug(
+                        '     <span class=osh-loop>&bull; value</span>'
+                        . ' = <span class=osh-formula>' . self::esc($key) . '</span>'
+                    );
                     $this->addDebugIndent();
                     $this->debug(' #### count  ' . count($process['data']['cart']->items));
                     $process2 = $process;
-                    $process2['data']['cart'] = clone $process2['data']['cart']; // Important to not override previous items
+                    // Important: clone to not override previous items
+                    $process2['data']['cart'] = clone $process2['data']['cart'];
                     $process2['data']['cart']->items = $selection['items'];
                     $selection['qty'] = 0;
                     $selection['weight'] = 0;
@@ -719,9 +831,19 @@ class OwebiaShippingHelper
                         $process2['data']['selection']->set('qty', $selection['qty']);
                         $process2['data']['selection']->set('weight', $selection['weight']);
                     }
-                    $processResult = $this->processFormula($process2, $row, $propertyName, $result[2], $isChecking, $tmpUseCache = false);
+                    $processResult = $this->processFormula(
+                        $process2,
+                        $row,
+                        $propertyName,
+                        $result[2],
+                        $isChecking,
+                        $tmpUseCache = false
+                    );
                     $replacement += $processResult->result;
-                    $this->debug('    &raquo; <span class=osh-info>foreach sum result</span> = <span class=osh-formula>' . self::esc(self::toString($replacement)) . '</span>');
+                    $this->debug(
+                        '    &raquo; <span class=osh-info>foreach sum result</span>'
+                        . ' = <span class=osh-formula>' . self::esc(self::toString($replacement)) . '</span>'
+                    );
                     $this->removeDebugIndent();
                 }
                 $this->removeDebugIndent();
@@ -732,8 +854,12 @@ class OwebiaShippingHelper
         }
 
         if (isset($process['data']['selection'])) {
-            if ($process['data']['selection']->weight == null) $process['data']['selection']->set('weight', $process['data']['cart']->weight);
-            if ($process['data']['selection']->qty == null) $process['data']['selection']->set('qty', $process['data']['cart']->qty);
+            if ($process['data']['selection']->weight == null) {
+                $process['data']['selection']->set('weight', $process['data']['cart']->weight);
+            }
+            if ($process['data']['selection']->qty == null) {
+                $process['data']['selection']->set('qty', $process['data']['cart']->qty);
+            }
         }
 
         // data
@@ -746,16 +872,27 @@ class OwebiaShippingHelper
 
         // count, sum, min, max
         //while ($this->_preg_match("/{(count) products(?: where ([^}]+))?}/i", $formula, $result)
-        //    || $this->_preg_match("/{(sum|min|max|count distinct) {PRODUCT_REGEX}\.({ATTRIBUTE_REGEX}|{OPTION_REGEX}|stock)\.([a-z0-9_+-]+)(?: where ([^}]+))?}/i", $formula, $result)
-        //    || $this->_preg_match("/{(sum|min|max|count distinct) {PRODUCT_REGEX}\.(quantity)()(?: where ([^}]+))?}/i", $formula, $result)
-        while ($this->_preg_match("/{(count)\s+items\s*(?:\s+where\s+((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i", $formula, $result)
-            || $this->_preg_match("/{(sum|min|max|count distinct) ((?:item|product|p)\.[a-z0-9_\+\-\.]+)(?: where ((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i", $formula, $result)
+        //    || $this->_preg_match("/{(sum|min|max|count distinct) {PRODUCT_REGEX}\."
+        // . "({ATTRIBUTE_REGEX}|{OPTION_REGEX}|stock)\.([a-z0-9_+-]+)(?: where ([^}]+))?}/i", $formula, $result)
+        //    || $this->_preg_match("/{(sum|min|max|count distinct) {PRODUCT_REGEX}\."
+        // . "(quantity)()(?: where ([^}]+))?}/i", $formula, $result)
+        $countRegexp = "/{(count)\s+items\s*(?:\s+where\s+((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
+        $sumMinMaxCountRegexp = "/{(sum|min|max|count distinct) ((?:item|product|p)\.[a-z0-9_\+\-\.]+)"
+            . "(?: where ((?:[^\"'}]|'[^']+'|\"[^\"]+\")+))?}/i";
+        while ($this->_preg_match($countRegexp, $formula, $result)
+            || $this->_preg_match($sumMinMaxCountRegexp, $formula, $result)
         ) {
             $original = $result[0];
             if ($useCache && array_key_exists($original, $this->_expressionCache)) {
                 $replacement = $this->_getCachedExpression($original);
             } else {
-                $replacement = $this->_processProduct($process['data']['cart']->items, $result, $row, $propertyName, $isChecking);
+                $replacement = $this->_processProduct(
+                    $process['data']['cart']->items,
+                    $result,
+                    $row,
+                    $propertyName,
+                    $isChecking
+                );
                 if ($useCache) $this->_setCache($result[0], $replacement);
             }
             $formula = $this->replace($original, $replacement, $formula);
@@ -772,7 +909,13 @@ class OwebiaShippingHelper
                 
                 $coupleRegexp = '[^}:]+ *\: *[0-9.]+ *';
                 if (!preg_match('#^ *' . $coupleRegexp . '(?:, *' . $coupleRegexp . ')*$#', $feesTableString)) {
-                    $this->addMessage('error', $row, $propertyName, 'Error in switch %s', '<span class=osh-formula>' . self::esc($result[0]) . '</span>');
+                    $this->addMessage(
+                        'error',
+                        $row,
+                        $propertyName,
+                        'Error in switch %s',
+                        '<span class=osh-formula>' . self::esc($result[0]) . '</span>'
+                    );
                     $result = new OS_Result(false);
                     if ($useCache) $this->_setCache($formulaString, $result);
                     return $result;
@@ -789,10 +932,18 @@ class OwebiaShippingHelper
 
                     if ($value == '*' || $referenceValue === $value) {
                         $replacement = $fee;
-                        $this->debug('      compare <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($referenceValue)) . '</span> == <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($value)) . '</span>');
+                        $this->debug(
+                            '      compare <span class=osh-formula>'
+                            . self::esc($this->_autoEscapeStrings($referenceValue)) . '</span>'
+                            . ' == <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($value)) . '</span>'
+                        );
                         break;
                     }
-                    $this->debug('      compare <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($referenceValue)) . '</span> != <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($value)) . '</span>');
+                    $this->debug(
+                        '      compare <span class=osh-formula>'
+                        . self::esc($this->_autoEscapeStrings($referenceValue)) . '</span>'
+                        . ' != <span class=osh-formula>' . self::esc($this->_autoEscapeStrings($value)) . '</span>'
+                    );
                 }
                 //$replacement = self::toString($replacement);
                 if ($useCache) $this->_setCache($original, $replacement);
@@ -810,9 +961,15 @@ class OwebiaShippingHelper
                 $replacement = null;
                 if (isset($referenceValue)) {
                     $feesTableString = $result[2];
-                    
-                    if (!preg_match('#^' . self::COUPLE_REGEX . '(?:, *' . self::COUPLE_REGEX . ')*$#', $feesTableString)) {
-                        $this->addMessage('error', $row, $propertyName, 'Error in table %s', '<span class=osh-formula>' . self::esc($result[0]) . '</span>');
+                    $feesTableRegexp = '#^' . self::COUPLE_REGEX . '(?:, *' . self::COUPLE_REGEX . ')*$#';
+                    if (!preg_match($feesTableRegexp, $feesTableString)) {
+                        $this->addMessage(
+                            'error',
+                            $row,
+                            $propertyName,
+                            'Error in table %s',
+                            '<span class=osh-formula>' . self::esc($result[0]) . '</span>'
+                        );
                         $result = new OS_Result(false);
                         if ($useCache) $this->_setCache($formulaString, $result);
                         return $result;
@@ -831,7 +988,10 @@ class OwebiaShippingHelper
 
                         $maxValue = str_replace(array('[', ']'), '', $maxValue);
 
-                        if ($maxValue == '*' || $includingMaxValue && $referenceValue <= $maxValue || !$includingMaxValue && $referenceValue < $maxValue) {
+                        if ($maxValue == '*'
+                            || $includingMaxValue && $referenceValue <= $maxValue
+                            || !$includingMaxValue && $referenceValue < $maxValue
+                        ) {
                             $replacement = $fee;
                             break;
                         }
@@ -868,11 +1028,14 @@ class OwebiaShippingHelper
                 PREG_BACKTRACK_LIMIT_ERROR => 'PREG_BACKTRACK_LIMIT_ERROR',
                 PREG_RECURSION_LIMIT_ERROR => 'PREG_RECURSION_LIMIT_ERROR',
                 PREG_BAD_UTF8_ERROR => 'PREG_BAD_UTF8_ERROR',
-                defined('PREG_BAD_UTF8_OFFSET_ERROR') ? PREG_BAD_UTF8_OFFSET_ERROR : 'PREG_BAD_UTF8_OFFSET_ERROR' => 'PREG_BAD_UTF8_OFFSET_ERROR',
+                defined('PREG_BAD_UTF8_OFFSET_ERROR') ? PREG_BAD_UTF8_OFFSET_ERROR : 'PREG_BAD_UTF8_OFFSET_ERROR'
+                    => 'PREG_BAD_UTF8_OFFSET_ERROR',
             );
             $error = preg_last_error();
             if (isset($errors[$error])) $error = $errors[$error];
-            if ($isChecking) $this->addMessage('error', $row, $propertyName, $error . ' (' . $formula . ')');
+            if ($isChecking) {
+                $this->addMessage('error', $row, $propertyName, $error . ' (' . $formula . ')');
+            }
             $this->debug('      eval <span class=osh-formula>' . self::esc($formula) . '</span>');
             $this->debug('      doesn\'t match (' . self::esc($error) . ')');
             return null;
@@ -881,19 +1044,26 @@ class OwebiaShippingHelper
         $evalResult = null;
         //echo $formula . '<br/>';
         @eval('$evalResult = (' . $formula . ');');
-        $this->debug('      evaluate <span class=osh-formula>' . self::esc($formula) . '</span> = <span class=osh-replacement>' . self::esc($this->_autoEscapeStrings($evalResult)) . '</span>');
+        $this->debug(
+            '      evaluate <span class=osh-formula>' . self::esc($formula) . '</span>'
+            . ' = <span class=osh-replacement>' . self::esc($this->_autoEscapeStrings($evalResult)) . '</span>'
+        );
         return $evalResult;
     }
 
     protected function _parseInput($autoCorrection)
     {
+        $openingQuote = utf8_encode(chr(147));
+        $closingQuote = utf8_encode(chr(148));
         $configString = str_replace(
-            array('&gt;', '&lt;', '“', '”', utf8_encode(chr(147)), utf8_encode(chr(148)), '&laquo;', '&raquo;', "\r\n", "\t"),
+            array('&gt;', '&lt;', '“', '”', $openingQuote, $closingQuote, '&laquo;', '&raquo;', "\r\n", "\t"),
             array('>', '<', '"', '"', '"', '"', '"', '"', "\n", ' '),
             $this->_input
         );
         
-        if (substr($configString, 0, 2) == '$$') $configString = $this->uncompress(substr($configString, 2, strlen($configString)));
+        if (substr($configString, 0, 2) == '$$') {
+            $configString = $this->uncompress(substr($configString, 2, strlen($configString)));
+        }
         
         //echo ini_get('pcre.backtrack_limit');
         //exit;
@@ -925,11 +1095,18 @@ class OwebiaShippingHelper
                         $commentLines[$i] = preg_replace('/^#+\\s/', '', $line);
                     }
                     $comment = trim(implode("\n", $commentLines));
-                    $configString = str_replace($set[0], '{"about": "' . str_replace('"', '\\"', $comment) . '",', $configString);
+                    $configString = str_replace(
+                        $set[0],
+                        '{"about": "' . str_replace('"', '\\"', $comment) . '",',
+                        $configString
+                    );
                 }
             }
-            $propertyRegexp = '\\s*(?<property_name>"?[a-z0-9_]+"?)\\s*:\\s*(?<property_value>"(?:(?:[^"]|\\\\")*[^\\\\])?"|' . self::FLOAT_REGEX . '|false|true|null)\\s*(?<property_separator>,)?\\s*(?:\\n)?';
-            $objectRegexp = '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*(' . $propertyRegexp . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
+            $propertyRegexp = '\\s*(?<property_name>"?[a-z0-9_]+"?)\\s*:\\s*'
+                . '(?<property_value>"(?:(?:[^"]|\\\\")*[^\\\\])?"|' . self::FLOAT_REGEX . '|false|true|null)'
+                . '\\s*(?<property_separator>,)?\\s*(?:\\n)?';
+            $objectRegexp = '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*'
+                . '(' . $propertyRegexp . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
             preg_match_all('/(' . $objectRegexp . ')/is', $configString, $objectSet, PREG_SET_ORDER);
             //print_r($objectSet);
             $json = array();
@@ -950,7 +1127,8 @@ class OwebiaShippingHelper
                     foreach ($toIgnore as $toIgnoreItem) {
                         $toIgnoreItem = trim($toIgnoreItem);
                         if (!$toIgnoreItem) continue;
-                        $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>' . self::toString($toIgnoreItem) . '</span>)';
+                        $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>'
+                            . self::toString($toIgnoreItem) . '</span>)';
                         $n = 0;
                         do {
                             $key = 'meta' . $n;
@@ -978,10 +1156,12 @@ class OwebiaShippingHelper
                 foreach ($propertySet as $j => $property) {
                     $name = $property['property_name'];
                     if ($name{0} != '"' || $name{strlen($name) - 1} != '"') {
-                        $autoCorrectionWarnings['missing_enquote_of_property_name'] = 'JSON: missing enquote of property name: %s';
+                        $autoCorrectionWarnings['missing_enquote_of_property_name'] =
+                            'JSON: missing enquote of property name: %s';
                         $missingEnquoteOfPropertyName[] = self::toString(trim($name, '"'));
                     }
-                    $propertySeparator = isset($property['property_separator']) ? $property['property_separator'] : null;
+                    $propertySeparator = isset($property['property_separator'])
+                        ? $property['property_separator'] : null;
                     $isLastProperty = ( $j == $propertiesCount - 1 );
                     if (!$isLastProperty && $propertySeparator != ',') {
                         $autoCorrectionWarnings[] = 'JSON: missing property separator (comma)';
@@ -1007,7 +1187,8 @@ class OwebiaShippingHelper
                 foreach ($toIgnore as $toIgnoreItem) {
                     $toIgnoreItem = trim($toIgnoreItem);
                     if (!$toIgnoreItem) continue;
-                    $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>' . self::toString($toIgnoreItem) . '</span>)';
+                    $autoCorrectionWarnings[] = 'JSON: ignored lines (<span class=osh-formula>'
+                        . self::toString($toIgnoreItem) . '</span>)';
                     $n = 0;
                     do {
                         $key = 'meta' . $n;
@@ -1039,14 +1220,23 @@ class OwebiaShippingHelper
         foreach ($autoCorrectionWarnings as $key => $warning) {
             if ($key == 'missing_enquote_of_property_name') {
                 $missingEnquoteOfPropertyName = array_unique($missingEnquoteOfPropertyName);
-                $warning = str_replace('%s', '<span class=osh-key>' . self::esc(implode('</span>, <span class=osh-key>', $missingEnquoteOfPropertyName)) . '</span>', $warning);
+                $warning = str_replace(
+                    '%s',
+                    '<span class=osh-key>'
+                        . self::esc(implode('</span>, <span class=osh-key>', $missingEnquoteOfPropertyName))
+                        . '</span>',
+                    $warning
+                );
             }
             $this->addMessage('warning', $row, null, $warning);
         }
         $config = (array)$config;
         
         $this->_config = array();
-        $availableKeys = array('type', 'about', 'label', 'enabled', 'description', 'fees', 'conditions', 'shipto', 'billto', 'origin', 'customer_groups', 'tracking_url');
+        $availableKeys = array(
+            'type', 'about', 'label', 'enabled', 'description', 'fees', 'conditions',
+            'shipto', 'billto', 'origin', 'customer_groups', 'tracking_url',
+        );
         $reservedKeys = array('*id');
         if ($autoCorrection) {
             $availableKeys = array_merge(
@@ -1095,15 +1285,35 @@ class OwebiaShippingHelper
             $this->addRow($code, $row);
         }
         $row = null;
-        if (count($unknownProperties)>0) $this->addMessage('error', $row, null, 'Usage of unknown properties %s', ': <span class=osh-key>' . implode('</span>, <span class=osh-key>', $unknownProperties) . '</span>');
-        if (count($deprecatedProperties)>0) $this->addMessage('warning', $row, null, 'Usage of deprecated properties %s', ': <span class=osh-key>' . implode('</span>, <span class=osh-key>', $deprecatedProperties) . '</span>');
+        if (count($unknownProperties)>0) {
+            $this->addMessage(
+                'error',
+                $row,
+                null,
+                'Usage of unknown properties %s',
+                ': <span class=osh-key>' . implode('</span>, <span class=osh-key>', $unknownProperties) . '</span>'
+            );
+        }
+        if (count($deprecatedProperties)>0) {
+            $this->addMessage(
+                'warning',
+                $row,
+                null,
+                'Usage of deprecated properties %s',
+                ': <span class=osh-key>' . implode('</span>, <span class=osh-key>', $deprecatedProperties) . '</span>'
+            );
+        }
     }
     
     public function addRow($code, &$row)
     {
         if ($code) {
-            if (isset($this->_config[$code])) $this->addMessage('error', $row, 'code', 'The id must be unique, `%s` has been found twice', $code);
-            while (isset($this->_config[$code])) $code .= rand(0, 9);
+            if (isset($this->_config[$code])) {
+                $this->addMessage('error', $row, 'code', 'The id must be unique, `%s` has been found twice', $code);
+            }
+            while (isset($this->_config[$code])) {
+                $code .= rand(0, 9);
+            }
         }
         $row['*id'] = $code;
         $this->_config[$code] = $row;
@@ -1198,7 +1408,8 @@ class OwebiaShippingHelper
             }
             return 'array(' . join(',', $items) . ')';
         } else {
-            return isset($input) && (is_string($input)/* || empty($input)*/) ? self::escapeString($input) : self::toString($input);
+            return isset($input) && (is_string($input)/* || empty($input)*/)
+                ? self::escapeString($input) : self::toString($input);
         }
     }
 
@@ -1231,20 +1442,26 @@ class OwebiaShippingHelper
         $this->debug(
             '      <span class=osh-loop>start <span class=osh-replacement>' . self::esc($operation) . '</span> '
             . '<span class=osh-key>' . self::esc($reference) . '</span>'
-            . (isset($conditions) ? ' where <span class=osh-replacement>' . self::esc($conditions) . '</span></span>' : '')
+            . (isset($conditions)
+                ? ' where <span class=osh-replacement>' . self::esc($conditions) . '</span></span>' : '')
         );
         $this->addDebugIndent();
 
         $properties = array();
         $this->_preg_match_all('#(?:item|product|p)\.([a-z0-9_\+\-\.]+)#i', $conditions, $propertiesRegexpResult);
         foreach ($propertiesRegexpResult as $propertyRegexpResult) {
-            if (!isset($properties[$propertyRegexpResult[0]])) $properties[$propertyRegexpResult[0]] = $propertyRegexpResult;
+            if (!isset($properties[$propertyRegexpResult[0]])) {
+                $properties[$propertyRegexpResult[0]] = $propertyRegexpResult;
+            }
         }
         krsort($properties); // To avoid shorter replace
 
         if ($items) {
             foreach ($items as $item) {
-                $this->debug('     <span class=osh-loop>&bull; item</span> = <span class=osh-formula>' . self::esc((string)$item) . '</span>');
+                $this->debug(
+                    '     <span class=osh-loop>&bull; item</span>'
+                    . ' = <span class=osh-formula>' . self::esc((string)$item) . '</span>'
+                );
                 $this->addDebugIndent();
                 if (isset($conditions) && $conditions != '') {
                     $formula = $conditions;
@@ -1252,7 +1469,13 @@ class OwebiaShippingHelper
                         $value = $this->_getItemProperty($item, $property[0]);
                         $from = $property[0];
                         $to = $this->_autoEscapeStrings($value);
-                        $this->debug('      replace <span class=osh-replacement>' . self::esc($from) . '</span> by <span class=osh-replacement>' . self::esc($to) . '</span> =&gt; <span class=osh-formula>' . self::esc(str_replace($from, '<span class=osh-replacement>' . $to . '</span>', $formula)) . '</span>');
+                        $this->debug(
+                            '      replace <span class=osh-replacement>' . self::esc($from) . '</span>'
+                            . ' by <span class=osh-replacement>' . self::esc($to) . '</span>'
+                            . ' =&gt; <span class=osh-formula>' . self::esc(
+                                str_replace($from, '<span class=osh-replacement>' . $to . '</span>', $formula)
+                            ) . '</span>'
+                        );
                         $formula = str_replace($from, $to, $formula);
                     }
                     $evalResult = $this->_evalFormula($formula, $row, $propertyName, $isChecking);
@@ -1266,7 +1489,8 @@ class OwebiaShippingHelper
                     } else {
                         $value = $this->_getItemProperty($item, $reference);
                         $this->debug(
-                            '    &raquo; <span class=osh-key>' . self::esc($reference) . '</span> = <span class=osh-formula>' . self::esc($value) . '</span>'
+                            '    &raquo; <span class=osh-key>' . self::esc($reference) . '</span>'
+                            . ' = <span class=osh-formula>' . self::esc($value) . '</span>'
                             . ($operation == 'sum' ? ' x <span class=osh-formula>' . $item->qty . '</span>' : '')
                         );
                         switch ($operation) {
@@ -1281,7 +1505,10 @@ class OwebiaShippingHelper
                                 }
                                 break;
                             case 'sum':
-                                //$this->debug(self::esc($item->getProduct()->sku) . '.' . self::esc($reference) . ' = "' . self::esc($value) . '" x ' . self::esc($item->qty));
+                                /*$this->debug(
+                                    self::esc($item->getProduct()->sku) . '.' . self::esc($reference)
+                                    . ' = "' . self::esc($value) . '" x ' . self::esc($item->qty)
+                                );*/
                                 $returnValue = (isset($returnValue) ? $returnValue : 0) + $value * $item->qty;
                                 break;
                             case 'count distinct':
@@ -1299,7 +1526,10 @@ class OwebiaShippingHelper
                         }
                     }
                 }
-                $this->debug('    &raquo; <span class=osh-info>' . self::esc($operation) . ' result</span> = <span class=osh-formula>' . self::esc($returnValue) . '</span>');
+                $this->debug(
+                    '    &raquo; <span class=osh-info>' . self::esc($operation) . ' result</span>'
+                    . ' = <span class=osh-formula>' . self::esc($returnValue) . '</span>'
+                );
                 $this->removeDebugIndent();
             }
         }
@@ -1316,12 +1546,24 @@ class OwebiaShippingHelper
         $input = $row[$key]['value'];
         if (is_string($input)) {
             while (preg_match('/{{customVar code=([a-zA-Z0-9_-]+)}}/', $input, $resi)) {
-                $input = $this->replace($resi[0], '{customvar.' . $resi[1] . '}', $input, 'warning', 'replace deprecated');
+                $input = $this->replace(
+                    $resi[0],
+                    '{customvar.' . $resi[1] . '}',
+                    $input,
+                    'warning',
+                    'replace deprecated'
+                );
             }
 
             $regex = "{(weight|products_quantity|price_including_tax|price_excluding_tax|country)}";
             if (preg_match('/' . $regex . '/', $input, $resi)) {
-                $this->addMessage('warning', $row, $key, 'Usage of deprecated syntax %s', '<span class=osh-formula>' . $resi[0] . '</span>');
+                $this->addMessage(
+                    'warning',
+                    $row,
+                    $key,
+                    'Usage of deprecated syntax %s',
+                    '<span class=osh-formula>' . $resi[0] . '</span>'
+                );
                 while (preg_match('/' . $regex . '/', $input, $resi)) {
                     switch ($resi[1]) {
                         case 'price_including_tax':
@@ -1346,15 +1588,34 @@ class OwebiaShippingHelper
 
             $regex1 = "{copy '([a-zA-Z0-9_]+)'\.'([a-zA-Z0-9_]+)'}";
             if (preg_match('/' . $regex1 . '/', $input, $resi)) {
-                $this->addMessage('warning', $row, $key, 'Usage of deprecated syntax %s', '<span class=osh-formula>' . $resi[0] . '</span>');
-                while (preg_match('/' . $regex1 . '/', $input, $resi)) $input = str_replace($resi[0], '{' . $resi[1] . '.' . $resi[2] . '}', $input);
+                $this->addMessage(
+                    'warning',
+                    $row,
+                    $key,
+                    'Usage of deprecated syntax %s',
+                    '<span class=osh-formula>' . $resi[0] . '</span>'
+                );
+                while (preg_match('/' . $regex1 . '/', $input, $resi)) {
+                    $input = str_replace($resi[0], '{' . $resi[1] . '.' . $resi[2] . '}', $input);
+                }
             }
 
-            $regex1 = "{(count|all|any) (attribute|option) '([^'\)]+)' ?((?:==|<=|>=|<|>|!=) ?(?:" . self::FLOAT_REGEX . "|true|false|'[^'\)]*'))}";
+            $countAllAnyRegexp = "{(count|all|any) (attribute|option) '([^'\)]+)'"
+                . " ?((?:==|<=|>=|<|>|!=) ?(?:" . self::FLOAT_REGEX . "|true|false|'[^'\)]*'))}";
             $regex2 = "{(sum) (attribute|option) '([^'\)]+)'}";
-            if (preg_match('/' . $regex1 . '/', $input, $resi) || preg_match('/' . $regex2 . '/', $input, $resi)) {
-                $this->addMessage('warning', $row, $key, 'Usage of deprecated syntax %s', '<span class=osh-formula>' . $resi[0] . '</span>');
-                while (preg_match('/' . $regex1 . '/', $input, $resi) || preg_match('/' . $regex2 . '/', $input, $resi)) {
+            if (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
+                || preg_match('/' . $regex2 . '/', $input, $resi)
+            ) {
+                $this->addMessage(
+                    'warning',
+                    $row,
+                    $key,
+                    'Usage of deprecated syntax %s',
+                    '<span class=osh-formula>' . $resi[0] . '</span>'
+                );
+                while (preg_match('/' . $countAllAnyRegexp . '/', $input, $resi)
+                    || preg_match('/' . $regex2 . '/', $input, $resi)
+                ) {
                     switch ($resi[1]) {
                         case 'count':
                             $to = "{count items where product.{$resi[2]}.{$resi[3]}{$resi[4]}}";
@@ -1375,7 +1636,13 @@ class OwebiaShippingHelper
 
             $regex = "((?:{| )product.(?:attribute|option))s.";
             if (preg_match('/' . $regex . '/', $input, $resi)) {
-                $this->addMessage('warning', $row, $key, 'Usage of deprecated syntax %s', '<span class=osh-formula>' . $resi[0] . '</span>');
+                $this->addMessage(
+                    'warning',
+                    $row,
+                    $key,
+                    'Usage of deprecated syntax %s',
+                    '<span class=osh-formula>' . $resi[0] . '</span>'
+                );
                 while (preg_match('/' . $regex . '/', $input, $resi)) {
                     $input = str_replace($resi[0], $resi[1] . '.', $input);
                 }
@@ -1383,7 +1650,13 @@ class OwebiaShippingHelper
 
             $regex = "{table '([^']+)' (" . self::COUPLE_REGEX . "(?:, *" . self::COUPLE_REGEX . ")*)}";
             if (preg_match('/' . $regex . '/', $input, $resi)) {
-                $this->addMessage('warning', $row, $key, 'Usage of deprecated syntax %s', '<span class=osh-formula>' . $resi[0] . '</span>');
+                $this->addMessage(
+                    'warning',
+                    $row,
+                    $key,
+                    'Usage of deprecated syntax %s',
+                    '<span class=osh-formula>' . $resi[0] . '</span>'
+                );
                 while (preg_match('/' . $regex . '/', $input, $resi)) {
                     switch ($resi[1]) {
                         case 'products_quantity':
@@ -1506,4 +1779,3 @@ class OS_Result
         return OwebiaShippingHelper::toString($this->result);
     }
 }
-
