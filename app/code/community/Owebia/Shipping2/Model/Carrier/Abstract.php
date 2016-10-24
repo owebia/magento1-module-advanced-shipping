@@ -7,7 +7,7 @@
 abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
 {
     protected $_config;
-    protected $_helper;
+    protected $_parser;
     protected $_dataModels = array();
 
     /**
@@ -61,7 +61,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
             if (isset($config[$parts[0]]['tracking_url'])) {
                 $row = $config[$parts[0]];
-                $tmpTrackingUrl = $this->_helper->getRowProperty($row, 'tracking_url');
+                $tmpTrackingUrl = $this->getParser()->getRowProperty($row, 'tracking_url');
                 if (isset($tmpTrackingUrl)) $trackingUrl = $tmpTrackingUrl;
             }
         }
@@ -92,11 +92,11 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
     protected function _process(&$process)
     {
         $debug = (bool)$this->__getConfigData('debug');
-        if ($debug) $this->_helper->initDebug($this->_code, $process);
+        if ($debug) $this->getParser()->initDebug($this->_code, $process);
 
         $valueFound = false;
         foreach ($process['config'] as $row) {
-            $result = $this->_helper->processRow($process, $row);
+            $result = $this->getParser()->processRow($process, $row);
             if ($result->success) {
                 $valueFound = true;
                 $this->__appendMethod($process, $row, $result->result);
@@ -107,23 +107,31 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
         $httpRequest = Mage::app()->getFrontController()->getRequest();
         if ($debug && $this->__checkRequest($httpRequest, 'checkout/cart/index')) {
             Mage::getSingleton('core/session')
-                ->addNotice('DEBUG' . $this->_helper->getDebug());
+                ->addNotice('DEBUG' . $this->getParser()->getDebug());
         }
     }
 
     protected function _getConfig()
     {
         if (!isset($this->_config)) {
-            $this->_helper = Mage::getModel(
+            $this->_config = $this->getParser()
+                ->getConfig();
+        }
+        return $this->_config;
+    }
+
+    protected function getParser()
+    {
+        if (!isset($this->_parser)) {
+            $this->_parser = Mage::getModel(
                 'owebia_shipping2/ConfigParser',
                 array(
                     $this->__getConfigData('config'),
                     (boolean)$this->__getConfigData('auto_correction')
                 )
             );
-            $this->_config = $this->_helper->getConfig();
         }
-        return $this->_config;
+        return $this->_parser;
     }
 
     protected function __checkRequest($httpRequest, $path)
@@ -136,7 +144,7 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
     protected function __getProcess($request)
     {
-        $data = Mage::helper('owebia_shipping2')->getDataModelMap($this->_helper, $this->_code, $request);
+        $data = Mage::helper('owebia_shipping2')->getDataModelMap($this->getParser(), $this->_code, $request);
         $process = array(
             'data' => $data,
             'cart.items' => array(),
@@ -168,8 +176,8 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
             ->setCarrier($this->_code)
             ->setCarrierTitle($this->__getConfigData('title'))
             ->setMethod($row['*id'])
-            ->setMethodTitle($helper->getMethodText($this->_helper, $process, $row, 'label'))
-            ->setMethodDescription($helper->getMethodText($this->_helper, $process, $row, 'description'))
+            ->setMethodTitle($helper->getMethodText($this->getParser(), $process, $row, 'label'))
+            ->setMethodDescription($helper->getMethodText($this->getParser(), $process, $row, 'description'))
             ->setPrice($fees)
             ->setCost($fees);
 
