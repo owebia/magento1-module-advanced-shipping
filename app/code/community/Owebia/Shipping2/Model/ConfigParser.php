@@ -1188,9 +1188,7 @@ class Owebia_Shipping2_Model_ConfigParser
     protected function _parseInputParseJsonObject($object, &$autoCorrectionWarnings, &$missingEnquoteOfPropertyName)
     {
         $jsonObject = array();
-        $propertyRegexp = '\\s*(?<property_name>"?[a-z0-9_]+"?)\\s*:\\s*'
-            . '(?<property_value>"(?:(?:[^"]|\\\\")*[^\\\\])?"|' . self::FLOAT_REGEX . '|false|true|null)'
-            . '\\s*(?<property_separator>,)?\\s*(?:\\n)?';
+        $propertyRegexp = $this->getPropertyRegexp();
         preg_match_all('/' . $propertyRegexp . '/i', $object[0], $propertySet, PREG_SET_ORDER);
         $propertiesCount = count($propertySet);
         foreach ($propertySet as $j => $property) {
@@ -1213,14 +1211,26 @@ class Owebia_Shipping2_Model_ConfigParser
         return $jsonObject;
     }
 
+    protected function getPropertyRegexp()
+    {
+        return '\\s*(?<property_name>"?[a-z0-9_]+"?)\\s*:\\s*'
+            . '(?<property_value>"(?:(?:[^"]|\\\\")*[^\\\\])?"|' . self::FLOAT_REGEX . '|false|true|null)'
+            . '\\s*(?<property_separator>,)?\\s*(?:\\n)?';
+    }
+
+    protected function getObjectRegexp()
+    {
+        return '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*'
+            . '(' . $this->getPropertyRegexp() . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
+    }
+
     protected function _parseInputParseJsonObjectSet(
         &$configString,
         &$autoCorrectionWarnings,
         &$missingEnquoteOfPropertyName
     )
     {
-        $objectRegexp = '(?:(?<object_name>"?[a-z0-9_]+"?)\\s*:\\s*)?{\\s*'
-            . '(' . $propertyRegexp . ')+\\s*}\\s*(?<object_separator>,)?\\s*';
+        $objectRegexp = $this->getObjectRegexp();
         preg_match_all('/(' . $objectRegexp . ')/is', $configString, $objectSet, PREG_SET_ORDER);
         $json = array();
         $objectsCount = count($objectSet);
@@ -1535,9 +1545,9 @@ class Owebia_Shipping2_Model_ConfigParser
         switch ($elems[0]) {
             case 'p':
             case 'product':
-                return $item->getProduct()->{$elems[1]};
+                return $item->getProduct()->getData($elems[1]);
             case 'item':
-                return $item->{$elems[1]};
+                return $item->getData($elems[1]);
         }
         return null;
     }
