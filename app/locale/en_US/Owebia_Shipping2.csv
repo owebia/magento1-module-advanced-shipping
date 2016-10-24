@@ -80,8 +80,6 @@
     "Tracking URL","Tracking URL"
     "Debug","Debug"
     "{debug_help}","Debug displayed on cart while making a shipping estimation"
-    "Compression","Compression"
-    "{compression_help}","Gz + base64 compression. This is the editor that compress/uncompress."
     "Auto-escaping","Auto-escaping"
     "{auto_escaping_help}","Enable systematic auto-escaping of variables"
     "Auto-correction","Auto-correction"

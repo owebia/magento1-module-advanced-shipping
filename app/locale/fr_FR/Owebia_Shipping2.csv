@@ -80,8 +80,6 @@
     "Tracking URL","URL de suivi"
     "Debug","Debug"
     "{debug_help}","Affichage du debug sur le panier lors d'une estimation de livraison"
-    "Compression","Compression"
-    "{compression_help}","Compression gz + base64 pour que la configuration prenne moins de place (utile avec certaines configurations). C'est l'éditeur qui effectue la compression/décompression."
     "Auto-escaping","Auto-échappement"
     "{auto_escaping_help}","Active l'auto-échappement systématique des variables"
     "Auto-correction","Auto-correction"
