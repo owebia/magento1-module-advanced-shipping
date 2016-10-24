@@ -200,9 +200,7 @@ class Owebia_Shipping2_Adminhtml_Os2_AjaxController extends Owebia_Shipping2_Con
     {
         $request = $this->getRequest();
         $shippingCode = $request->getPost('shipping_code')
-        $compress = (bool)Mage::getStoreConfig('carriers/' . $shippingCode . '/compression');
-        $source = $request->getPost('source');
-        $config = $compress ? $this->_getCorrection($source, $compress) : $source;
+        $config = $request->getPost('source');
         return $this->outputContent($config);
     }
 
