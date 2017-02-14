@@ -44,6 +44,9 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                 } else if ($item instanceof Mage_Sales_Model_Quote_Item) { // Onepage checkout
                     $key = $item->getId();
                 }
+
+		if ($key=="") $key = md5($product->getId() . "_" . count($cartItems)); // Tristan3dtotal to handle calculating orders on quotes that haven't been saved yet 2017-02-14
+
                 $cartItems[$key] = $item;
             }
         }
