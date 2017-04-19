@@ -82,7 +82,7 @@ class Owebia_Shipping2_Controller_Abstract extends Mage_Adminhtml_Controller_Act
         if (!is_array($layoutContent)) $layoutContent = array('center' => $layoutContent);
         return ($withDialog ? "<div id=os2-dialog>"
                     . $this->pageHeader(
-                        $this->__('Owebia Shipping 2 Editor'),
+                        $this->__('Advanced Shipping 2 Editor'),
                         $this->button__('Source &amp; Correction', "os2editor.page('source');", 'source')
                             . $this->button__('Help', "os2editor.help('summary');", 'help')
                             . $this->button__('Close', "os2editor.close();", 'cancel')

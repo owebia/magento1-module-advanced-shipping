@@ -2,7 +2,7 @@
 <html>
 <head lang="fr">
 <meta charset="utf-8"/>
-<title>Documentation of Owebia Shipping 2.6.0 extension for Magento</title>
+<title>Documentation of Advanced Shipping 2.6.0 extension for Magento by Owebia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -114,29 +114,29 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
         </div>
         <div class="col-lg-9">
             <!-- doc content start -->
-            <h1>Documentation of Owebia Shipping 2.6.0 extension for Magento</h1>
+            <h1>Documentation of Advanced Shipping 2.6.0 extension for Magento 1.x by Owebia</h1>
             <div id="introduction">
                 <h2>Introduction</h2>
 
-                <p>Owebia Shipping is an extension for the e-commerce solution <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
+                <p>Advanced Shipping is an extension for the e-commerce solution <a href="http://www.magentocommerce.com/" target="_blank">Magento</a>.</p>
                 <p>Thanks to its syntax using <a href="http://en.wikipedia.org/wiki/JavaScript_Object_Notation" target=_blank>JSON</a>, this extension allows great flexibility in setting delivery charges.</p>
                 
                 <p>This documentation explains how to create a configuration for one of the proposed shipping modes.</p>
 
                 <div class="jumbotron">
-                    <h3>You want to do more with Owebia Shipping?</h3>
+                    <h3>You want to do more with Advanced Shipping?</h3>
                     <p>Discover our add-ons on <a href="https://en.store.owebia.com/" target=_blank>Owebia Store</a>.</p>
                     <div class="media">
                         <div class="media-left"></div>
                         <div class="media-body">
-                            <h4><a href="https://en.store.owebia.com/magento1-module-shipping-pro.html" target=_blank>Owebia Shipping Pro</a></h4>
+                            <h4><a href="https://en.store.owebia.com/magento1-module-advanced-shipping-pro.html" target=_blank>Advanced Shipping Pro</a></h4>
                         </div>
                     </div>
                     <div class="media">
                         <div class="media-left"></div>
                         <div class="media-body">
                             <h4><a href="https://en.store.owebia.com/magento1-module-adv-ship-unlimited-carriers-addon.html" target=_blank>Unlimited Carriers Add-on</a></h4>
-                            Create as many carrier as you need with Owebia Shipping
+                            Create as many carrier as you need with Advanced Shipping
                         </div>
                     </div>
                     <div class="media">
@@ -836,7 +836,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                         The use of <code>tracking_url</code> property is reserved for experienced users. If you don't understand the instructions below, it is recommended that you avoid using this feature.
                     </p>
                     <p>
-                        The <code>tracking_url</code> property overrides the field "Tracking URL" of an Owebia Shipping shipping mode. So you can specify a tracking URL <strong>foreach shipping method</strong> rather than one for all shipping mode.
+                        The <code>tracking_url</code> property overrides the field "Tracking URL" of an Advanced Shipping shipping mode. So you can specify a tracking URL <strong>foreach shipping method</strong> rather than one for all shipping mode.
                     </p>
                     <p>
                         To automatically insert the tracking number in the tracking URL, you must use <code>{tracking_number}</code>.
@@ -847,14 +847,14 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                     }</div>
 
                     <p>
-                        Magento does not support tracking links but tracking statuses. The extension Owebia Shipping 2 provides an HTML link instead of the status, link allowing you to go on the carrier's website and follow the progress of the parcel.
+                        Magento does not support tracking links but tracking statuses. The extension Advanced Shipping provides an HTML link instead of the status, link allowing you to go on the carrier's website and follow the progress of the parcel.
                     </p>
                     <p>
                         When the tracking URL is built by the extension, the only information available is the tracking number and there was nowhere an access to the shipping method selected. In order to find the tracking URL in the configuration, you must specify the shipping method inside the tracking number, for example: <code>colissimo:8Lxxxxxxxxxxx</code> where <code>colissimo</code> is the code of the shipping method selected.<br/>
                         If no code is specified (if you enter only the tracking number), the URL used will be the one of the shipping mode.
                     </p>
                     <p class="alert alert-danger">
-                        To answer a recurrent question, Magento displays the tracking status from the back office or front office. If you want to insert the tracking URL in shipping mails, <strong>you need to develop yourself</strong> the retrieval of tracking URL and its incorporation in the mail, in fact, the Owebia Shipping extension simply provides customizable shipping methods without making big changes to Magento core to reduce incompatibility and update problems.
+                        To answer a recurrent question, Magento displays the tracking status from the back office or front office. If you want to insert the tracking URL in shipping mails, <strong>you need to develop yourself</strong> the retrieval of tracking URL and its incorporation in the mail, in fact, the Advanced Shipping extension simply provides customizable shipping methods without making big changes to Magento core to reduce incompatibility and update problems.
                     </p>
                     <p class="alert alert-danger">
                         If you get a blank popup when you click on the tracking link, your problem is most likely related to the fact that you did not specify the code of the shipping method in the tracking number (see instructions above) and your global field "Tracking URL" is empty.

@@ -4,8 +4,8 @@
 
 Shipping Module for Magento 1.x
 
-Owebia Shipping Free extension for Magento is the solution that helps you to configurate shipping rates in a very flexible way.  
-Indeed, with Owebia Shipping Free, you can set shipping rates using almost any variable available: destination, weight, price (including tax or excluding tax, before or after discount), quantity, categories, product attribute, item option, customer group, customer attribute, coupon code, Magento's custom variable, store id, date, etc…
+Advanced Shipping extension for Magento is the solution that helps you to configurate shipping rates in a very flexible way.  
+Indeed, with Advanced Shipping, you can set shipping rates using almost any variable available: destination, weight, price (including tax or excluding tax, before or after discount), quantity, categories, product attribute, item option, customer group, customer attribute, coupon code, Magento's custom variable, store id, date, etc…
 
 ## Extension features
 - Can manage three different shipping modes (unlimited in Owebia-Shipping Pro) and unlimited shipping methods
@@ -22,7 +22,7 @@ Indeed, with Owebia Shipping Free, you can set shipping rates using almost any v
 
 ## Want to do more?
 
-[Discover our add-ons for Owebia Shipping](https://en.store.owebia.com/)
+[Discover our add-ons for Advanced Shipping](https://en.store.owebia.com/)
 
 ## Documentation
 
@@ -65,7 +65,7 @@ To solve this problem, you must execute the following MySQL query:
 
 ## Vous voulez davantage de fonctionnalités ?
 
-[Découvrez nos plugins pour Owebia Shipping](https://fr.store.owebia.com/)
+[Découvrez nos plugins pour Advanced Shipping](https://fr.store.owebia.com/)
 
 ## Documentation
 

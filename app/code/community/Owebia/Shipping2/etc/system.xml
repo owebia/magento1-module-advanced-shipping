@@ -17,7 +17,7 @@
             <show_in_store>1</show_in_store>
             <groups>
                 <owebiashipping1 translate="label" module="shipping">
-                    <label>Owebia Shipping - Mode de livraison 1</label>
+                    <label>Advanced Shipping - Mode de livraison 1</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>-19</sort_order>
                     <show_in_default>1</show_in_default>
@@ -120,7 +120,7 @@
     </sections>
     <sections>
         <owebia_shipping2 translate="label">
-            <label>Owebia Shipping 2</label>
+            <label>Advanced Shipping</label>
             <tab>owebia</tab>
             <frontend_type>text</frontend_type>
             <sort_order>100</sort_order>

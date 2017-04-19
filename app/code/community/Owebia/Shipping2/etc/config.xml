@@ -134,7 +134,7 @@
         <carriers>
             <owebiashipping1>
                 <active>0</active>
-                <title>Owebia Shipping - Mode de livraison 1</title>
+                <title>Advanced Shipping - Mode de livraison 1</title>
                 <model>Owebia_Shipping2_Model_Carrier_OwebiaShipping1</model>
                 <tracking_view_url></tracking_view_url>
                 <config>{
