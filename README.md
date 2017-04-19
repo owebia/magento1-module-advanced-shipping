@@ -8,7 +8,7 @@ Advanced Shipping extension for Magento is the solution that helps you to config
 Indeed, with Advanced Shipping, you can set shipping rates using almost any variable available: destination, weight, price (including tax or excluding tax, before or after discount), quantity, categories, product attribute, item option, customer group, customer attribute, coupon code, Magento's custom variable, store id, date, etc…
 
 ## Extension features
-- Can manage three different shipping modes (unlimited in Owebia-Shipping Pro) and unlimited shipping methods
+- Can manage one shipping mode (unlimited in Advanced Shipping Pro) and unlimited shipping methods
 - Multiple conditionnal delivery methods depending on what you want
 - Shipping rates based on destination, weight, price (including tax or excluding tax, before or after discount), quantity
 - Shipping rates based on customer group or customer attribute
