@@ -1,5 +1,5 @@
 /**
- * Copyright © 2008-2016 Owebia. All rights reserved.
+ * Copyright © 2008-2017 Owebia. All rights reserved.
  * See COPYING.txt for license details.
  */
 
