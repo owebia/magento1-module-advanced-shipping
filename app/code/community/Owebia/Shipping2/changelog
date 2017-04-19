@@ -1,3 +1,9 @@
+[2.6.1 - April 19, 2017]
+Rename module to "Advanced Shipping"
+Update copyright notice
+Clarification of a sentence in the documentation
+Fix an incorrect sentence in the file README.md: only one shipping mode available
+
 [2.6.0 - October 24, 2016]
 Refactor code to comply to Magento coding standards
 Remove compress functionality
