@@ -45,7 +45,10 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                     $key = $item->getId();
                 }
 
-		if ($key=="") $key = md5($product->getId() . "_" . count($cartItems)); // Tristan3dtotal to handle calculating orders on quotes that haven't been saved yet 2017-02-14
+                // If no item id set on cart item, generate a spurious one
+                if (empty($key)) {
+                    $key = md5($product->getId() . '_' . count($cartItems));
+                }
 
                 $cartItems[$key] = $item;
             }
