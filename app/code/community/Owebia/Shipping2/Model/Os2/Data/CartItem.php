@@ -58,7 +58,7 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
                     return (double) parent::_load($name);
                 }
                 return $this->getData('qty') * $this->getProduct()->getData('weight');
-            default: 
+            default:
                 return parent::_load($name);
         }
     }
@@ -79,7 +79,11 @@ class Owebia_Shipping2_Model_Os2_Data_CartItem extends Owebia_Shipping2_Model_Os
 
     protected function _getItem($what)
     {
-        $getParent = isset($this->_getOptions[$this->_type][$what]) && $this->_getOptions[$this->_type][$what] == true;
+        if ($this->_type == 'bundle' && $this->_getOptions[$this->_type]['process_children'] == false) {
+            $getParent = false;
+        } else {
+            $getParent = isset($this->_getOptions[$this->_type][$what]) && $this->_getOptions[$this->_type][$what] == true;
+        }
         return $getParent ? $this->_parentItem : $this->_item;
     }
 
