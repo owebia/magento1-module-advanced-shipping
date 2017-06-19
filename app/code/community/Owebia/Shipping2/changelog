@@ -1,3 +1,8 @@
+[2.6.2 - June 19, 2017]
+Fix issue when cart item has no id defined, thanks to @doctea
+Fix 'A non well formed numeric value encountered' notice with PHP 7 in ConfigParser, thanks to @adrian3d
+Fix issue with bundle products and "item processing on self" setting
+
 [2.6.1 - April 19, 2017]
 Rename module to "Advanced Shipping"
 Update copyright notice
