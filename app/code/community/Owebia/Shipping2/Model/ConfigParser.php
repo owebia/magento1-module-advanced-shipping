@@ -30,13 +30,16 @@ class Owebia_Shipping2_Model_ConfigParser
     public static function parseSize($size)
     {
         $size = trim($size);
-        $last = strtolower($size[strlen($size)-1]);
+        $last = $size[strlen($size)-1];
+        $size = rtrim($size, $last);
+        $size = (float)$size;
+        $last = strtolower($last);
         switch ($last) {
             case 'g': $size *= 1024;
             case 'm': $size *= 1024;
             case 'k': $size *= 1024;
         }
-        return (float)$size;
+        return $size;
     }
 
     public static function formatSize($size)
