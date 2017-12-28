@@ -18,6 +18,9 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
         $request = $arguments['request'];
         $this->_options = $arguments['options'];
 
+        // Bad value of package_value_with_discount
+        // when "Apply Customer Tax = After discount" and "Apply Discount On Prices = Including tax"
+
         $this->_data = array(
             // Do not use quote to retrieve values, totals are not available
             // package_value and package_value_with_discount : Bad value in backoffice orders
@@ -54,6 +57,9 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
             }
         }
 
+        // Discount includes tax only when the option "Including Tax" for "Catalog Prices" is selected
+        $doesDiscountIncludeTax = Mage::helper('tax')->priceIncludesTax($request->getStoreId());
+
         // Do not use quote to retrieve values, totals are not available
         $totalInclTaxWithoutDiscount = 0;
         $totalExclTaxWithoutDiscount = 0;
@@ -79,12 +85,20 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                     array('item' => $item, 'parent_item' => $parentItem, 'options' => $this->_options)
                 );
             }
-            $totalExclTaxWithoutDiscount += $item->getData('base_row_total');
-            $totalExclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount');
-            $totalInclTaxWithDiscount += $item->getData('base_row_total') - $item->getData('base_discount_amount')
-                + $item->getData('tax_amount');
+
+            $baseRowTotalExclTax = $item->getData('base_row_total');
+            $taxPercent = $item->getData('tax_percent');
+            $baseDiscountAmount = $item->getData('base_discount_amount');
+            $inclTaxFactor = 1 + $taxPercent / 100;
+            $discountExclTax = $doesDiscountIncludeTax ? $baseDiscountAmount / $inclTaxFactor : $baseDiscountAmount;
+            $discountInclTax = $doesDiscountIncludeTax ? $baseDiscountAmount : $baseDiscountAmount * $inclTaxFactor;
+
+            $totalExclTaxWithoutDiscount += $baseRowTotalExclTax;
+            $totalExclTaxWithDiscount += $baseRowTotalExclTax - $discountExclTax;
+            $totalInclTaxWithDiscount += $item->getData('base_row_total_incl_tax') - $discountInclTax;
             $totalInclTaxWithoutDiscount += $item->getData('base_row_total_incl_tax');
         }
+
         $this->_data['price-tax+discount'] = $totalExclTaxWithDiscount;
         $this->_data['price-tax-discount'] = $totalExclTaxWithoutDiscount;
         $this->_data['price+tax+discount'] = $totalInclTaxWithDiscount;
