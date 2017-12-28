@@ -5,3 +5,4 @@ app/locale/fr_FR/Owebia_Shipping2.csv app/locale/fr_FR/Owebia_Shipping2.csv
 js/owebia/shipping2 js/owebia/shipping2
 COPYING.txt app/code/community/Owebia/Shipping2/COPYING.txt
 LICENSE.txt app/code/community/Owebia/Shipping2/LICENSE.txt
+README.md app/code/community/Owebia/Shipping2/README.md

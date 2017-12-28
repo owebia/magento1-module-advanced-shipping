@@ -1,6 +1,6 @@
 {
-    "name": "owebia/magento1-module-shipping-free",
-    "description": "Provides 3 shipping modes configurable with a very flexible syntax",
+    "name": "owebia/magento1-module-advanced-shipping",
+    "description": "The extension Advanced Shipping for Magento 1.x is the solution that helps you to configure the shipping fees in a very flexible manner.",
     "type": "magento-module",
     "authors": [
         {
