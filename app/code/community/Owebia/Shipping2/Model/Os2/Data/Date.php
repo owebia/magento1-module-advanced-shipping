@@ -11,7 +11,7 @@ class Owebia_Shipping2_Model_Os2_Data_Date extends Owebia_Shipping2_Model_Os2_Da
     public function __construct()
     {
         parent::__construct();
-        $this->_timestamp = (int)Mage::getModel('core/date')->timestamp();
+        $this->_timestamp = (int) Mage::getModel('core/date')->gmtTimestamp();
     }
 
     public function __sleep()
@@ -21,7 +21,7 @@ class Owebia_Shipping2_Model_Os2_Data_Date extends Owebia_Shipping2_Model_Os2_Da
 
     protected function getDate($format)
     {
-        return (int)Mage::getModel('core/date')
+        return (int) Mage::getModel('core/date')
             ->date($format, $this->_timestamp);
     }
 
