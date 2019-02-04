@@ -32,7 +32,7 @@ Indeed, with Advanced Shipping, you can set shipping rates using almost any vari
 
 MIT License
 
-Copyright (c) 2008-2017 Owebia
+Copyright (c) 2008-2019 Owebia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -49,7 +49,7 @@ IN THE SOFTWARE.
 - Backup your store database and web directory
 - Login to Magento backend
 - Go to System > Tools > Compilations, if Compiler Status is Enabled, disable the compilation
-- Uncompress the archive file, then copy the directory "app" in your Magento root directory
+- Uncompress the archive file, then copy directories "app" and "js" in your Magento root directory
 - Go to System > Cache Management. Click button Flush Magento Cache
 - Logout from Magento backend and login again
 
@@ -76,7 +76,7 @@ To solve this problem, you must execute the following MySQL query:
 - Faites une sauvegarde de votre boutique et de votre répertoire web
 - Connectez-vous au panneau d'administration de Magento
 - Allez dans Système > Outils > Compilation, désactiver le compilateur s'il est activé
-- Décompresser l'archive, puis copier le répertoire "app" dans le répertoire racine de votre boutique Magento
+- Décompresser l'archive, puis copier les répertoires "app" et "js" dans le répertoire racine de votre boutique Magento
 - Allez dans Système > Gestion du cache. Cliquer sur le bouton Vider le cache de Magento
 - Déconnectez-vous du panneau d'administration de Magento puis connectez-vous à nouveau
 
