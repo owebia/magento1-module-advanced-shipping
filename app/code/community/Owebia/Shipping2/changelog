@@ -1,3 +1,10 @@
+[2.6.5 - March 26, 2019]
+Use Abstract Syntax Tree instead of code evaluation (https://github.com/nikic/PHP-Parser/)
+
+[2.6.4 - February 4, 2019]
+Remove obsolete file package.xml
+Update README.md
+
 [2.6.3 - December 28, 2017]
 Fix issue #9: invalid value of {cart.price+tax+discount} on a quote with a coupon code
 Fix timezone issue with date functions

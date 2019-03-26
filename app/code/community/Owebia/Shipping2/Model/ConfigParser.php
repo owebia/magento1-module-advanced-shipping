@@ -1,8 +1,11 @@
 <?php
 /**
- * Copyright © 2008-2017 Owebia. All rights reserved.
+ * Copyright © 2008-2019 Owebia. All rights reserved.
  * See COPYING.txt for license details.
  */
+
+use PhpParser\Error;
+use PhpParser\ParserFactory;
 
 class Owebia_Shipping2_Model_ConfigParser
 {
@@ -646,7 +649,7 @@ class Owebia_Shipping2_Model_ConfigParser
                     $output = $this->replace($original, $replacement, $output);
                 }
             }
-        } else {
+        } elseif (in_array($key, [ 'fees', 'label' ])) {
             $this->debug(
                 '   get <span class=osh-key>' . self::esc($row['*id']) . '</span>'
                 . '.<span class=osh-key>' . self::esc($key) . '</span>'
@@ -692,7 +695,7 @@ class Owebia_Shipping2_Model_ConfigParser
         return str_replace($from, $to, $input);
     }
 
-    protected function _min()
+    public function minCallback()
     {
         $args = func_get_args();
         $min = null;
@@ -702,7 +705,7 @@ class Owebia_Shipping2_Model_ConfigParser
         return $min;
     }
 
-    protected function _max()
+    public function maxCallback()
     {
         $args = func_get_args();
         $max = null;
@@ -712,30 +715,30 @@ class Owebia_Shipping2_Model_ConfigParser
         return $max;
     }
 
-    protected function _range($value = -1, $minValue = 0, $maxValue = 1, $includeMin = true, $includeMax = true)
+    public function rangeCallback($value = -1, $minValue = 0, $maxValue = 1, $includeMin = true, $includeMax = true)
     {
         return ($value > $minValue || $includeMin && $value == $minValue)
             && ($value < $maxValue || $includeMax && $value == $maxValue);
     }
 
-    protected function callFunction($functionName, $args)
-    {
-        return call_user_func_array($functionName, $args);
-    }
-
-    protected function _array_match_any()
+    public function array_match_anyCallback()
     {
         $args = func_get_args();
         $result = $this->callFunction('array_intersect', $args);
         return (bool)$result;
     }
 
-    protected function _array_match_all()
+    public function array_match_allCallback()
     {
         $args = func_get_args();
         if (!isset($args[0]) || !isset($args[1])) return false;
         $result = $this->callFunction('array_intersect', $args);
         return count($result) == count($args[1]);
+    }
+
+    protected function callFunction($functionName, $args)
+    {
+        return call_user_func_array($functionName, $args);
     }
 
     public function processFormula($process, &$row, $propertyName, $formulaString, $isChecking, $useCache = true)
@@ -1033,6 +1036,10 @@ class Owebia_Shipping2_Model_ConfigParser
 
     protected function _prepareFormula($process, $row, $propertyName, $formulaString, $isChecking, $useCache = true)
     {
+        if (is_numeric($formulaString)) {
+            return $formulaString;
+        }
+
         if ($useCache && isset($this->_formulaCache[$formulaString])) {
             $result = $this->_formulaCache[$formulaString];
             $this->debug(
@@ -1129,14 +1136,63 @@ class Owebia_Shipping2_Model_ConfigParser
             $this->debug('      doesn\'t match (' . self::esc($error) . ')');
             return null;
         }
-        $formula = preg_replace('@\b(min|max|range|array_match_any|array_match_all)\(@', '\$this->_\1(', $formula);
+
+        $formula = preg_replace('@\b(min|max|range|array_match_any|array_match_all)\(@', '\1Callback(', $formula);
         $evalResult = null;
-        @eval('$evalResult = (' . $formula . ');');
-        $this->debug(
-            '      evaluate <span class=osh-formula>' . self::esc($formula) . '</span>'
-            . ' = <span class=osh-replacement>' . self::esc($this->_autoEscapeStrings($evalResult)) . '</span>'
-        );
+
+        if (ctype_digit($formula)) {
+            $evalResult = (int) $formula;
+        } elseif (is_numeric($formula)) {
+            $evalResult = (double) $formula;
+        } else {
+            try {
+                $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+                $stmts = $parser->parse('<?php $evalResult = ('. $formula . ');');
+
+                $callbackManager = $this;
+                $evaluator = Mage::helper('owebia_shipping2/evaluator');
+                $registry = Mage::getModel('owebia_shipping2/registry');
+                $evaluator->initialize();
+                $evaluator->setRegistry($registry);
+                $evaluator->setCallbackManager($callbackManager);
+
+                foreach ($stmts as $node) {
+                    $this->parseNode($evaluator, $node);
+                    $evaluator->initialize();
+                    $this->debug($node);
+                }
+
+                $evalResult = $registry->get('evalResult');
+
+                $this->debug(
+                    '      parse and evaluate AST <span class=osh-formula>' . self::esc($formula) . '</span>'
+                    . ' = <span class=osh-replacement>' . self::esc($this->_autoEscapeStrings($evalResult)) . '</span>'
+                );
+            } catch (Error $e) {
+                $this->debug('Parse Error: ' . $e->getMessage());
+            }
+        }
+
         return $evalResult;
+    }
+
+    /**
+     * @param Owebia_Shipping2_Helper_Evaluator $evaluator
+     * @param object $node
+     * @throws \Exception
+     */
+    protected function parseNode($evaluator, $node)
+    {
+        try {
+            $evaluator->evaluate($node);
+            $this->debug(
+                $evaluator->getDebugOutput()
+            );
+        } catch (\Exception $e) {
+            $this->debug(
+                $evaluator->getDebugOutput() . $e->getMessage()
+            );
+        }
     }
 
     protected function _parseInputIsValidConfig($config)

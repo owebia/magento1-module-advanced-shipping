@@ -47,6 +47,16 @@
                 </shipping>
             </sales>
         </resources>
+        <events>
+            <resource_get_tablename>
+                <observers>
+                    <owebia_shipping2>
+                        <class>owebia_shipping2/observer</class>
+                        <method>registerAutoloader</method>
+                    </owebia_shipping2>
+                </observers>
+            </resource_get_tablename>
+        </events>
     </global>
 
     <admin>
