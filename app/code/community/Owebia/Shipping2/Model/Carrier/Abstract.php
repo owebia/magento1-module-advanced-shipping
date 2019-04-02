@@ -31,7 +31,6 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
     public function getAllowedMethods()
     {
-        $process = array();
         $config = $this->_getConfig();
         $allowedMethods = array();
         if (count($config)>0) {
