@@ -1037,7 +1037,9 @@ class Owebia_Shipping2_Model_ConfigParser
     protected function _prepareFormula($process, $row, $propertyName, $formulaString, $isChecking, $useCache = true)
     {
         if (is_numeric($formulaString)) {
-            return $formulaString;
+            return $this->createResult()
+                ->setSuccess(true)
+                ->setResult($formulaString);
         }
 
         if ($useCache && isset($this->_formulaCache[$formulaString])) {
