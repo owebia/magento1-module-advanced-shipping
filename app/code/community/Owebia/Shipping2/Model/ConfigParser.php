@@ -1161,7 +1161,6 @@ class Owebia_Shipping2_Model_ConfigParser
                 foreach ($stmts as $node) {
                     $this->parseNode($evaluator, $node);
                     $evaluator->initialize();
-                    $this->debug($node);
                 }
 
                 $evalResult = $registry->get('evalResult');
