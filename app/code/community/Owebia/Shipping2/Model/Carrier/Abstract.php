@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2008-2017 Owebia. All rights reserved.
+ * Copyright © 2008-2019 Owebia. All rights reserved.
  * See COPYING.txt for license details.
  */
 
@@ -31,7 +31,6 @@ abstract class Owebia_Shipping2_Model_Carrier_Abstract extends Mage_Shipping_Mod
 
     public function getAllowedMethods()
     {
-        $process = array();
         $config = $this->_getConfig();
         $allowedMethods = array();
         if (count($config)>0) {
