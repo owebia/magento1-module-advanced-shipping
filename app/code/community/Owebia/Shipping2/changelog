@@ -1,3 +1,7 @@
+[2.6.7 - April 29, 2019]
+Remove useless $process variable (thanks to Vincent M.)
+Get quote from $request object instead of getting it from session (avoid issue with REST API access)
+
 [2.6.6 - April 11, 2019]
 Fix issue with numerical fees values (no formula)
 Remove debug causing PHP error
