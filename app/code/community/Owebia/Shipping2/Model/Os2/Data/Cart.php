@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2008-2017 Owebia. All rights reserved.
+ * Copyright © 2008-2019 Owebia. All rights reserved.
  * See COPYING.txt for license details.
  */
 
@@ -16,6 +16,7 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
     {
         parent::__construct();
         $request = $arguments['request'];
+        $this->_quote = $arguments['quote'];
         $this->_options = $arguments['options'];
 
         // Bad value of package_value_with_discount
@@ -105,11 +106,6 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
         $this->_data['price+tax-discount'] = $totalInclTaxWithoutDiscount;
     }
 
-    protected function _getQuote()
-    {
-        return Mage::getModel('owebia_shipping2/Os2_Data_Quote');
-    }
-
     protected function _load($name)
     {
         switch ($name) {
@@ -121,8 +117,7 @@ class Owebia_Shipping2_Model_Os2_Data_Cart extends Owebia_Shipping2_Model_Os2_Da
                 return $weightForCharge;
             case 'coupon_code':
                 $couponCode = null;
-                $quote = $this->_getQuote();
-                return $quote->getData('coupon_code');
+                return $this->_quote->getData('coupon_code');
             case 'weight_unit':
                 return Mage::getStoreConfig('owebia_shipping2/general/weight_unit');
         }

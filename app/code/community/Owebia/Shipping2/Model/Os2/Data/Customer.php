@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2008-2017 Owebia. All rights reserved.
+ * Copyright © 2008-2019 Owebia. All rights reserved.
  * See COPYING.txt for license details.
  */
 
@@ -8,11 +8,11 @@ class Owebia_Shipping2_Model_Os2_Data_Customer extends Owebia_Shipping2_Model_Os
 {
     protected $_additionalAttributes = array('*');
 
-    public function __construct()
+    public function __construct($arguments)
     {
         parent::__construct(
             array(
-                'id' => Mage::getModel('owebia_shipping2/Os2_Data_Quote')->getData('customer_id'),
+                'id' => isset($arguments['quote']) ? $arguments['quote']->getData('customer_id') : null,
             )
         );
     }

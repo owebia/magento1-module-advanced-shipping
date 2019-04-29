@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2008-2017 Owebia. All rights reserved.
+ * Copyright © 2008-2019 Owebia. All rights reserved.
  * See COPYING.txt for license details.
  */
 
@@ -91,6 +91,12 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
                 'load_product_data_on_parent' => $this->getBoolean('configurable_product/load_product_data_on_parent'),
             ),
         );
+        $quoteWrapper = Mage::getModel(
+            'owebia_shipping2/Os2_Data_Quote',
+            array(
+                'request' => $request,
+            )
+        );
         return array(
             'info' => Mage::getModel(
                 'owebia_shipping2/Os2_Data_Info',
@@ -107,12 +113,18 @@ class Owebia_Shipping2_Helper_Data extends Mage_Core_Helper_Data
                 'owebia_shipping2/Os2_Data_Cart',
                 array(
                     'request' => $request,
+                    'quote' => $quoteWrapper,
                     'options' => $cartOptions,
                 )
             ),
-            'quote' => Mage::getModel('owebia_shipping2/Os2_Data_Quote'),
+            'quote' => $quoteWrapper,
             'selection' => Mage::getModel('owebia_shipping2/Os2_Data_Selection'),
-            'customer' => Mage::getModel('owebia_shipping2/Os2_Data_Customer'),
+            'customer' => Mage::getModel(
+                'owebia_shipping2/Os2_Data_Customer',
+                array(
+                    'quote' => $quoteWrapper,
+                )
+            ),
             'customer_group' => Mage::getModel('owebia_shipping2/Os2_Data_CustomerGroup'),
             'customvar' => Mage::getModel('owebia_shipping2/Os2_Data_Customvar'),
             'date' => Mage::getModel('owebia_shipping2/Os2_Data_Date'),
