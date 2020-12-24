@@ -6,16 +6,13 @@
 
 class Owebia_Shipping2_Model_Observer
 {
-    protected static $registered;
-
     public function registerAutoloader()
     {
-        if (!static::$registered) {
+        if (!class_exists('\PhpParser\Autoloader', false)) {
             $path = Mage::getBaseDir('lib') . DS . 'PhpParser' . DS . 'Autoloader.php';
             spl_autoload_unregister([ Varien_Autoload::instance(), 'autoload' ]);
             require_once $path;
             \PhpParser\Autoloader::register();
-            static::$registered = true;
             spl_autoload_register([ Varien_Autoload::instance(), 'autoload' ]);
         }
     }
