@@ -2,7 +2,7 @@
 <html>
 <head lang="fr">
 <meta charset="utf-8"/>
-<title>Documentation of Advanced Shipping 2.6.7 extension for Magento by Owebia</title>
+<title>Documentation of Advanced Shipping 2.6.9 extension for Magento by Owebia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -101,6 +101,11 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                             <li><a href="#formulas_deprecated_variables">Deprecated variables</a></li>
                         </ul>
                     </li>
+                    <li><a href="#tips">Tips</a>
+                        <ul class="nav">
+                            <li><a href="#tips_display_description">Display the method's description</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#more">Miscellaneous</a>
                         <ul class="nav">
                             <li><a href="#more_tracking_url">The tracking URL</a></li>
@@ -114,7 +119,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
         </div>
         <div class="col-lg-9">
             <!-- doc content start -->
-            <h1>Documentation of Advanced Shipping 2.6.7 extension for Magento 1.x by Owebia</h1>
+            <h1>Documentation of Advanced Shipping 2.6.9 extension for Magento 1.x by Owebia</h1>
             <div id="introduction">
                 <h2>Introduction</h2>
 
@@ -426,7 +431,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                     </p>
                     <ul>
                         <li id="property_label"><code>label</code>: name of shipping method</li>
-                        <li id="property_description"><code>description</code> (visible only if the template displays it)</li>
+                        <li id="property_description"><code>description</code> (visible only if the <a href="#tips_display_description">template displays it</a>)</li>
                         <li id="property_enabled"><code>enabled</code>: shipping method enabled or not</li>
                         <li id="property_fees"><code>fees</code>: shipping fees</li>
                         <li id="property_conditions"><code>conditions</code>: activation conditions</li>
@@ -446,7 +451,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                     </p>
                     <p class=new>
                         You can use the <strong>wildcard</strong> character <code>*</code> or <strong>regular expressions</strong> for postal codes.<br/>
-                        A regular expression must start and end with the character <code>/</code>. If you want to use the characters <code>(</code>, <code>)</code> or <code>.</code>, you must escape them with the character <code>\</code> (ex: <code><span class=string>"FR(/^25\([0-9]{3}\)$/)"</span></code>).<br/>
+                        A regular expression must start and end with the character <code>/</code>.<br/>
                         You can use the insensitivity modifier (ex: <code><span class=string>"GB(/^PO.*$/i)"</span></code>).
                     </p>
 
@@ -826,6 +831,19 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                 </div>
             </div>
 
+            <div id="tips">
+                <h2>Tips</h2>
+
+                <div id="tips_display_description">
+                    <h3>Display the method's description</h3>
+                    <p>The default template doesn't display the method's description.</p>
+                    <p>
+                        To display the description, add <code><![CDATA[<?php echo $_rate->getMethodDescription() ?>]]></code>
+                        in the template <code>checkout/onepage/shipping_method/available.phtml</code>
+                    </p>
+                </div>
+            </div>
+
             <div id="more">
                 <h2>Miscellaneous</h2>
                 
@@ -867,6 +885,14 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                 <h2>Changelog</h2>
 
                 <pre class=changelog>
+[2.6.9 - December 24, 2020]
+Add tips section in the documentation
+Fix error in documentation about using regular expression
+Fix issue #13: fatal error when PhpParser is already loaded (e.g. in n98-magerun.phar)
+
+[2.6.8 - May 13, 2019]
+Fix issue with Unlimited Carriers and Advanced Shipping Pro (&lt;resource/&gt; tag must be the last child of &lt;global/&gt; tag)
+
 [2.6.7 - April 29, 2019]
 Remove useless $process variable (thanks to Vincent M.)
 Get quote from $request object instead of getting it from session (avoid issue with REST API access)
@@ -1361,7 +1387,7 @@ Création de la version 2.0 du module Owebia Shipping qui n'est plus compatible 
                                 <li><code>data</code>: <a href="#definitions_element">element type</a>, <a href="#examples_data">examples</a></li>
                                 <li><code>date</code>: <a href="#formulas_variables_date">variables</a></li>
                                 <li>deactivation: see <code>enabled</code></li>
-                                <li><code>description</code>: <a href="#property_description">property</a></li>
+                                <li><code>description</code>: <a href="#property_description">property</a>, <a href="#tips_display_description">display</a></li>
                                 <li>destination: see <code>shipto</code></li>
                                 <li>DOM/TOM: <a href="#examples_excluding_domtom_postcode">excluding postal codes</a></li>
                             </ul>
