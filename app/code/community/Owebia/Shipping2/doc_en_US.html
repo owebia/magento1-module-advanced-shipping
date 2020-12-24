@@ -2,7 +2,7 @@
 <html>
 <head lang="fr">
 <meta charset="utf-8"/>
-<title>Documentation of Advanced Shipping 2.6.9 extension for Magento by Owebia</title>
+<title>Documentation of Advanced Shipping 2.6.10 extension for Magento by Owebia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -119,7 +119,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
         </div>
         <div class="col-lg-9">
             <!-- doc content start -->
-            <h1>Documentation of Advanced Shipping 2.6.9 extension for Magento 1.x by Owebia</h1>
+            <h1>Documentation of Advanced Shipping 2.6.10 extension for Magento 1.x by Owebia</h1>
             <div id="introduction">
                 <h2>Introduction</h2>
 
@@ -838,7 +838,7 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                     <h3>Display the method's description</h3>
                     <p>The default template doesn't display the method's description.</p>
                     <p>
-                        To display the description, add <code><![CDATA[<?php echo $_rate->getMethodDescription() ?>]]></code>
+                        To display the description, add <code>&lt;?php echo $_rate->getMethodDescription() ?&gt;</code>
                         in the template <code>checkout/onepage/shipping_method/available.phtml</code>
                     </p>
                 </div>
@@ -885,6 +885,9 @@ pre.changelog{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre
                 <h2>Changelog</h2>
 
                 <pre class=changelog>
+[2.6.10 - December 24, 2020]
+Fix HTML error in the documentation
+
 [2.6.9 - December 24, 2020]
 Add tips section in the documentation
 Fix error in documentation about using regular expression
