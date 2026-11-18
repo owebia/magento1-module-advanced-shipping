@@ -23,13 +23,9 @@ Indeed, with Advanced Shipping, you can set shipping rates using almost any vari
 - Extension used in many countries over the world
 - Easy-to-use documentation in english and in french
 
-### Want to do more?
-
-[Discover our add-ons for Advanced Shipping](https://en.store.owebia.com/)
-
 ### Documentation
 
-[See the documentation](http://www.owebia.com/os2/en/doc)
+[See the documentation](https://owebia.com/doc/en/magento1-module-advanced-shipping)
 
 ## License
 
@@ -45,7 +41,7 @@ Indeed, with Advanced Shipping, you can set shipping rates using almost any vari
 - Logout from Magento backend and login again
 
 ## How to completely uninstall the extension ?
-After having uninstalled the extension in Magento Connect Manager, some references remain in the database.  
+After having removed the extension files, some references remain in the database.  
 To solve this problem, you must execute the following MySQL query:
 
     DELETE FROM `core_config_data` WHERE `path` LIKE 'carriers/owebiashipping_/%'
@@ -54,13 +50,9 @@ To solve this problem, you must execute the following MySQL query:
 
 ## Français
 
-### Vous voulez davantage de fonctionnalités ?
-
-[Découvrez nos plugins pour Advanced Shipping](https://fr.store.owebia.com/)
-
 ### Documentation
 
-[Voir la documentation](http://www.owebia.com/os2/fr/doc)
+[Voir la documentation](https://owebia.com/doc/fr/magento1-module-advanced-shipping)
 
 ### Comment installer l'extension manuellement ?
 
@@ -73,7 +65,7 @@ To solve this problem, you must execute the following MySQL query:
 
 ### Comment désinstaller complètement l’extension ?
 
-Après avoir désinstallé l’extension depuis Magento Connect Manager, il reste encore des références dans la base de donnée.  
+Après avoir supprimé les fichiers de l’extension, il reste encore des références dans la base de donnée.  
 Pour solutionner ce problème, il faut exécuter la requête MySQL suivante :
 
     DELETE FROM `core_config_data` WHERE `path` LIKE 'carriers/owebiashipping_/%'
